@@ -1,0 +1,4 @@
+# El repo vive en htdocs, que es público.
+# Se niega el acceso web a todo; solo api/public/ lo vuelve a permitir.
+Require all denied
+Options -Indexes
