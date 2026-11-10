@@ -89,11 +89,12 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 
 ### Base de datos
 1. Inicia MySQL desde el panel de XAMPP.
-2. Crea la estructura y los datos sintéticos:
+2. Crea la estructura y los datos sintéticos (`schema.sql` borra y recrea las tablas):
    ```
-   C:\xampp\mysql\bin\mysql.exe -u <usuario> -p < bd\schema.sql
-   C:\xampp\mysql\bin\mysql.exe -u <usuario> -p cuidadosis < bd\seed.sql
+   C:\xampp\mysql\bin\mysql.exe -u <usuario> -p --default-character-set=utf8mb4 < bd\schema.sql
+   C:\xampp\mysql\bin\mysql.exe -u <usuario> -p --default-character-set=utf8mb4 cuidadosis < bd\seed.sql
    ```
+3. Usuarios sintéticos y su contraseña de prueba: ver "Base de datos" en README.md.
 
 ### API
 1. Inicia Apache desde el panel de XAMPP.
@@ -123,6 +124,9 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 - No uses guiones largos ni medios en textos de la interfaz ni en la documentación; usa comas, dos puntos o paréntesis.
 - PHP: `declare(strict_types=1);`, PSR-12, respuestas JSON con códigos HTTP correctos y mensajes de error en español.
 - SQL: utf8mb4, InnoDB, nombres en `snake_case` plural para tablas, llaves foráneas e índices explícitos.
+- XAMPP trae MariaDB sin modo estricto: la conexión PDO debe activar `sql_mode` con `STRICT_ALL_TABLES` para que valores inválidos (por ejemplo, un ENUM desconocido) den error en lugar de guardarse truncados.
+- Fechas en hora local `America/Mexico_City`, tanto en PHP como en la sesión de MySQL.
+- Reglas de datos: un cuidador activo por paciente (y viceversa), código de invitación de 8 caracteres con 48 h de vigencia y un solo uso, varias horas diarias por medicamento, tomas del día creadas como pendientes al consultar el día (`INSERT IGNORE`), medicamentos y horarios se desactivan en lugar de borrarse.
 - Kotlin: estilo oficial, arquitectura simple (pantalla Compose, ViewModel, repositorio, Retrofit).
 - Mantén el código simple; es un prototipo. No agregues dependencias sin justificarlo.
 

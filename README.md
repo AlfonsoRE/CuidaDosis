@@ -91,12 +91,40 @@ CuidaDosis/
 
 > htdocs es público. El archivo `.htaccess` de la raíz bloquea todo el repo y solo `api/public/` queda accesible. No lo borres.
 
-### 2. Base de datos (disponible desde la Fase 1)
+### 2. Base de datos
 ```
-C:\xampp\mysql\bin\mysql.exe -u <usuario> -p < bd\schema.sql
-C:\xampp\mysql\bin\mysql.exe -u <usuario> -p cuidadosis < bd\seed.sql
+C:\xampp\mysql\bin\mysql.exe -u <usuario> -p --default-character-set=utf8mb4 < bd\schema.sql
+C:\xampp\mysql\bin\mysql.exe -u <usuario> -p --default-character-set=utf8mb4 cuidadosis < bd\seed.sql
 ```
-También puedes importar ambos archivos desde phpMyAdmin.
+También puedes importar ambos archivos desde phpMyAdmin (primero `schema.sql`, luego `seed.sql`).
+
+> Volver a ejecutar `schema.sql` borra y recrea las tablas.
+
+**Usuarios sintéticos del seed** (contraseña de prueba para todos: `Sintetico2026`):
+
+| Correo | Rol | Situación |
+|---|---|---|
+| paciente1@ejemplo.test | Paciente | Vinculado con cuidador1; tiene medicamentos y tomas de hoy |
+| paciente2@ejemplo.test | Paciente | Tiene un código de invitación pendiente: `SINT0002` |
+| cuidador1@ejemplo.test | Cuidador | Vinculado con paciente1 |
+| cuidador2@ejemplo.test | Cuidador | Sin vincular; sirve para probar el código `SINT0002` |
+
+### Modelo de datos
+
+```mermaid
+erDiagram
+    users ||--o{ links : "paciente o cuidador"
+    users ||--o{ medications : "tiene"
+    medications ||--o{ schedules : "horas diarias"
+    schedules ||--o{ intake_logs : "tomas"
+    users ||--o{ api_tokens : "sesiones"
+```
+
+- Un paciente tiene como máximo un cuidador activo y un cuidador, un paciente.
+- El código de invitación caduca a las 48 horas y es de un solo uso.
+- Un medicamento puede tener varias horas diarias.
+- Las tomas del día se crean como pendientes cuando se consulta el día.
+- Medicamentos y horarios se desactivan en lugar de borrarse, para conservar el historial.
 
 ### 3. Configurar el .env
 1. Copia `api/.env.example` como `api/.env`.
@@ -123,7 +151,7 @@ Debe responder `{"status":"ok"}`. La lista de endpoints con ejemplos curl estar�
 | Fase | Descripción | Estado |
 |---|---|---|
 | 0 | Documentación base, .gitignore, .env.example y bloqueo web | Hecho |
-| 1 | Base de datos: esquema y datos sintéticos | Pendiente |
+| 1 | Base de datos: esquema y datos sintéticos | Hecho |
 | 2 | API PHP y docs/api.md | Pendiente |
 | 3 | App Android v0.1: registro, login, lista y alta de medicamentos | Pendiente |
 | 4 | Alarmas locales | Pendiente |
