@@ -144,7 +144,7 @@ Comprobación rápida (Apache encendido):
 ```
 curl -i http://localhost/CuidaDosis/api/public/
 ```
-Debe responder `{"status":"ok"}`. La lista de endpoints con ejemplos curl estará en [docs/api.md](docs/api.md) al terminar la Fase 2.
+Debe responder con `"status":"ok"`. La lista de endpoints, el formato de errores y ejemplos curl con los usuarios sintéticos están en [docs/api.md](docs/api.md).
 
 ## Estado del proyecto
 
@@ -152,16 +152,16 @@ Debe responder `{"status":"ok"}`. La lista de endpoints con ejemplos curl estar�
 |---|---|---|
 | 0 | Documentación base, .gitignore, .env.example y bloqueo web | Hecho |
 | 1 | Base de datos: esquema y datos sintéticos | Hecho |
-| 2 | API PHP y docs/api.md | Pendiente |
+| 2 | API PHP y docs/api.md | Hecho |
 | 3 | App Android v0.1: registro, login, lista y alta de medicamentos | Pendiente |
 | 4 | Alarmas locales | Pendiente |
 
-Funciones del alcance mínimo:
-- [ ] Registro e inicio de sesión con roles
-- [ ] Vinculación con código de invitación
-- [ ] Alta de medicamentos con horario diario
+Funciones del alcance mínimo (se marcan cuando funcionan de punta a punta en la app):
+- [ ] Registro e inicio de sesión con roles (API lista)
+- [ ] Vinculación con código de invitación (API lista)
+- [ ] Alta de medicamentos con horario diario (API lista)
 - [ ] Aviso 5 minutos antes de la toma
-- [ ] Botón "Tomado" y vista de estado para el cuidador
+- [ ] Botón "Tomado" y vista de estado para el cuidador (API lista)
 
 ## Aviso de datos
 
