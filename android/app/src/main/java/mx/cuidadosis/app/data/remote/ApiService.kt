@@ -41,4 +41,34 @@ interface ApiService {
 
     @DELETE("medications/{id}")
     suspend fun deactivateMedication(@Path("id") id: Int): Response<MessageResponse>
+
+    @GET("me")
+    suspend fun me(): Response<MeResponse>
+
+    // Tomas del paciente
+    @GET("intakes/today")
+    suspend fun todayIntakes(): Response<TodayResponse>
+
+    @POST("intakes/{id}/take")
+    suspend fun takeIntake(@Path("id") id: Int): Response<IntakeResponse>
+
+    // Vinculación
+    @POST("links/invite")
+    suspend fun invite(): Response<InviteDto>
+
+    @POST("links/accept")
+    suspend fun accept(@Body body: AcceptRequest): Response<AcceptResponse>
+
+    @DELETE("links/active")
+    suspend fun unlinkCaregiver(): Response<MessageResponse>
+
+    // Vista del cuidador
+    @GET("caregiver/patients")
+    suspend fun caregiverPatients(): Response<CaregiverPatientsResponse>
+
+    @GET("caregiver/patients/{id}/intakes/today")
+    suspend fun caregiverPatientToday(@Path("id") id: Int): Response<TodayResponse>
+
+    @DELETE("caregiver/patients/{id}")
+    suspend fun unlinkPatient(@Path("id") id: Int): Response<MessageResponse>
 }

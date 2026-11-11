@@ -131,7 +131,8 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 - XAMPP trae MariaDB sin modo estricto: la conexión PDO debe activar `sql_mode` con `STRICT_ALL_TABLES` para que valores inválidos (por ejemplo, un ENUM desconocido) den error en lugar de guardarse truncados.
 - Fechas en hora local `America/Mexico_City`, tanto en PHP como en la sesión de MySQL.
 - Reglas de datos: un cuidador activo por paciente, un cuidador puede tener varios pacientes, los vínculos se revocan (`status = 'revoked'`, `revoked_at`) en lugar de borrarse, código de invitación de 8 caracteres con 48 h de vigencia y un solo uso, varias horas diarias por medicamento, tomas del día creadas como pendientes al consultar el día (`INSERT IGNORE`), medicamentos y horarios se desactivan en lugar de borrarse.
-- Kotlin: estilo oficial, arquitectura simple (pantalla Compose, ViewModel, repositorio, Retrofit). Inyección manual con `AppContainer`, JSON con kotlinx.serialization, navegación con navigation-compose y rutas `@Serializable`. El token se guarda cifrado con Android Keystore (`SessionStore`) y no se respalda.
+- Kotlin: estilo oficial, arquitectura simple (pantalla Compose, ViewModel, repositorio, Retrofit). Inyección manual con `AppContainer`, JSON con kotlinx.serialization, navegación con navigation-compose y rutas `@Serializable`. El token se guarda cifrado con Android Keystore (`SessionStore`) y no se respalda. Paquetes de UI: `ui/auth`, `ui/patient` (pestañas Hoy, Medicamentos y Cuidador), `ui/medications`, `ui/caregiver` y `ui/common`.
+- Las horas que se comparan con "ahora" en la app usan `America/Mexico_City`, igual que la API, sin importar la zona del teléfono.
 - Mantén el código simple; es un prototipo. No agregues dependencias sin justificarlo.
 
 ## 8. Convenciones de commits y flujo de trabajo

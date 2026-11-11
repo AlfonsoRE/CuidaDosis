@@ -150,7 +150,18 @@ erDiagram
 > gradlew.bat assembleDebug "-Dorg.gradle.java.installations.auto-detect=false" "-Dorg.gradle.java.installations.paths=C:\Program Files\Android\Android Studio\jbr"
 > ```
 
-**Qué hace la app hoy (Fase 3):** registro con rol (paciente o cuidador), inicio y cierre de sesión, y para el paciente: lista, alta, edición y desactivación de medicamentos con varias horas diarias. El cuidador ve una pantalla provisional; su vista de pacientes llega en la Fase 4.
+**Qué hace la app hoy (Fase 4):**
+- **Todos:** registro con rol (paciente o cuidador), inicio y cierre de sesión.
+- **Paciente**, en tres pestañas:
+  - **Hoy:** tomas del día con el botón "Tomado" (pide confirmación y no se puede deshacer).
+  - **Medicamentos:** lista, alta, edición y desactivación, con varias horas diarias.
+  - **Cuidador:** generar el código de invitación o desvincular al cuidador.
+- **Cuidador:**
+  - Lista de sus pacientes con el resumen de hoy.
+  - **Vincular paciente** con el código de invitación.
+  - Detalle de solo lectura de las tomas de hoy de cada paciente, con la opción de dejar de seguirlo.
+
+Las decisiones de la Fase 4 están en [docs/decisiones-fase-4.md](docs/decisiones-fase-4.md).
 
 ## Cómo probar la API
 
@@ -168,15 +179,15 @@ Debe responder con `"status":"ok"`. La lista de endpoints, el formato de errores
 | 1 | Base de datos: esquema y datos sintéticos | Hecho |
 | 2 | API PHP y docs/api.md | Hecho |
 | 3 | App Android base: registro, login por rol y gestión de medicamentos | Hecho |
-| 4 | App: tomas de hoy con "Tomado", vinculación y vista del cuidador | Pendiente |
+| 4 | App: tomas de hoy con "Tomado", vinculación y vista del cuidador | Hecho |
 | 5 | Alarmas locales | Pendiente |
 
 Funciones del alcance mínimo (se marcan cuando funcionan de punta a punta en la app):
 - [x] Registro e inicio de sesión con roles
-- [ ] Vinculación con código de invitación (API lista)
+- [x] Vinculación con código de invitación
 - [x] Alta de medicamentos con horario diario
 - [ ] Aviso 5 minutos antes de la toma
-- [ ] Botón "Tomado" y vista de estado para el cuidador (API lista)
+- [x] Botón "Tomado" y vista de estado para el cuidador
 
 ## Aviso de datos
 

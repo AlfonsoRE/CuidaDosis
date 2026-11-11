@@ -2,6 +2,8 @@ package mx.cuidadosis.app
 
 import android.content.Context
 import mx.cuidadosis.app.data.AuthRepository
+import mx.cuidadosis.app.data.IntakeRepository
+import mx.cuidadosis.app.data.LinkRepository
 import mx.cuidadosis.app.data.MedicationRepository
 import mx.cuidadosis.app.data.local.SessionStore
 import mx.cuidadosis.app.data.local.SettingsStore
@@ -14,4 +16,6 @@ class AppContainer(context: Context) {
     private val apiClient = ApiClient(settingsStore, sessionStore)
     val authRepository = AuthRepository(apiClient, sessionStore)
     val medicationRepository = MedicationRepository(apiClient)
+    val intakeRepository = IntakeRepository(apiClient)
+    val linkRepository = LinkRepository(apiClient)
 }

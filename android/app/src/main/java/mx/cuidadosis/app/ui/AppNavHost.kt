@@ -23,20 +23,23 @@ import mx.cuidadosis.app.ui.auth.LoginScreen
 import mx.cuidadosis.app.ui.auth.RegisterScreen
 import mx.cuidadosis.app.ui.caregiver.CaregiverHomeScreen
 import mx.cuidadosis.app.ui.medications.MedicationFormScreen
-import mx.cuidadosis.app.ui.medications.MedicationListScreen
+import mx.cuidadosis.app.ui.caregiver.CaregiverPatientScreen
+import mx.cuidadosis.app.ui.patient.PatientHomeScreen
+import androidx.navigation.toRoute
 import mx.cuidadosis.app.ui.settings.ServerScreen
 
 // Rutas de navegación
 @Serializable object LoginRoute
 @Serializable object RegisterRoute
 @Serializable object ServerRoute
-@Serializable object MedicationListRoute
+@Serializable object PatientHomeRoute
 @Serializable data class MedicationFormRoute(val id: Int? = null)
 @Serializable object CaregiverHomeRoute
+@Serializable data class CaregiverPatientRoute(val id: Int, val name: String)
 
 private fun homeFor(session: Session?): Any = when {
     session == null -> LoginRoute
-    session.isPatient -> MedicationListRoute
+    session.isPatient -> PatientHomeRoute
     else -> CaregiverHomeRoute
 }
 
@@ -84,11 +87,11 @@ fun AppNavHost(container: AppContainer) {
         composable<ServerRoute> {
             ServerScreen(onBack = { navController.popBackStack() })
         }
-        composable<MedicationListRoute> {
-            MedicationListScreen(
+        composable<PatientHomeRoute> {
+            PatientHomeScreen(
                 userName = session?.fullName.orEmpty(),
-                onAdd = { navController.navigate(MedicationFormRoute()) },
-                onEdit = { id -> navController.navigate(MedicationFormRoute(id)) },
+                onAddMedication = { navController.navigate(MedicationFormRoute()) },
+                onEditMedication = { id -> navController.navigate(MedicationFormRoute(id)) },
                 onLogout = logout,
             )
         }
@@ -99,7 +102,17 @@ fun AppNavHost(container: AppContainer) {
             )
         }
         composable<CaregiverHomeRoute> {
-            CaregiverHomeScreen(userName = session?.fullName.orEmpty(), onLogout = logout)
+            CaregiverHomeScreen(
+                userName = session?.fullName.orEmpty(),
+                onOpenPatient = { id, name -> navController.navigate(CaregiverPatientRoute(id, name)) },
+                onLogout = logout,
+            )
+        }
+        composable<CaregiverPatientRoute> { entry ->
+            CaregiverPatientScreen(
+                patientName = entry.toRoute<CaregiverPatientRoute>().name,
+                onBack = { navController.popBackStack() },
+            )
         }
     }
 }
