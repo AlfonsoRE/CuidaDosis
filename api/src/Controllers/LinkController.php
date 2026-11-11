@@ -35,7 +35,9 @@ final class LinkController
                 }
             }
 
-            $this->pdo->prepare("UPDATE links SET status = 'revoked' WHERE patient_id = ? AND status = 'pending'")
+            $this->pdo->prepare(
+                "UPDATE links SET status = 'revoked', revoked_at = NOW() WHERE patient_id = ? AND status = 'pending'"
+            )
                 ->execute([$patient['id']]);
 
             $id = null;
@@ -92,19 +94,15 @@ final class LinkController
                 throw new ApiException(404, 'El código no existe, ya se usó o expiró.');
             }
 
-            $stmt = $this->pdo->prepare("SELECT id FROM links WHERE caregiver_id = ? AND status = 'active'");
-            $stmt->execute([$caregiver['id']]);
-            if ($stmt->fetch() !== false) {
-                throw new ApiException(409, 'Ya tienes un paciente vinculado.');
-            }
-
+            // Un cuidador puede tener varios pacientes; el índice único solo impide
+            // que el paciente tenga dos cuidadores activos
             try {
                 $this->pdo->prepare(
                     "UPDATE links SET caregiver_id = ?, status = 'active', linked_at = NOW() WHERE id = ?"
                 )->execute([$caregiver['id'], $link['id']]);
             } catch (\PDOException $e) {
                 if (($e->errorInfo[1] ?? null) === 1062) {
-                    throw new ApiException(409, 'El paciente o el cuidador ya tienen un vínculo activo.');
+                    throw new ApiException(409, 'El paciente ya tiene un cuidador vinculado.');
                 }
                 throw $e;
             }
@@ -124,6 +122,35 @@ final class LinkController
             'patient' => ['id' => (int) $row['id'], 'full_name' => $row['full_name']],
             'linked_at' => $row['linked_at'],
         ]);
+    }
+
+    // El paciente revoca a su cuidador actual (después puede invitar a otro)
+    public function unlinkCaregiver(Request $request): void
+    {
+        $patient = $this->auth->requireRole($request, 'patient');
+        $stmt = $this->pdo->prepare(
+            "UPDATE links SET status = 'revoked', revoked_at = NOW() WHERE patient_id = ? AND status = 'active'"
+        );
+        $stmt->execute([$patient['id']]);
+        if ($stmt->rowCount() === 0) {
+            throw new ApiException(404, 'No tienes un cuidador vinculado.');
+        }
+        Response::json(200, ['message' => 'Cuidador desvinculado.']);
+    }
+
+    // El cuidador deja de observar a uno de sus pacientes
+    public function unlinkPatient(Request $request, array $params): void
+    {
+        $caregiver = $this->auth->requireRole($request, 'caregiver');
+        $stmt = $this->pdo->prepare(
+            "UPDATE links SET status = 'revoked', revoked_at = NOW()
+              WHERE patient_id = ? AND caregiver_id = ? AND status = 'active'"
+        );
+        $stmt->execute([$params['id'], $caregiver['id']]);
+        if ($stmt->rowCount() === 0) {
+            throw new ApiException(404, 'Ese paciente no está vinculado contigo.');
+        }
+        Response::json(200, ['message' => 'Paciente desvinculado.']);
     }
 
     private function randomCode(): string

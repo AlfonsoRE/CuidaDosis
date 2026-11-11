@@ -16,7 +16,7 @@ API REST JSON en PHP 8.2 (sin framework). El único punto de entrada es `api/pub
 3. El token dura `TOKEN_TTL_HOURS` horas (720 por defecto). En la base de datos solo se guarda su hash SHA-256.
 4. `POST /auth/logout` invalida el token actual.
 
-Roles: `patient` (paciente) y `caregiver` (cuidador). Cada endpoint revisa el rol y que el recurso sea del usuario.
+Roles: `patient` (paciente) y `caregiver` (cuidador). Cada endpoint revisa el rol y que el recurso sea del usuario. Un paciente tiene como máximo un cuidador activo; un cuidador puede tener varios pacientes y solo ve a los que tienen vínculo activo con él.
 
 ## Errores
 
@@ -33,7 +33,7 @@ Todas las respuestas de error tienen esta forma:
 | 403 | El rol del usuario no puede usar ese endpoint |
 | 404 | La ruta no existe, o el recurso no existe o no es del usuario |
 | 405 | Método HTTP no permitido en esa ruta |
-| 409 | Conflicto: correo ya registrado, vínculo ya activo, toma ya confirmada |
+| 409 | Conflicto: correo ya registrado, el paciente ya tiene cuidador, toma ya confirmada |
 | 422 | Datos inválidos (ver `details`) |
 | 500 | Error interno |
 
@@ -48,6 +48,7 @@ Todas las respuestas de error tienen esta forma:
 | GET | `/me` | cualquiera | Datos del usuario y su vínculo |
 | POST | `/links/invite` | paciente | Genera un código de invitación |
 | POST | `/links/accept` | cuidador | Se vincula con un código |
+| DELETE | `/links/active` | paciente | Desvincula a su cuidador |
 | GET | `/medications` | paciente | Lista los medicamentos activos |
 | POST | `/medications` | paciente | Crea un medicamento con sus horas |
 | GET | `/medications/{id}` | paciente | Detalle de un medicamento |
@@ -55,12 +56,14 @@ Todas las respuestas de error tienen esta forma:
 | DELETE | `/medications/{id}` | paciente | Desactiva el medicamento (no lo borra) |
 | GET | `/intakes/today` | paciente | Tomas de hoy |
 | POST | `/intakes/{id}/take` | paciente | Marca una toma de hoy como tomada |
-| GET | `/caregiver/patient/intakes/today` | cuidador | Tomas de hoy del paciente vinculado |
+| GET | `/caregiver/patients` | cuidador | Sus pacientes con el resumen de hoy |
+| GET | `/caregiver/patients/{id}/intakes/today` | cuidador | Tomas de hoy de uno de sus pacientes |
+| DELETE | `/caregiver/patients/{id}` | cuidador | Deja de seguir a ese paciente |
 
 ## Ejemplos
 
 Usuarios sintéticos de `bd/seed.sql` (contraseña de prueba `Sintetico2026`):
-`paciente1@ejemplo.test` (vinculado con `cuidador1@ejemplo.test`), `paciente2@ejemplo.test` (código pendiente `SINT0002`) y `cuidador2@ejemplo.test` (sin vínculo).
+`paciente1@ejemplo.test` y `paciente3@ejemplo.test` (ambos vinculados con `cuidador1@ejemplo.test`), `paciente2@ejemplo.test` (código pendiente `SINT0002`) y `cuidador2@ejemplo.test` (sin vínculo).
 
 Los ejemplos usan sintaxis de Git Bash. En `cmd` de Windows cambia las comillas simples por dobles y escapa las internas (`\"`).
 
@@ -115,7 +118,12 @@ Paciente (`link.caregiver`; `pending_invite` es el código vigente o `null`):
 ```json
 {"user":{"id":1,"full_name":"Paciente SINTETICO Uno","email":"paciente1@ejemplo.test","role":"patient","created_at":"2026-11-11 10:14:34"},"link":{"caregiver":{"id":3,"full_name":"Cuidador SINTETICO Uno"},"linked_at":"2026-11-10 11:14:34"},"pending_invite":null}
 ```
-Cuidador: `link` trae `patient` en lugar de `caregiver`, y no hay `pending_invite`. Sin vínculo, `link` es `null`.
+Sin cuidador, `link` es `null`.
+
+Cuidador: en lugar de `link` y `pending_invite` trae la lista `patients` (vacía si no tiene pacientes):
+```json
+{"user":{"id":3,"full_name":"Cuidador SINTETICO Uno","email":"cuidador1@ejemplo.test","role":"caregiver","created_at":"2026-11-11 10:14:34"},"patients":[{"id":5,"full_name":"Paciente SINTETICO Tres","linked_at":"2026-11-11 09:31:25"},{"id":1,"full_name":"Paciente SINTETICO Uno","linked_at":"2026-11-10 11:14:34"}]}
+```
 
 ### POST /links/invite (paciente)
 Genera un código de 8 caracteres (letras y números sin I, O, 0 ni 1) que dura 48 h y sirve una sola vez. Al generar uno nuevo se revocan los pendientes anteriores.
@@ -126,7 +134,7 @@ curl -s -X POST $B/links/invite -H "Authorization: Bearer $TP"
 ```json
 {"invite_code":"EHP2V3FN","expires_at":"2026-11-13 10:15:57"}
 ```
-Errores: `409` si el paciente ya tiene un cuidador vinculado.
+Errores: `409` si el paciente ya tiene un cuidador vinculado (primero debe desvincularlo con `DELETE /links/active`).
 
 ### POST /links/accept (cuidador)
 No distingue mayúsculas de minúsculas.
@@ -138,7 +146,7 @@ curl -s -X POST $B/links/accept -H "Authorization: Bearer $TC" -H 'Content-Type:
 ```json
 {"patient":{"id":2,"full_name":"Paciente SINTETICO Dos"},"linked_at":"2026-11-11 10:15:56"}
 ```
-Errores: `404` si el código no existe, ya se usó, se revocó o expiró; `409` si el cuidador ya tiene un paciente vinculado; `422` si no tiene 8 letras o números.
+Un cuidador puede aceptar códigos de varios pacientes. Errores: `404` si el código no existe, ya se usó, se revocó o expiró; `409` si el paciente ya tiene otro cuidador activo; `422` si no tiene 8 letras o números.
 
 ### GET /medications (paciente)
 ```bash
@@ -200,15 +208,39 @@ curl -s -X POST $B/intakes/2/take -H "Authorization: Bearer $TP"
 ```
 Errores: `404` si no es una toma de hoy del paciente (o su medicamento está desactivado); `409` si ya estaba tomada.
 
-### GET /caregiver/patient/intakes/today (cuidador)
-Las tomas de hoy del paciente vinculado, con la misma forma que `/intakes/today` más el campo `patient`.
+### DELETE /links/active (paciente)
+Desvincula al cuidador actual. El vínculo no se borra: queda como `revoked` con `revoked_at`, y el cuidador pierde el acceso en ese momento. Después el paciente puede generar un código nuevo para otro cuidador.
 ```bash
-curl -s $B/caregiver/patient/intakes/today -H "Authorization: Bearer $TC"
+curl -s -X DELETE $B/links/active -H "Authorization: Bearer $TP"
+```
+`200`: `{"message":"Cuidador desvinculado."}`. Errores: `404` si no tiene cuidador vinculado.
+
+### GET /caregiver/patients (cuidador)
+Lista los pacientes vinculados (un cuidador puede tener varios), con el resumen de las tomas de hoy de cada uno. Crea como pendientes las tomas de hoy que falten, igual que `/intakes/today`.
+```bash
+curl -s $B/caregiver/patients -H "Authorization: Bearer $TC"
+```
+```json
+{"date":"2026-11-11","patients":[{"id":5,"full_name":"Paciente SINTETICO Tres","linked_at":"2026-11-11 09:31:25","summary":{"total":1,"taken":0,"pending":1}},{"id":1,"full_name":"Paciente SINTETICO Uno","linked_at":"2026-11-10 11:14:34","summary":{"total":3,"taken":1,"pending":2}}]}
+```
+Sin pacientes vinculados, `patients` es `[]`.
+
+### GET /caregiver/patients/{id}/intakes/today (cuidador)
+Tomas de hoy de un paciente vinculado, con la misma forma que `/intakes/today` más el campo `patient`.
+```bash
+curl -s $B/caregiver/patients/1/intakes/today -H "Authorization: Bearer $TC"
 ```
 ```json
 {"patient":{"id":1,"full_name":"Paciente SINTETICO Uno"},"date":"2026-11-11","intakes":[...],"summary":{"total":3,"taken":1,"pending":2}}
 ```
-Errores: `404` si el cuidador no tiene un paciente vinculado.
+Errores: `404` si ese paciente no tiene un vínculo activo con el cuidador.
+
+### DELETE /caregiver/patients/{id} (cuidador)
+El cuidador deja de seguir a ese paciente (el vínculo queda como `revoked`).
+```bash
+curl -s -X DELETE $B/caregiver/patients/5 -H "Authorization: Bearer $TC"
+```
+`200`: `{"message":"Paciente desvinculado."}`. Errores: `404` si ese paciente no tiene un vínculo activo con el cuidador.
 
 ## Estructura del código
 

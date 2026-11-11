@@ -115,19 +115,20 @@ final class AuthController
             $invite = $stmt->fetch();
             $result['pending_invite'] = $invite === false ? null : $invite;
         } else {
+            // Un cuidador puede tener varios pacientes vinculados
+            unset($result['link']);
             $stmt = $this->pdo->prepare(
                 "SELECT u.id, u.full_name, l.linked_at
                    FROM links l JOIN users u ON u.id = l.patient_id
-                  WHERE l.caregiver_id = ? AND l.status = 'active'"
+                  WHERE l.caregiver_id = ? AND l.status = 'active'
+                  ORDER BY u.full_name, u.id"
             );
             $stmt->execute([$user['id']]);
-            $row = $stmt->fetch();
-            if ($row !== false) {
-                $result['link'] = [
-                    'patient' => ['id' => (int) $row['id'], 'full_name' => $row['full_name']],
-                    'linked_at' => $row['linked_at'],
-                ];
-            }
+            $result['patients'] = array_map(fn (array $r) => [
+                'id' => (int) $r['id'],
+                'full_name' => $r['full_name'],
+                'linked_at' => $r['linked_at'],
+            ], $stmt->fetchAll());
         }
 
         Response::json(200, $result);

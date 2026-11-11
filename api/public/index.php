@@ -57,6 +57,7 @@ try {
 
     $router->add('POST', '/links/invite', [$linkCtl, 'invite']);
     $router->add('POST', '/links/accept', [$linkCtl, 'accept']);
+    $router->add('DELETE', '/links/active', [$linkCtl, 'unlinkCaregiver']);
 
     $router->add('GET', '/medications', [$medCtl, 'list']);
     $router->add('POST', '/medications', [$medCtl, 'create']);
@@ -66,7 +67,9 @@ try {
 
     $router->add('GET', '/intakes/today', [$intakeCtl, 'today']);
     $router->add('POST', '/intakes/{id}/take', [$intakeCtl, 'take']);
-    $router->add('GET', '/caregiver/patient/intakes/today', [$intakeCtl, 'caregiverToday']);
+    $router->add('GET', '/caregiver/patients', [$intakeCtl, 'caregiverPatients']);
+    $router->add('GET', '/caregiver/patients/{id}/intakes/today', [$intakeCtl, 'caregiverPatientToday']);
+    $router->add('DELETE', '/caregiver/patients/{id}', [$linkCtl, 'unlinkPatient']);
 
     $router->dispatch(Request::fromGlobals());
 } catch (ApiException $e) {

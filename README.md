@@ -1,8 +1,8 @@
 # CuidaDosis
 
-Aplicación móvil para recordar y registrar la toma de medicamentos, con seguimiento por parte de un cuidador.
+Aplicación móvil para recordar y registrar la toma de medicamentos, con seguimiento por parte de un cuidador. Una sola app sirve para ambos roles.
 
-**Problema que atiende:** las personas con tratamientos diarios olvidan tomas o no recuerdan si ya las tomaron, y quienes las cuidan no tienen una forma sencilla de saberlo. CuidaDosis avisa al paciente 5 minutos antes de cada toma, le permite marcarla como "Tomado" y deja que un cuidador vinculado consulte el estado del día.
+**Problema que atiende:** las personas con tratamientos diarios olvidan tomas o no recuerdan si ya las tomaron, y quienes las cuidan no tienen una forma sencilla de saberlo. CuidaDosis avisa al paciente 5 minutos antes de cada toma, le permite marcarla como "Tomado" y deja que un cuidador vinculado consulte el estado del día de cada uno de sus pacientes.
 
 > Prototipo académico. CuidaDosis no recomienda dosis ni sustituye al médico.
 
@@ -19,15 +19,15 @@ Aplicación móvil para recordar y registrar la toma de medicamentos, con seguim
 
 ### Funciones del alcance mínimo
 1. Registro e inicio de sesión con roles: paciente y cuidador.
-2. Vinculación entre paciente y cuidador mediante un código de invitación.
+2. Vinculación entre paciente y cuidador mediante un código de invitación; cualquiera de los dos puede desvincularse.
 3. Alta de medicamentos con horario diario.
 4. Aviso 5 minutos antes de cada toma (alarma local en Android).
-5. Botón "Tomado" y vista de estado de las tomas para el cuidador.
+5. Botón "Tomado" y vista de estado de las tomas para el cuidador (puede seguir a varios pacientes).
 
 ### Fuera de alcance
 - Notificaciones push.
 - Reportes.
-- Varios cuidadores por paciente.
+- Varios cuidadores activos por paciente.
 - Recomendaciones de dosis.
 
 ### Limitaciones
@@ -38,7 +38,7 @@ Aplicación móvil para recordar y registrar la toma de medicamentos, con seguim
 
 ## Arquitectura general
 
-- **App Android:** interfaz del paciente y del cuidador. Programa las alarmas locales y consume la API.
+- **App Android:** una sola app con las pantallas del paciente o del cuidador según el rol de la cuenta. Programa las alarmas locales y consume la API.
 - **API REST en PHP:** recibe peticiones JSON, autentica con token y aplica las reglas de acceso por rol.
 - **Base de datos MySQL:** usuarios, vínculos, medicamentos, horarios, registro de tomas y tokens.
 
@@ -106,7 +106,8 @@ También puedes importar ambos archivos desde phpMyAdmin (primero `schema.sql`, 
 |---|---|---|
 | paciente1@ejemplo.test | Paciente | Vinculado con cuidador1; tiene medicamentos y tomas de hoy |
 | paciente2@ejemplo.test | Paciente | Tiene un código de invitación pendiente: `SINT0002` |
-| cuidador1@ejemplo.test | Cuidador | Vinculado con paciente1 |
+| paciente3@ejemplo.test | Paciente | Vinculado con cuidador1; un medicamento a las 12:00 |
+| cuidador1@ejemplo.test | Cuidador | Vinculado con paciente1 y paciente3 (varios pacientes) |
 | cuidador2@ejemplo.test | Cuidador | Sin vincular; sirve para probar el código `SINT0002` |
 
 ### Modelo de datos
@@ -120,7 +121,8 @@ erDiagram
     users ||--o{ api_tokens : "sesiones"
 ```
 
-- Un paciente tiene como máximo un cuidador activo y un cuidador, un paciente.
+- Un paciente tiene como máximo un cuidador activo; un cuidador puede tener varios pacientes.
+- Paciente o cuidador pueden desvincularse; el vínculo queda como `revoked` (no se borra) y el paciente puede invitar a otro cuidador.
 - El código de invitación caduca a las 48 horas y es de un solo uso.
 - Un medicamento puede tener varias horas diarias.
 - Las tomas del día se crean como pendientes cuando se consulta el día.

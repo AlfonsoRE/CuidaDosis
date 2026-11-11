@@ -34,6 +34,8 @@ CREATE TABLE users (
 -- Vinculación paciente y cuidador por código de invitación.
 -- El código lo genera el paciente (caregiver_id NULL, status pending),
 -- caduca a las 48 h y es de un solo uso.
+-- Un paciente tiene como máximo un cuidador activo; un cuidador puede tener varios pacientes.
+-- Desvincular no borra la fila: pasa a status revoked con revoked_at.
 -- Que patient_id sea paciente y caregiver_id cuidador lo valida la API.
 CREATE TABLE links (
     id                  INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -43,15 +45,14 @@ CREATE TABLE links (
     status              ENUM('pending', 'active', 'revoked') NOT NULL DEFAULT 'pending',
     expires_at          DATETIME NOT NULL,
     linked_at           DATETIME NULL,
+    revoked_at          DATETIME NULL,
     created_at          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    -- Solo tienen valor si el vínculo está activo; con UNIQUE garantizan
-    -- un cuidador por paciente y un paciente por cuidador
+    -- Solo tiene valor si el vínculo está activo; con UNIQUE garantiza
+    -- un cuidador activo por paciente
     active_patient_id   INT UNSIGNED AS (IF(status = 'active', patient_id, NULL)) PERSISTENT,
-    active_caregiver_id INT UNSIGNED AS (IF(status = 'active', caregiver_id, NULL)) PERSISTENT,
     PRIMARY KEY (id),
     UNIQUE KEY uq_links_invite_code (invite_code),
     UNIQUE KEY uq_links_active_patient (active_patient_id),
-    UNIQUE KEY uq_links_active_caregiver (active_caregiver_id),
     KEY idx_links_patient (patient_id),
     KEY idx_links_caregiver (caregiver_id),
     CONSTRAINT fk_links_patient FOREIGN KEY (patient_id) REFERENCES users (id) ON DELETE CASCADE,

@@ -4,10 +4,10 @@ Guía para cualquier asistente de IA (y persona) que trabaje en este repositorio
 
 ## 1. Contexto del proyecto
 
-CuidaDosis es un prototipo académico (Seminario de Análisis y Diseño de Sistemas) con plazo corto. Un paciente registra sus medicamentos y horarios diarios, recibe un aviso 5 minutos antes de cada toma y marca "Tomado". Un cuidador vinculado consulta el estado de las tomas.
+CuidaDosis es un prototipo académico (Seminario de Análisis y Diseño de Sistemas) con plazo corto. Un paciente registra sus medicamentos y horarios diarios, recibe un aviso 5 minutos antes de cada toma y marca "Tomado". Un cuidador consulta el estado de las tomas de sus pacientes vinculados (puede tener varios).
 
 Componentes:
-- App Android (Kotlin, Jetpack Compose).
+- App Android (Kotlin, Jetpack Compose). Es una sola app para ambos roles: muestra las pantallas de paciente o de cuidador según el rol de la cuenta.
 - API REST JSON en PHP.
 - Base de datos MySQL (en local es MariaDB de XAMPP).
 
@@ -15,15 +15,15 @@ Componentes:
 
 ### Alcance mínimo (solo esto)
 1. Registro e inicio de sesión con roles: paciente y cuidador.
-2. Vinculación paciente y cuidador con un código de invitación.
+2. Vinculación paciente y cuidador con un código de invitación. El paciente o el cuidador pueden desvincularse; después el paciente puede invitar a otro cuidador.
 3. Alta de medicamentos con horario diario.
 4. Aviso 5 minutos antes de la toma (alarma local en Android).
-5. Botón "Tomado" y vista de estado para el cuidador.
+5. Botón "Tomado" y vista de estado para el cuidador (lista de sus pacientes y detalle de cada uno).
 
 ### Fuera de alcance (no implementar)
 - Notificaciones push.
 - Reportes.
-- Más de un cuidador por paciente.
+- Más de un cuidador activo por paciente (un cuidador sí puede tener varios pacientes).
 - Recomendaciones de dosis o cualquier lógica clínica.
 
 Si una tarea parece requerir algo fuera de alcance, detente y pregunta.
@@ -43,7 +43,7 @@ Si una tarea parece requerir algo fuera de alcance, detente y pregunta.
   - PDO con sentencias preparadas siempre; nunca concatenar entradas en SQL.
   - Autenticación con token de sesión (se guarda solo su hash en BD, con expiración).
   - Validar y sanear todas las entradas.
-  - Cada endpoint valida el rol y que el recurso pertenezca al usuario. Un cuidador solo ve a su paciente vinculado.
+  - Cada endpoint valida el rol y que el recurso pertenezca al usuario. Un cuidador solo ve a sus pacientes con vínculo activo, y pierde el acceso al desvincularse.
 - Respeta la estructura del repo. El proyecto de Android Studio en `android/` ya existe: no lo regeneres ni cambies su paquete (`mx.cuidadosis.app`).
 
 ## 4. Estructura de carpetas
@@ -126,7 +126,7 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 - SQL: utf8mb4, InnoDB, nombres en `snake_case` plural para tablas, llaves foráneas e índices explícitos.
 - XAMPP trae MariaDB sin modo estricto: la conexión PDO debe activar `sql_mode` con `STRICT_ALL_TABLES` para que valores inválidos (por ejemplo, un ENUM desconocido) den error en lugar de guardarse truncados.
 - Fechas en hora local `America/Mexico_City`, tanto en PHP como en la sesión de MySQL.
-- Reglas de datos: un cuidador activo por paciente (y viceversa), código de invitación de 8 caracteres con 48 h de vigencia y un solo uso, varias horas diarias por medicamento, tomas del día creadas como pendientes al consultar el día (`INSERT IGNORE`), medicamentos y horarios se desactivan en lugar de borrarse.
+- Reglas de datos: un cuidador activo por paciente, un cuidador puede tener varios pacientes, los vínculos se revocan (`status = 'revoked'`, `revoked_at`) en lugar de borrarse, código de invitación de 8 caracteres con 48 h de vigencia y un solo uso, varias horas diarias por medicamento, tomas del día creadas como pendientes al consultar el día (`INSERT IGNORE`), medicamentos y horarios se desactivan en lugar de borrarse.
 - Kotlin: estilo oficial, arquitectura simple (pantalla Compose, ViewModel, repositorio, Retrofit).
 - Mantén el código simple; es un prototipo. No agregues dependencias sin justificarlo.
 

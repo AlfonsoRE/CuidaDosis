@@ -59,19 +59,45 @@ final class IntakeController
         Response::json(200, ['intake' => $this->findIntake($id)]);
     }
 
-    // El cuidador consulta las tomas de hoy de su paciente vinculado
-    public function caregiverToday(Request $request): void
+    // El cuidador lista sus pacientes vinculados con el resumen de hoy de cada uno
+    public function caregiverPatients(Request $request): void
+    {
+        $caregiver = $this->auth->requireRole($request, 'caregiver');
+
+        $stmt = $this->pdo->prepare(
+            "SELECT u.id, u.full_name, l.linked_at FROM links l JOIN users u ON u.id = l.patient_id
+              WHERE l.caregiver_id = ? AND l.status = 'active'
+              ORDER BY u.full_name, u.id"
+        );
+        $stmt->execute([$caregiver['id']]);
+
+        $patients = [];
+        foreach ($stmt->fetchAll() as $row) {
+            $today = $this->todayFor((int) $row['id']);
+            $patients[] = [
+                'id' => (int) $row['id'],
+                'full_name' => $row['full_name'],
+                'linked_at' => $row['linked_at'],
+                'summary' => $today['summary'],
+            ];
+        }
+
+        Response::json(200, ['date' => date('Y-m-d'), 'patients' => $patients]);
+    }
+
+    // El cuidador consulta las tomas de hoy de uno de sus pacientes vinculados
+    public function caregiverPatientToday(Request $request, array $params): void
     {
         $caregiver = $this->auth->requireRole($request, 'caregiver');
 
         $stmt = $this->pdo->prepare(
             "SELECT u.id, u.full_name FROM links l JOIN users u ON u.id = l.patient_id
-              WHERE l.caregiver_id = ? AND l.status = 'active'"
+              WHERE l.caregiver_id = ? AND l.patient_id = ? AND l.status = 'active'"
         );
-        $stmt->execute([$caregiver['id']]);
+        $stmt->execute([$caregiver['id'], $params['id']]);
         $patient = $stmt->fetch();
         if ($patient === false) {
-            throw new ApiException(404, 'No tienes un paciente vinculado.');
+            throw new ApiException(404, 'Ese paciente no está vinculado contigo.');
         }
 
         $data = $this->todayFor((int) $patient['id']);
