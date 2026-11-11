@@ -62,7 +62,7 @@ CuidaDosis/
     src/            Código de la API (Fase 2)
     config/         Configuración y carga del .env (Fase 2)
   bd/               Scripts SQL: schema.sql y seed.sql (Fase 1)
-  docs/             Documentación técnica, incluida docs/api.md (Fase 2)
+  docs/             Documentación técnica: api.md (Fase 2) y decisiones-fase-4.md
 ```
 
 ## 5. Stack y versiones

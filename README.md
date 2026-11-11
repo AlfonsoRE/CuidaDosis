@@ -68,7 +68,7 @@ CuidaDosis/
   android/      Proyecto de Android Studio
   api/          Backend PHP (solo api/public/ es accesible por web)
   bd/           Scripts SQL (schema.sql y seed.sql)
-  docs/         Documentación técnica (docs/api.md)
+  docs/         Documentación técnica (api.md y decisiones-fase-4.md)
 ```
 
 ## Tecnologías y versiones
