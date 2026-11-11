@@ -111,11 +111,15 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 
 ### Android
 1. Abre `android/` en Android Studio.
-2. Compila desde terminal: `cd android` y luego `gradlew.bat assembleDebug`.
+2. Compila desde terminal: `cd android` y luego `gradlew.bat assembleDebug`. Pruebas unitarias: `gradlew.bat testDebugUnitTest`.
+   - En esta máquina Gradle puede elegir una JRE sin `jlink`. Si falla así, usa `JAVA_HOME=C:\Program Files\Android\Android Studio\jbr` y agrega `-Dorg.gradle.java.installations.auto-detect=false -Dorg.gradle.java.installations.paths=<esa ruta>`.
 3. URL base de la API:
-   - Emulador: `http://10.0.2.2/CuidaDosis/api/public/`
+   - Emulador: `http://10.0.2.2/CuidaDosis/api/public/` (valor por defecto).
    - Teléfono físico en la misma red: `http://<IP de la PC>/CuidaDosis/api/public/`
-4. El tráfico HTTP sin cifrar solo se permite en debug (network security config).
+   - Por defecto al compilar: `api.baseUrl` en `android/local.properties`. En la app: enlace "Servidor" del login.
+4. El tráfico HTTP sin cifrar solo se permite en debug (network security config en `src/debug`).
+5. Android 17 (API 37) exige el permiso de ejecución `ACCESS_LOCAL_NETWORK` para llegar a IPs privadas; sin él la conexión a XAMPP da timeout. La app lo pide al arrancar.
+6. Emulador disponible en esta máquina: AVD `Medium_Phone_API_37.0`.
 
 ## 7. Convenciones de código
 
@@ -127,7 +131,7 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 - XAMPP trae MariaDB sin modo estricto: la conexión PDO debe activar `sql_mode` con `STRICT_ALL_TABLES` para que valores inválidos (por ejemplo, un ENUM desconocido) den error en lugar de guardarse truncados.
 - Fechas en hora local `America/Mexico_City`, tanto en PHP como en la sesión de MySQL.
 - Reglas de datos: un cuidador activo por paciente, un cuidador puede tener varios pacientes, los vínculos se revocan (`status = 'revoked'`, `revoked_at`) en lugar de borrarse, código de invitación de 8 caracteres con 48 h de vigencia y un solo uso, varias horas diarias por medicamento, tomas del día creadas como pendientes al consultar el día (`INSERT IGNORE`), medicamentos y horarios se desactivan en lugar de borrarse.
-- Kotlin: estilo oficial, arquitectura simple (pantalla Compose, ViewModel, repositorio, Retrofit).
+- Kotlin: estilo oficial, arquitectura simple (pantalla Compose, ViewModel, repositorio, Retrofit). Inyección manual con `AppContainer`, JSON con kotlinx.serialization, navegación con navigation-compose y rutas `@Serializable`. El token se guarda cifrado con Android Keystore (`SessionStore`) y no se respalda.
 - Mantén el código simple; es un prototipo. No agregues dependencias sin justificarlo.
 
 ## 8. Convenciones de commits y flujo de trabajo

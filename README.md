@@ -135,10 +135,22 @@ erDiagram
 
 ### 4. Ejecutar la app
 1. Abre la carpeta `android/` en Android Studio y espera la sincronización de Gradle.
-2. Configura la URL base de la API:
-   - **Emulador:** `http://10.0.2.2/CuidaDosis/api/public/`
+2. URL base de la API:
+   - **Emulador:** `http://10.0.2.2/CuidaDosis/api/public/` (es el valor por defecto).
    - **Teléfono físico:** conecta el teléfono a la misma red Wi-Fi que la PC y usa `http://<IP de la PC>/CuidaDosis/api/public/`. Puede ser necesario permitir Apache en el firewall de Windows.
+   - Para cambiar el valor por defecto al compilar, agrega `api.baseUrl=<URL>` a `android/local.properties` (no se versiona).
+   - Sin recompilar: en la pantalla de login toca **Servidor**, escribe la URL, usa **Probar conexión** y **Guardar**.
 3. Ejecuta la app con el botón Run, o compila desde terminal con `gradlew.bat assembleDebug` dentro de `android/`.
+4. En Android 17 o superior la app pide el permiso de **dispositivos cercanos / red local** (`ACCESS_LOCAL_NETWORK`). Hay que aceptarlo: sin él Android bloquea la conexión a la PC con XAMPP (10.0.2.2 o la IP local).
+5. El tráfico HTTP sin cifrar solo se permite en la versión debug. La versión release exige HTTPS.
+
+> Si `gradlew.bat` falla con `jlink executable ... does not exist`, Gradle eligió una JRE incompleta (por ejemplo, la de una extensión de VS Code). Usa el JDK de Android Studio:
+> ```
+> set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr
+> gradlew.bat assembleDebug "-Dorg.gradle.java.installations.auto-detect=false" "-Dorg.gradle.java.installations.paths=C:\Program Files\Android\Android Studio\jbr"
+> ```
+
+**Qué hace la app hoy (Fase 3):** registro con rol (paciente o cuidador), inicio y cierre de sesión, y para el paciente: lista, alta, edición y desactivación de medicamentos con varias horas diarias. El cuidador ve una pantalla provisional; su vista de pacientes llega en la Fase 4.
 
 ## Cómo probar la API
 
@@ -155,13 +167,14 @@ Debe responder con `"status":"ok"`. La lista de endpoints, el formato de errores
 | 0 | Documentación base, .gitignore, .env.example y bloqueo web | Hecho |
 | 1 | Base de datos: esquema y datos sintéticos | Hecho |
 | 2 | API PHP y docs/api.md | Hecho |
-| 3 | App Android v0.1: registro, login, lista y alta de medicamentos | Pendiente |
-| 4 | Alarmas locales | Pendiente |
+| 3 | App Android base: registro, login por rol y gestión de medicamentos | Hecho |
+| 4 | App: tomas de hoy con "Tomado", vinculación y vista del cuidador | Pendiente |
+| 5 | Alarmas locales | Pendiente |
 
 Funciones del alcance mínimo (se marcan cuando funcionan de punta a punta en la app):
-- [ ] Registro e inicio de sesión con roles (API lista)
+- [x] Registro e inicio de sesión con roles
 - [ ] Vinculación con código de invitación (API lista)
-- [ ] Alta de medicamentos con horario diario (API lista)
+- [x] Alta de medicamentos con horario diario
 - [ ] Aviso 5 minutos antes de la toma
 - [ ] Botón "Tomado" y vista de estado para el cuidador (API lista)
 
