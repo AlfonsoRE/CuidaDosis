@@ -41,6 +41,7 @@ fun PatientHomeScreen(
 ) {
     var tab by rememberSaveable { mutableStateOf(PatientTab.TODAY) }
     val snackbar = remember { SnackbarHostState() }
+    RequestNotificationPermission()
 
     Scaffold(
         topBar = {

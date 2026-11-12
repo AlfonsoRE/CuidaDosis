@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Respaldo en Android 11 o menor. La sesión (token cifrado) nunca se respalda. -->
+<!-- Respaldo en Android 11 o menor. La sesión y la copia local de los avisos nunca se respaldan. -->
 <full-backup-content>
     <exclude domain="sharedpref" path="session.xml" />
+    <exclude domain="sharedpref" path="reminders.xml" />
 </full-backup-content>

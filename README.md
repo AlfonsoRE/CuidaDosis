@@ -33,7 +33,7 @@ Aplicación móvil para recordar y registrar la toma de medicamentos, con seguim
 ### Limitaciones
 - El botón "Tomado" registra un clic del usuario; no comprueba que el medicamento realmente se haya ingerido.
 - El sistema no recomienda dosis ni sustituye al médico. El nombre y la dosis son texto libre que escribe el usuario y la app no los interpreta.
-- El aviso depende de la alarma local del teléfono; las restricciones de ahorro de energía de Android (Doze) pueden afectarlo.
+- El aviso es una alarma local del teléfono: sale aunque no haya red, pero no avisa si las notificaciones están desactivadas, y algunos fabricantes con ahorro de energía agresivo pueden retrasarlo. Las horas son de México (`America/Mexico_City`) aunque el teléfono esté en otra zona.
 - Es un prototipo para entorno local; no está preparado para producción.
 
 ## Arquitectura general
@@ -68,7 +68,7 @@ CuidaDosis/
   android/      Proyecto de Android Studio
   api/          Backend PHP (solo api/public/ es accesible por web)
   bd/           Scripts SQL (schema.sql y seed.sql)
-  docs/         Documentación técnica (api.md y decisiones-fase-4.md)
+  docs/         Documentación técnica (api.md y decisiones de las fases 4 y 5)
 ```
 
 ## Tecnologías y versiones
@@ -142,7 +142,8 @@ erDiagram
    - Sin recompilar: en la pantalla de login toca **Servidor**, escribe la URL, usa **Probar conexión** y **Guardar**.
 3. Ejecuta la app con el botón Run, o compila desde terminal con `gradlew.bat assembleDebug` dentro de `android/`.
 4. En Android 17 o superior la app pide el permiso de **dispositivos cercanos / red local** (`ACCESS_LOCAL_NETWORK`). Hay que aceptarlo: sin él Android bloquea la conexión a la PC con XAMPP (10.0.2.2 o la IP local).
-5. El tráfico HTTP sin cifrar solo se permite en la versión debug. La versión release exige HTTPS.
+5. Para el aviso 5 minutos antes, el paciente debe aceptar el permiso de **notificaciones** (Android 13 o superior). La alarma exacta usa `USE_EXACT_ALARM`, que Android concede al instalar.
+6. El tráfico HTTP sin cifrar solo se permite en la versión debug. La versión release exige HTTPS.
 
 > Si `gradlew.bat` falla con `jlink executable ... does not exist`, Gradle eligió una JRE incompleta (por ejemplo, la de una extensión de VS Code). Usa el JDK de Android Studio:
 > ```
@@ -150,18 +151,19 @@ erDiagram
 > gradlew.bat assembleDebug "-Dorg.gradle.java.installations.auto-detect=false" "-Dorg.gradle.java.installations.paths=C:\Program Files\Android\Android Studio\jbr"
 > ```
 
-**Qué hace la app hoy (Fase 4):**
+**Qué hace la app hoy (Fase 5):**
 - **Todos:** registro con rol (paciente o cuidador), inicio y cierre de sesión.
 - **Paciente**, en tres pestañas:
   - **Hoy:** tomas del día con el botón "Tomado" (pide confirmación y no se puede deshacer).
   - **Medicamentos:** lista, alta, edición y desactivación, con varias horas diarias.
   - **Cuidador:** generar el código de invitación o desvincular al cuidador.
+  - **Aviso 5 minutos antes** de cada toma con una notificación local (nombre y dosis tal como se escribieron). Tocarla abre "Hoy". Se reprograma al iniciar sesión, al cambiar medicamentos, al reiniciar el teléfono y al cambiar la hora; se cancela al cerrar sesión. Si las notificaciones están apagadas, "Hoy" muestra una tarjeta para activarlas.
 - **Cuidador:**
   - Lista de sus pacientes con el resumen de hoy.
   - **Vincular paciente** con el código de invitación.
   - Detalle de solo lectura de las tomas de hoy de cada paciente, con la opción de dejar de seguirlo.
 
-Las decisiones de la Fase 4 están en [docs/decisiones-fase-4.md](docs/decisiones-fase-4.md).
+Las decisiones de la Fase 4 están en [docs/decisiones-fase-4.md](docs/decisiones-fase-4.md) y las de la Fase 5 en [docs/decisiones-fase-5.md](docs/decisiones-fase-5.md).
 
 ## Cómo probar la API
 
@@ -180,13 +182,13 @@ Debe responder con `"status":"ok"`. La lista de endpoints, el formato de errores
 | 2 | API PHP y docs/api.md | Hecho |
 | 3 | App Android base: registro, login por rol y gestión de medicamentos | Hecho |
 | 4 | App: tomas de hoy con "Tomado", vinculación y vista del cuidador | Hecho |
-| 5 | Alarmas locales | Pendiente |
+| 5 | Alarmas locales: aviso 5 minutos antes de cada toma | Hecho |
 
 Funciones del alcance mínimo (se marcan cuando funcionan de punta a punta en la app):
 - [x] Registro e inicio de sesión con roles
 - [x] Vinculación con código de invitación
 - [x] Alta de medicamentos con horario diario
-- [ ] Aviso 5 minutos antes de la toma
+- [x] Aviso 5 minutos antes de la toma
 - [x] Botón "Tomado" y vista de estado para el cuidador
 
 ## Aviso de datos

@@ -71,6 +71,7 @@ fun TodayTab(
                 style = MaterialTheme.typography.bodySmall,
             )
         }
+        item { NotificationsOffCard() }
         when {
             state.loading && today == null -> item { LoadingBox(Modifier.fillMaxWidth().padding(32.dp)) }
             state.error != null && today == null -> item {
