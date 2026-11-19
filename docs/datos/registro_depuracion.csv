@@ -1,0 +1,29 @@
+﻿id,formato,estado,motivo
+U01,docx,Incluido,Cumple criterios de inclusión
+U02,docx,Incluido,Cumple criterios de inclusión
+U03,docx,Excluido,Incompleto: dos opciones marcadas en C2
+U04,pdf,Incluido,Cumple criterios de inclusión
+U05,pdf,Excluido,Duplicado: respuestas idénticas a U04
+U06,docx,Incluido,Cumple criterios de inclusión
+U07,docx,Incluido,Cumple criterios de inclusión
+U08,docx,Excluido,Incompleto: dos opciones marcadas en B3
+U09,pdf,Incluido,Cumple criterios de inclusión
+U10,pdf,Incluido,Cumple criterios de inclusión
+U11,docx,Incluido,Cumple criterios de inclusión
+U12,pdf,Excluido,Incompleto: dos opciones marcadas en C2 y E9 sin respuesta
+U13,pdf,Excluido,Duplicado: respuestas idénticas a U12 (también incompleto)
+U14,pdf,Excluido,"Incompleto: dos opciones en B2 y C5, B4 sin marcar"
+U15,pdf,Excluido,Incompleto: B1 sin marcar
+U16,pdf,Incluido,Cumple criterios de inclusión
+U17,pdf,Excluido,Incompleto: C8 sin marcar
+U18,pdf,Excluido,Instrumento modificado (otro formato y encabezado con datos identificables); no corresponde al instrumento aplicado
+U19,pdf,Excluido,Incompleto: sin casillas marcadas en la Parte 1
+U20,docx,Incluido,Cumple criterios de inclusión
+U21,pdf,Excluido,Incompleto: A1 sin marcar
+U22,pdf,Excluido,Incompleto: B5 y B6 sin marcar
+U23,pdf,Incluido,Cumple criterios de inclusión
+U24,pdf,Excluido,Duplicado: respuestas idénticas a U22 (también incompleto)
+U25,pdf,Incluido,Cumple criterios de inclusión
+U26,pdf,Incluido,Cumple criterios de inclusión
+U27,pdf,Excluido,Duplicado: respuestas idénticas a U04
+U28,pdf,Incluido,Cumple criterios de inclusión
