@@ -1,0 +1,18 @@
+@startuml
+title Despliegue - propuesta alterna de pago (nube administrada)
+skinparam shadowing false
+node "Teléfono Android" as T {
+  artifact "App (Kotlin + Room + WorkManager)" as A
+}
+cloud "Google Cloud / Firebase (plan Blaze)" {
+  [Firebase Auth] as AU
+  [Cloud Firestore] as FS
+  [Cloud Functions] as CF
+  [FCM (push)] as FCM
+}
+A --> AU
+A --> FS : sincronización
+FS --> CF : disparadores
+CF --> FCM
+FCM --> A : push al cuidador
+@enduml

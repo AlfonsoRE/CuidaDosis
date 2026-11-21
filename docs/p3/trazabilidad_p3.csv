@@ -1,0 +1,17 @@
+requisito,componente,seccion_diseno,prueba_planeada
+"RF-01, RF-02","Controlador auth, SessionStore","V, VII",PR-01
+"RF-03, RF-04","Controlador medications, Repositorios","V, VII",PR-02
+"RF-05, RF-06",Planificador de alarmas,"V, VIII",PR-03
+RF-07,"UI, Repositorios, Almacén local","VIII, ADR-006",PR-04
+"RF-08, RF-09","Servicio de vínculo, link_attempts","VII, VIII",PR-05
+"RF-10, RF-11",Servicio de dominio (estado calculado),"IV, VIII",PR-06
+RF-12,users.last_sync_at,VII,PR-07
+RF-13,"Almacén local, /intakes/sync","VII, VIII",PR-08
+RF-14,Pantalla de ajustes,VIII,PR-09
+RF-15,/intakes/history,V,PR-10
+RF-16,Planificador de alarmas,VIII,PR-11
+RF-17,Fuera de alcance (Futuro),III,N/A
+RF-18,Planificador del cuidador,"VIII, ADR-007",PR-12
+RNF-01..03,"Alarmas, BootReceiver",V,PR-13
+"RNF-05, RNF-06","Tokens con hash, verificación de vínculo",VII,PR-14
+"RNF-04, RNF-07, RNF-08","UI, consulta del día",VIII,PR-15

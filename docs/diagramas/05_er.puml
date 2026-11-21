@@ -1,0 +1,65 @@
+@startuml
+title Modelo entidad-relación - esquema v2 (G-01..G-07)
+skinparam shadowing false
+hide circle
+entity users {
+  * id : INT PK
+  --
+  full_name, email (UQ), password_hash
+  role : patient | caregiver
+  last_sync_at : DATETIME  <<G-04>>
+}
+entity links {
+  * id : INT PK
+  --
+  patient_id FK, caregiver_id FK
+  invite_code CHAR(8) UQ
+  status : pending | awaiting_acceptance | active | revoked  <<G-02>>
+  expires_at (10 min)  <<G-01>>
+  share_dose TINYINT DEFAULT 0  <<G-07>>
+  linked_at, revoked_at
+  active_patient_id (UQ generada)
+}
+entity medications {
+  * id : INT PK
+  --
+patient_id FK
+  name, dose, active
+}
+entity schedules {
+  * id : INT PK
+  --
+medication_id FK
+  time_of_day, active
+}
+entity intake_logs {
+  * id : INT PK
+  --
+  schedule_id FK
+  scheduled_for
+  status : pending | taken
+  confirmed_at
+  client_uuid CHAR(36) UQ  <<G-03>>
+  received_at DATETIME  <<G-04>>
+}
+entity link_attempts {
+  * id : INT PK
+  --
+  user_id FK, attempted_at, success  <<G-05>>
+}
+entity api_tokens {
+  * id : INT PK
+  --
+user_id FK
+  token_hash CHAR(64)
+  expires_at
+}
+users ||--o{ links : "paciente"
+users |o--o{ links : "cuidador"
+users ||--o{ medications
+medications ||--o{ schedules
+schedules ||--o{ intake_logs
+users ||--o{ link_attempts
+users ||--o{ api_tokens
+note bottom of intake_logs : "Sin confirmar" se calcula (T+30), no se almacena.
+@enduml

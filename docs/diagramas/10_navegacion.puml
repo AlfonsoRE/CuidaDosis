@@ -1,0 +1,21 @@
+@startuml
+title Mapa de navegación
+skinparam shadowing false
+[*] --> Inicio
+Inicio --> Login
+Login --> Registro
+Login --> HomePaciente : rol paciente
+Login --> HomeCuidador : rol cuidador
+state HomePaciente {
+  [*] --> TomasDeHoy
+  TomasDeHoy --> Medicamentos
+  Medicamentos --> FormMedicamento
+  TomasDeHoy --> Vinculo
+  Vinculo --> Configuracion : anticipación 5/10
+}
+state HomeCuidador {
+  [*] --> ListaPacientes
+  ListaPacientes --> TomasPaciente
+  ListaPacientes --> IntroducirCodigo
+}
+@enduml

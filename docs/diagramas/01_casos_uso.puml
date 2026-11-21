@@ -1,0 +1,38 @@
+@startuml
+title Diagrama de casos de uso - CuidaDosis (diseño objetivo P2 v1.1)
+left to right direction
+skinparam shadowing false
+actor "Paciente" as P
+actor "Cuidador" as C
+rectangle "CuidaDosis" {
+  usecase "UC-01 Registrarse / iniciar sesión" as U1
+  usecase "UC-02 Gestionar medicamentos y horarios" as U2
+  usecase "UC-03 Recibir avisos (T-L y T)" as U3
+  usecase "UC-04 Confirmar toma (un toque)" as U4
+  usecase "UC-05 Posponer aviso" as U5
+  usecase "UC-06 Generar código de invitación" as U6
+  usecase "UC-07 Aceptar vínculo" as U7
+  usecase "UC-08 Introducir código" as U8
+  usecase "UC-09 Consultar tomas del paciente" as U9
+  usecase "UC-10 Alarma local T+30 (Sin confirmar)" as U10
+  usecase "UC-11 Configurar anticipación 5/10 min" as U11
+  usecase "UC-12 Desvincular" as U12
+  usecase "UC-13 Sincronizar tomas offline" as U13
+}
+P --> U1
+P --> U2
+P --> U3
+P --> U4
+P --> U5
+P --> U6
+P --> U7
+P --> U11
+P --> U12
+C --> U1
+C --> U8
+C --> U9
+C --> U10
+C --> U12
+U4 ..> U13 : <<include>>
+U8 ..> U7 : <<precede>>
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+title Secuencia - confirmación de toma sin red y sincronización (RF-07, RF-13, G-03)
+actor Paciente
+participant "App" as App
+participant "Almacén local" as L
+participant "API" as A
+database BD
+Paciente -> App : toca "Tomado" (sin diálogo extra)
+App -> L : guarda confirmación {uuid, schedule, hora}
+App --> Paciente : "Confirmada por el paciente"
+...  regresa la conexión ...
+App -> A : POST /intakes/sync [{uuid,...}]
+A -> BD : INSERT ... uuid único
+alt uuid ya existe
+  A --> App : ya registrada (idempotente)
+else nuevo
+  A -> BD : status=taken, received_at, users.last_sync_at
+  A --> App : 200
+end
+App -> L : marca como sincronizada
+@enduml

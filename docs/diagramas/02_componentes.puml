@@ -1,0 +1,34 @@
+@startuml
+title Arquitectura de componentes - stack del equipo (gratuito)
+skinparam shadowing false
+skinparam componentStyle rectangle
+package "App Android (Kotlin + Compose)" {
+  [UI Compose\n(pantallas)] as UI
+  [ViewModels] as VM
+  [Repositorios\n(offline-first)] as REPO
+  [Almacén local\n(cola de confirmaciones + UUID)] as LOC
+  [Planificador de alarmas\nAlarmManager exacto] as ALM
+  [Cliente API\nRetrofit + kotlinx.serialization] as API
+  [SessionStore\nAES-GCM + Keystore] as SES
+}
+package "Servidor (PHP 8 + Apache)" {
+  [Router + Controladores] as CTRL
+  [Servicios de dominio\n(estado calculado, vínculo, intentos)] as SVC
+  [Acceso a datos PDO] as DAO
+}
+database "MariaDB" as DB
+UI --> VM
+VM --> REPO
+REPO --> LOC
+REPO --> API
+REPO --> ALM
+VM --> SES
+API --> CTRL : HTTPS / JSON\nBearer token
+CTRL --> SVC
+SVC --> DAO
+DAO --> DB
+note right of ALM
+  Alarmas locales: paciente (T-L, T)
+  y cuidador (T+30). Sin push.
+end note
+@enduml

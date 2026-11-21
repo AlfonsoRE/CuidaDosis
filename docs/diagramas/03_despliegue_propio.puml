@@ -1,0 +1,19 @@
+@startuml
+title Despliegue - stack propio (gratuito, entorno de desarrollo/demostración)
+skinparam shadowing false
+node "Teléfono Android (paciente)" as T1 {
+  artifact "CuidaDosis APK" as A1
+}
+node "Teléfono Android (cuidador)" as T2 {
+  artifact "CuidaDosis APK" as A2
+}
+node "Equipo del proyecto (XAMPP)" as S {
+  node "Apache + PHP 8" as W {
+    artifact "api/ (PHP)" as PHP
+  }
+  database "MariaDB 10.4" as DB
+}
+A1 --> PHP : HTTPS/HTTP LAN, JSON
+A2 --> PHP : HTTPS/HTTP LAN, JSON
+PHP --> DB : PDO
+@enduml

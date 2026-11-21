@@ -1,0 +1,13 @@
+@startuml
+title Estados de la toma (visibles al usuario)
+[*] --> Pendiente : toma programada
+Pendiente --> Pendiente : aviso T-L, aviso T, posponer
+Pendiente --> ConfirmadaPorElPaciente : toque en "Tomado"
+Pendiente --> SinConfirmar : T+30 sin confirmación (calculado)
+SinConfirmar --> ConfirmadaPorElPaciente : confirmación tardía
+ConfirmadaPorElPaciente --> [*]
+SinConfirmar --> [*]
+state "Confirmada por el paciente" as ConfirmadaPorElPaciente
+state "Sin confirmar" as SinConfirmar
+note right of SinConfirmar : No se guarda en BD; se deriva de scheduled_for + 30 min.
+@enduml

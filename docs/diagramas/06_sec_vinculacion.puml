@@ -1,0 +1,27 @@
+@startuml
+title Secuencia - vinculación con aceptación del paciente (RF vínculo, G-01/G-02/G-05)
+actor Paciente
+actor Cuidador
+participant "API" as A
+database BD
+Paciente -> A : POST /links/invite
+A -> BD : crea vínculo pending (vigencia 10 min)
+A --> Paciente : código de 8 caracteres
+Paciente -> Cuidador : comunica el código (fuera de la app)
+Cuidador -> A : POST /links/accept {código}
+A -> BD : cuenta intentos fallidos (10 min)
+alt 5 fallos en 10 min
+  A --> Cuidador : 429 demasiados intentos
+else código válido y vigente
+  A -> BD : status = awaiting_acceptance
+  A --> Cuidador : solicitud enviada
+  Paciente -> A : GET /links/pending
+  A --> Paciente : solicitud del cuidador X
+  Paciente -> A : POST /links/{id}/confirm
+  A -> BD : status = active
+  A --> Paciente : vínculo activo
+else código inválido/caducado
+  A -> BD : registra intento fallido
+  A --> Cuidador : 404/410
+end
+@enduml

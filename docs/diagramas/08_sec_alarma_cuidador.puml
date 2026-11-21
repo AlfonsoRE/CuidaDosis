@@ -1,0 +1,20 @@
+@startuml
+title Secuencia - alarma local del cuidador a T+30 (RF-18)
+actor Cuidador
+participant "App cuidador" as App
+participant "AlarmManager" as AL
+participant "API" as A
+App -> A : GET /caregiver/patients/{id}/intakes/today
+A --> App : tomas del día con estado
+loop por cada toma pendiente
+  App -> AL : programa alarma exacta en T+30
+end
+AL -> App : dispara alarma T+30
+App -> A : GET intakes/today (verifica)
+alt sigue sin confirmar
+  App --> Cuidador : alerta "Sin confirmar"
+else ya confirmada
+  App -> AL : cancela
+end
+note over App : Si no hay red, se alerta con la última información y se avisa la hora de la última sincronización (RF-12).
+@enduml
