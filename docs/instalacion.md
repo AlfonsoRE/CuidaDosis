@@ -81,10 +81,31 @@ Resultado: `Success`. Al abrir la app:
 
 La URL por defecto en el emulador es `http://10.0.2.2/CuidaDosis/api/public/`.
 
-### 2.3 Teléfono físico
-- Conecta el teléfono a la misma red Wi-Fi que la PC y, en la pantalla de inicio de sesión, toca **Servidor** y escribe `http://<IP de la PC>/CuidaDosis/api/public/`. Puede ser necesario permitir Apache en el firewall de Windows.
-- El APK debug permite HTTP sin cifrar solo para pruebas.
-- **Pendiente de ejecución manual:** puntualidad de avisos con pantalla bloqueada, ahorro de batería y reinicio en un teléfono real (ver [PENDIENTES_FASE6.md](PENDIENTES_FASE6.md)).
+### 2.3 Teléfono físico (verificado el 21/11/2026 en un POCO M6 Pro, Android 16, HyperOS)
+1. En el teléfono activa **Opciones de desarrollador** y **Depuración USB**, conéctalo por USB y acepta la huella de la PC.
+2. Instala el APK. Si hay más de un dispositivo conectado (por ejemplo, el emulador), indica el teléfono con `-s` y el ID que muestra `adb devices -l`:
+   ```bash
+   "$LOCALAPPDATA/Android/Sdk/platform-tools/adb.exe" devices -l
+   "$LOCALAPPDATA/Android/Sdk/platform-tools/adb.exe" -s <ID del teléfono> install -r "C:/xampp/htdocs/CuidaDosis/android/app/build/outputs/apk/debug/app-debug.apk"
+   ```
+   Resultado en la verificación: `Success`. En algunos Xiaomi hay que activar antes **Instalar vía USB** en las opciones de desarrollador; si no, falla con `INSTALL_FAILED_USER_RESTRICTED`.
+3. Teléfono y PC en la misma red Wi-Fi. Obtén la IP de la PC con `ipconfig` (adaptador Wi-Fi). En la app, en la pantalla de inicio de sesión, toca **Servidor**, escribe `http://<IP de la PC>/CuidaDosis/api/public/`, toca **Probar conexión** (debe decir "Conexión correcta con la API.") y **Guardar**. Si la IP de la PC cambia, repite este paso.
+4. Si no conecta, permite Apache en el firewall de Windows (en una terminal como administrador):
+   ```
+   netsh advfirewall firewall add rule name="Apache XAMPP CuidaDosis (TCP 80)" dir=in action=allow protocol=TCP localport=80 program="C:\xampp\apache\bin\httpd.exe" profile=private,public remoteip=localsubnet
+   ```
+   En la verificación no hizo falta: el teléfono llegó a la API sin agregar la regla.
+5. El APK debug permite HTTP sin cifrar solo para pruebas; la versión release exige HTTPS.
+
+#### Configuración especial de Xiaomi / HyperOS (necesaria para que los avisos suenen a tiempo)
+HyperOS cierra o retrasa las apps en segundo plano. En la verificación se usó esta configuración, que es condición de las pruebas de puntualidad:
+1. **Notificaciones:** acepta "Permitir" cuando la app lo pida.
+2. **Batería sin restricciones:** Ajustes → Aplicaciones → CuidaDosis (Info. de la aplicación) → Ahorro de batería → **Sin restricciones**.
+3. **Inicio automático:** app Seguridad → Autoencendido en segundo plano → activa **CuidaDosis**. Sin esto, la app puede no reprogramar los avisos al reiniciar el teléfono.
+4. Las alarmas exactas (`USE_EXACT_ALARM`) se conceden al instalar; no hay que activarlas.
+5. Al abrir "Hoy" no debe aparecer la tarjeta roja de permisos.
+
+Los resultados medidos en el teléfono físico están en `docs/evidencias/p4/fisico/RESUMEN.md`.
 
 ## 3. Despliegue en un hosting
 

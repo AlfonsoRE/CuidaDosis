@@ -12,6 +12,8 @@ Las capturas están en `docs/capturas/` y usan solo datos sintéticos.
 
 [CAPTURA: 01_registro_paciente]
 
+[CAPTURA: 01b_registro_cuidador]
+
 3. Después, entra con tu correo y contraseña en **Iniciar sesión**.
 
 [CAPTURA: 02_inicio_sesion]
@@ -41,6 +43,10 @@ Puedes confirmar aunque no haya conexión. La toma se guarda en el teléfono con
 En **Medicamentos** toca **+ Agregar**, escribe el nombre y la dosis, agrega una o varias horas con **Agregar hora** y toca **Guardar medicamento**. Puedes editar las horas o desactivar un medicamento; las tomas pasadas se conservan. Esta pestaña necesita conexión.
 
 [CAPTURA: 04_alta_medicamento]
+
+La lista muestra cada medicamento con sus horas ("Horario: ...") y los botones **Editar** y **Desactivar**. Para quitar una hora, edita el medicamento y toca la hora con la ✕.
+
+[CAPTURA: 04b_lista_medicamentos]
 
 ### 2.4 Avisos
 - El teléfono avisa **5 o 10 minutos antes** de cada toma, según tu ajuste.
@@ -112,8 +118,22 @@ Puedes **Dejar de seguir a este paciente**; para volver a verlo necesitarás un 
 Si una toma de tu paciente sigue sin confirmar 30 minutos después de su hora, tu teléfono muestra **Toma sin confirmar**. Antes de avisar, la app consulta el estado; si ya se confirmó, no suena. Si no hay conexión, te avisa que revises e indica la última sincronización conocida. Funciona para las tomas del día en que abriste la app.
 
 ## 4. Cerrar sesión
+
+- **Paciente:** botón **Salir** (arriba a la derecha).
+- **Cuidador:** botón **Cerrar sesión** (arriba a la derecha de "Mis pacientes").
+
 **Salir** (paciente) o **Cerrar sesión** (cuidador) borra los datos guardados en el teléfono y cancela los avisos.
 
 Si eres paciente y tienes confirmaciones sin enviar, **Salir** primero intenta enviarlas. Si no hay conexión, la app no te deja salir y lo explica: así no se pierden. Conéctate a internet y toca **Reintentar envío**, o **Quedarme** para seguir usando la app.
 
 [CAPTURA: 18_salir_con_pendientes]
+
+## 5. Teléfonos Xiaomi, Redmi y POCO (HyperOS)
+
+Estos teléfonos cierran las apps en segundo plano para ahorrar batería, y entonces los avisos pueden no sonar. Haz esto una vez:
+1. Acepta **Permitir** cuando la app pida enviar notificaciones.
+2. Ajustes → Aplicaciones → **CuidaDosis** → Ahorro de batería → **Sin restricciones**.
+3. App **Seguridad** → Autoencendido en segundo plano → activa **CuidaDosis**.
+4. Abre CuidaDosis: en "Hoy" no debe aparecer la tarjeta roja de permisos.
+
+Si el servidor está en una computadora de tu casa o escuela, pide a quien lo instaló la dirección para **Servidor** (en la pantalla de inicio de sesión).
