@@ -43,9 +43,19 @@ En la guía de uso se citan como `[CAPTURA: nombre]`.
 ## Teléfono físico (`fisico/`)
 | Archivo | Pantalla | Rol |
 |---|---|---|
-| `fisico/01_registro_paciente.png` | Registro de la cuenta de paciente en el POCO M6 Pro | Paciente |
+| `fisico/01_registro_paciente.png` | Registro de la cuenta de paciente | Paciente |
+| `fisico/06_confirmada_un_toque.png` | "Confirmada por el paciente" tras un toque | Paciente |
+| `fisico/07_sin_red_confirmada.png` | Modo avión: confirmación guardada para enviar | Paciente |
+| `fisico/08_salir_bloqueado.png` | "Salir" bloqueado con confirmaciones sin enviar | Paciente |
+| `fisico/09_generar_codigo.png` | Código de invitación de 10 min | Paciente |
+| `fisico/09b_emulador_esperando_aceptacion.png` | (Emulador) "Esperando aceptación" | Cuidador |
+| `fisico/10_solicitud_por_aceptar.png` | Solicitud de vínculo con Aceptar y Rechazar | Paciente |
+| `fisico/11_vinculo_activo.png` | Vínculo activo | Paciente |
+| `fisico/12_historial_paciente.png` | Historial de 7 días con dosis | Paciente |
+| `fisico/12b_emulador_historial_cuidador_sin_dosis.png` | (Emulador) Historial del paciente sin dosis | Cuidador |
+| `fisico/13_desvinculado.png` | Tras desvincular al cuidador | Paciente |
 
-Las demás capturas del teléfono físico se listan en `docs/evidencias/p4/fisico/RESUMEN.md`.
+No se conservan capturas que muestren la IP privada de la PC (pantalla Servidor) ni el diálogo del administrador de contraseñas del teléfono.
 
 ## Notas
 - La toma de las 08:00 del "Medicamento SINTETICO Demo B" que aparece en 06, 12, 17 y 19 se agregó por error durante las capturas de la Fase 8. El horario ya se quitó (el medicamento queda con 12:40 y 14:00), pero la toma de ese día se conserva porque estaba confirmada: así funciona el historial (las tomas confirmadas no se borran). No cambia lo que muestra cada captura.

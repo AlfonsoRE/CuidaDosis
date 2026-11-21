@@ -67,3 +67,11 @@ POCO M6 Pro (Xiaomi, 2312FPCA6G), Android 16 (SDK 36), HyperOS OS3.0.307.0. Cond
 | `fisico/reinicio.csv` | Paso 4 (RNF-03): reprogramación tras `adb reboot` y puntualidad de 2 tomas |
 | `fisico/reinicio_observacion.txt` | Estado de alarma, proceso y notificación cada 20 s después del reinicio |
 | `fisico/reinicio_log_sistema.log` | Arranque de la app por BootReceiver y entrega de alarmas |
+| `fisico/paso05_pr08_sin_red.md` | Paso 5 (PR-08): modo avión, una confirmación, un solo registro |
+| `fisico/paso06_pr03_pr04.md` | Paso 6: avisos a T-5 y a T, confirmación con un toque |
+| `fisico/paso07_pr05_vinculo.md` | Paso 7 (PR-05): vínculo entre teléfono (paciente) y emulador (cuidador) |
+| `fisico/paso08_salir_con_pendientes.md` | Paso 8: bloqueo de "Salir" con pendientes; limitación del token vencido |
+| `fisico/paso09_historial.md` | Paso 9 (RF-15): historial de paciente y de cuidador sin dosis |
+| `fisico/paso11_pr12_alarma_cuidador.md` | Paso 11 (PR-12): alarma del cuidador a T + 30 en el teléfono |
+| `fisico/pr12_observacion.txt`, `fisico/pr12_log_sistema.log` | Notificación y log del sistema de PR-12 |
+| `fisico/RESUMEN.md` | Tabla de resultados, lo no medido y las limitaciones |

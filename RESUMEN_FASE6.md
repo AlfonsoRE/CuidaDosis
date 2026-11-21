@@ -64,8 +64,23 @@ G-01 código de 10 min (API); G-02 estado `awaiting_acceptance`; G-03 `intake_lo
 
 Durante el paso 3 se conectó un teléfono físico a la PC. No se ejecutó nada en él: los comandos de adb se fijaron al emulador (`ANDROID_SERIAL=emulator-5554`).
 
+## Verificación en teléfono físico (Fase 8, Parte B)
+POCO M6 Pro, Android 16, HyperOS, con batería "Sin restricciones" e Inicio automático, por USB. Detalle en [docs/evidencias/p4/fisico/RESUMEN.md](docs/evidencias/p4/fisico/RESUMEN.md).
+
+| Caso | Resultado en el teléfono |
+|---|---|
+| RNF-01 pantalla encendida | OK, 10 de 10 (≤ 0.04 s) |
+| RNF-01 pantalla apagada | **FALLO, 6 de 10** (retrasos de 67 a 187 s de HyperOS) |
+| RNF-01 reposo sin cable (escenario C) | No ejecutado |
+| RNF-03 reinicio | Parcial: se reprograma tras desbloquear; 2 de 4 avisos a tiempo |
+| PR-03 / PR-04 | OK con pantalla encendida / OK |
+| PR-05, PR-08, salir con pendientes, RF-15, SEG-05 | OK |
+| PR-12 | Parcial: alarma a tiempo; solo se observó la rama "sin conexión" por la inestabilidad del Wi-Fi |
+
+**Casos que quedan para el formato manual de complemento:** RNF-01 escenario C (sin cable, reposo prolongado); repetir RNF-01 B y RNF-03 tras una mejora de alarmas; PR-12 rama "Toma sin confirmar" con red estable; RNF-07 desde el teléfono por Wi-Fi; token vencido con pendientes (limitación); legibilidad con personas mayores; otros fabricantes.
+
 ## Bloqueos y pendientes
 Ver [docs/PENDIENTES_FASE6.md](docs/PENDIENTES_FASE6.md). En resumen: pruebas en teléfono físico (puntualidad, reinicio real, ahorro de batería y alarma del cuidador), pantalla para autorizar la dosis (G-07), sin WorkManager, pérdida de la cola solo si el token vence (401) con pendientes, y subir el paquete a un hosting real (pendiente de verificar).
 
 ## Commits
-Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. La Fase 8 no se ha subido.
+Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. Fase 8 Parte A y verificación física (Parte B y C): de `24917b7` en adelante. La Fase 8 no se ha subido.
