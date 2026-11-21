@@ -37,3 +37,36 @@ Este archivo se completa paso a paso. Cada sección dice a qué paso pertenece.
 - `schema.sql` y `seed.sql` cargados con `STRICT_ALL_TABLES` sobre MariaDB 10.4.32 sin errores; las 7 tablas existen y los datos coinciden con D4.
 - Restricciones comprobadas con consultas que deben fallar: UUID repetido (1062), `share_dose = 2` (`chk_links_share_dose`), `awaiting_acceptance` sin cuidador (`chk_links_awaiting_has_caregiver`), estado desconocido (1265) e intento de un usuario inexistente (llave foránea).
 - Con curl contra Apache local: Cuidador 1 no recibe `dose` del Paciente 1 y sí del Paciente 3; el Paciente 1 sigue viendo su dosis en `/intakes/today`.
+
+## Paso 2. API de vínculo con aceptación (RF-08, RF-09; G-01, G-02, G-05; ADR-004)
+
+### D6. Código vencido: 410 con mensaje propio
+- **Duda:** antes, un código vencido daba el mismo 404 que uno inexistente.
+- **Elección:** si el código existe, sigue `pending` y venció, responde `410` con "El código venció. Pide al paciente que genere uno nuevo." Inexistente, usado o revocado sigue en `404`.
+- **Motivo:** el paso 7 pide un mensaje claro ante código vencido. Distinguirlo filtra muy poco, porque el código es aleatorio de 8 caracteres y los intentos están limitados.
+
+### D7. Qué cuenta como intento fallido y cómo se bloquea
+- **Cuenta como fallo:** formato inválido (422), código inexistente, usado o revocado (404) y código vencido (410). Un uso correcto se registra con `success = 1`.
+- **Bloqueo:** con 5 fallos del mismo cuidador en los últimos 10 min, la API responde `429` con `Retry-After` (segundos hasta que el fallo más antiguo salga de la ventana) **antes** de leer el código. Mientras dura, no se registran intentos nuevos (así el bloqueo no se alarga solo) y tampoco se acepta un código válido.
+- Los fallos se guardan fuera de la transacción del vínculo, para que el `rollBack` no los borre.
+
+### D8. Rechazo y retiro de la solicitud
+- `POST /links/{id}/reject` (paciente) deja la solicitud en `revoked` (D3).
+- `DELETE /caregiver/patients/{id}` (cuidador) ahora también retira una solicitud sin aceptar.
+- Generar un código nuevo revoca los códigos pendientes **y** las solicitudes sin aceptar del paciente.
+
+### D9. Dónde ve cada rol la solicitud
+- Paciente: `GET /links/pending` y el campo `pending_request` de `/me`.
+- Cuidador: la lista `awaiting` de `/me` (pacientes que aún no aceptan). No hay endpoint aparte.
+- Una solicitud en espera no da acceso a datos: los endpoints del cuidador siguen exigiendo `status = 'active'`.
+
+### D10. Incompatibilidad temporal con la app
+- `POST /links/accept` ya no devuelve `linked_at`. La app actual espera ese campo, así que la vinculación desde el cuidador falla al leer la respuesta hasta el paso 7, que adapta la app al flujo con aceptación.
+
+### Pruebas realizadas (Paso 2)
+Con curl contra Apache local y la BD del seed v2 (usuarios sintéticos):
+- Flujo completo Paciente 2 y Cuidador 2: invitar (201, vence en 10 min) → usar código (200, `awaiting_acceptance`) → el cuidador recibe 404 en las tomas del paciente → `GET /links/pending` y `/me` (`awaiting`) muestran la solicitud → aceptar (200, `active`) → el cuidador ya ve las tomas, sin `dose`.
+- Mismo código usado dos veces: 404. Aceptar dos veces: 404. Cuidador intentando aceptar: 403.
+- Código con `expires_at` movido al pasado por SQL: 410.
+- Rechazo: 200 y el vínculo queda `revoked` con `revoked_at`.
+- Cuidador 1 con 5 códigos inexistentes: 404 cinco veces, el sexto 429 con `Retry-After: 599`; quedaron 5 fallos registrados; un código válido durante el bloqueo también da 429.

@@ -114,6 +114,21 @@ final class AuthController
             $stmt->execute([$user['id']]);
             $invite = $stmt->fetch();
             $result['pending_invite'] = $invite === false ? null : $invite;
+
+            // Solicitud de un cuidador que espera la aceptación del paciente (RF-08)
+            $stmt = $this->pdo->prepare(
+                "SELECT l.id, l.requested_at, u.id AS caregiver_id, u.full_name
+                   FROM links l JOIN users u ON u.id = l.caregiver_id
+                  WHERE l.patient_id = ? AND l.status = 'awaiting_acceptance'
+                  ORDER BY l.id DESC LIMIT 1"
+            );
+            $stmt->execute([$user['id']]);
+            $req = $stmt->fetch();
+            $result['pending_request'] = $req === false ? null : [
+                'id' => (int) $req['id'],
+                'requested_at' => $req['requested_at'],
+                'caregiver' => ['id' => (int) $req['caregiver_id'], 'full_name' => $req['full_name']],
+            ];
         } else {
             // Un cuidador puede tener varios pacientes vinculados
             unset($result['link']);
@@ -128,6 +143,20 @@ final class AuthController
                 'id' => (int) $r['id'],
                 'full_name' => $r['full_name'],
                 'linked_at' => $r['linked_at'],
+            ], $stmt->fetchAll());
+
+            // Solicitudes enviadas que el paciente aún no acepta
+            $stmt = $this->pdo->prepare(
+                "SELECT l.id, l.requested_at, u.id AS patient_id, u.full_name
+                   FROM links l JOIN users u ON u.id = l.patient_id
+                  WHERE l.caregiver_id = ? AND l.status = 'awaiting_acceptance'
+                  ORDER BY l.requested_at, l.id"
+            );
+            $stmt->execute([$user['id']]);
+            $result['awaiting'] = array_map(fn (array $r) => [
+                'id' => (int) $r['id'],
+                'requested_at' => $r['requested_at'],
+                'patient' => ['id' => (int) $r['patient_id'], 'full_name' => $r['full_name']],
             ], $stmt->fetchAll());
         }
 

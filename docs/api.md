@@ -34,7 +34,9 @@ Todas las respuestas de error tienen esta forma:
 | 404 | La ruta no existe, o el recurso no existe o no es del usuario |
 | 405 | Método HTTP no permitido en esa ruta |
 | 409 | Conflicto: correo ya registrado, el paciente ya tiene cuidador, toma ya confirmada |
+| 410 | El código de invitación existe pero ya venció (10 min) |
 | 422 | Datos inválidos (ver `details`) |
+| 429 | Demasiados intentos fallidos de código de invitación (5 en 10 min); trae `Retry-After` en segundos |
 | 500 | Error interno |
 
 ## Resumen de endpoints
@@ -47,7 +49,10 @@ Todas las respuestas de error tienen esta forma:
 | POST | `/auth/logout` | cualquiera | Cierra la sesión actual |
 | GET | `/me` | cualquiera | Datos del usuario y su vínculo |
 | POST | `/links/invite` | paciente | Genera un código de invitación |
-| POST | `/links/accept` | cuidador | Se vincula con un código |
+| POST | `/links/accept` | cuidador | Usa un código; la solicitud queda esperando aceptación |
+| GET | `/links/pending` | paciente | Solicitud de vínculo que espera su aceptación |
+| POST | `/links/{id}/confirm` | paciente | Acepta la solicitud: el vínculo pasa a activo |
+| POST | `/links/{id}/reject` | paciente | Rechaza la solicitud |
 | DELETE | `/links/active` | paciente | Desvincula a su cuidador |
 | GET | `/medications` | paciente | Lista los medicamentos activos |
 | POST | `/medications` | paciente | Crea un medicamento con sus horas |
@@ -58,12 +63,12 @@ Todas las respuestas de error tienen esta forma:
 | POST | `/intakes/{id}/take` | paciente | Marca una toma de hoy como tomada |
 | GET | `/caregiver/patients` | cuidador | Sus pacientes con el resumen de hoy |
 | GET | `/caregiver/patients/{id}/intakes/today` | cuidador | Tomas de hoy de uno de sus pacientes |
-| DELETE | `/caregiver/patients/{id}` | cuidador | Deja de seguir a ese paciente |
+| DELETE | `/caregiver/patients/{id}` | cuidador | Deja de seguir a ese paciente o retira su solicitud |
 
 ## Ejemplos
 
 Usuarios sintéticos de `bd/seed.sql` (contraseña de prueba `Sintetico2026`):
-`paciente1@ejemplo.test` y `paciente3@ejemplo.test` (ambos vinculados con `cuidador1@ejemplo.test`), `paciente2@ejemplo.test` (código pendiente `SINT0002`) y `cuidador2@ejemplo.test` (sin vínculo).
+`paciente1@ejemplo.test` (no comparte la dosis) y `paciente3@ejemplo.test` (sí la comparte), ambos vinculados con `cuidador1@ejemplo.test`; `paciente2@ejemplo.test` (código pendiente `SINT0002`, vence 10 min después de cargar el seed) y `cuidador2@ejemplo.test` (sin vínculo).
 
 Los ejemplos usan sintaxis de Git Bash. En `cmd` de Windows cambia las comillas simples por dobles y escapa las internas (`\"`).
 
@@ -114,39 +119,72 @@ curl -s -X POST $B/auth/logout -H "Authorization: Bearer $TP"
 ```bash
 curl -s $B/me -H "Authorization: Bearer $TP"
 ```
-Paciente (`link.caregiver`; `pending_invite` es el código vigente o `null`):
+Paciente (`link.caregiver`; `pending_invite` es el código vigente o `null`; `pending_request` es la solicitud de un cuidador que espera su aceptación o `null`):
 ```json
-{"user":{"id":1,"full_name":"Paciente SINTETICO Uno","email":"paciente1@ejemplo.test","role":"patient","created_at":"2026-11-11 10:14:34"},"link":{"caregiver":{"id":3,"full_name":"Cuidador SINTETICO Uno"},"linked_at":"2026-11-10 11:14:34"},"pending_invite":null}
+{"user":{"id":1,"full_name":"Paciente SINTETICO Uno","email":"paciente1@ejemplo.test","role":"patient","created_at":"2026-11-11 10:14:34"},"link":{"caregiver":{"id":3,"full_name":"Cuidador SINTETICO Uno"},"linked_at":"2026-11-10 11:14:34"},"pending_invite":null,"pending_request":null}
 ```
 Sin cuidador, `link` es `null`.
 
-Cuidador: en lugar de `link` y `pending_invite` trae la lista `patients` (vacía si no tiene pacientes):
+Cuidador: en lugar de `link`, `pending_invite` y `pending_request` trae la lista `patients` (vacía si no tiene pacientes) y la lista `awaiting` con sus solicitudes sin aceptar:
 ```json
-{"user":{"id":3,"full_name":"Cuidador SINTETICO Uno","email":"cuidador1@ejemplo.test","role":"caregiver","created_at":"2026-11-11 10:14:34"},"patients":[{"id":5,"full_name":"Paciente SINTETICO Tres","linked_at":"2026-11-11 09:31:25"},{"id":1,"full_name":"Paciente SINTETICO Uno","linked_at":"2026-11-10 11:14:34"}]}
+{"user":{"id":4,"full_name":"Cuidador SINTETICO Dos","email":"cuidador2@ejemplo.test","role":"caregiver","created_at":"2026-11-21 12:01:39"},"patients":[],"awaiting":[{"id":4,"requested_at":"2026-11-21 12:08:09","patient":{"id":2,"full_name":"Paciente SINTETICO Dos"}}]}
 ```
 
 ### POST /links/invite (paciente)
-Genera un código de 8 caracteres (letras y números sin I, O, 0 ni 1) que dura 48 h y sirve una sola vez. Al generar uno nuevo se revocan los pendientes anteriores.
+El vínculo pasa por estos estados (ADR-004): `pending` (código generado) → `awaiting_acceptance` (el cuidador usó el código) → `active` (el paciente aceptó). Rechazar o revocar lo deja en `revoked` con `revoked_at`; nunca se borra.
+
+Genera un código de 8 caracteres (letras y números sin I, O, 0 ni 1) que dura **10 min** y sirve una sola vez. Al generar uno nuevo se revocan los códigos pendientes y las solicitudes sin aceptar.
 ```bash
 curl -s -X POST $B/links/invite -H "Authorization: Bearer $TP"
 ```
 `201`:
 ```json
-{"invite_code":"EHP2V3FN","expires_at":"2026-11-13 10:15:57"}
+{"invite_code":"5MYRZ938","expires_at":"2026-11-21 12:18:09"}
 ```
 Errores: `409` si el paciente ya tiene un cuidador vinculado (primero debe desvincularlo con `DELETE /links/active`).
 
 ### POST /links/accept (cuidador)
-No distingue mayúsculas de minúsculas.
+No distingue mayúsculas de minúsculas. **No activa el vínculo**: lo deja esperando la aceptación del paciente. El cuidador todavía no ve datos del paciente.
 ```bash
 curl -s -X POST $B/links/accept -H "Authorization: Bearer $TC" -H 'Content-Type: application/json' \
-  -d '{"invite_code":"SINT0002"}'
+  -d '{"invite_code":"5MYRZ938"}'
 ```
 `200`:
 ```json
-{"patient":{"id":2,"full_name":"Paciente SINTETICO Dos"},"linked_at":"2026-11-11 10:15:56"}
+{"link":{"id":4,"status":"awaiting_acceptance","requested_at":"2026-11-21 12:08:09"},"patient":{"id":2,"full_name":"Paciente SINTETICO Dos"},"message":"Solicitud enviada. Espera a que el paciente la acepte."}
 ```
-Un cuidador puede aceptar códigos de varios pacientes. Errores: `404` si el código no existe, ya se usó, se revocó o expiró; `409` si el paciente ya tiene otro cuidador activo; `422` si no tiene 8 letras o números.
+Cada uso se registra en `link_attempts`. Un cuidador puede usar códigos de varios pacientes. Errores:
+- `404` si el código no existe, ya se usó o se revocó.
+- `410` si el código existe pero venció: `"El código venció. Pide al paciente que genere uno nuevo."`
+- `422` si no tiene 8 letras o números.
+- `429` tras 5 intentos fallidos (cualquiera de los anteriores) en 10 min. Trae `Retry-After` con los segundos que faltan. Mientras dura el bloqueo no se registran intentos nuevos y tampoco se acepta un código válido.
+
+### GET /links/pending (paciente)
+```bash
+curl -s $B/links/pending -H "Authorization: Bearer $TP"
+```
+`200` (`request` es `null` si no hay solicitud):
+```json
+{"request":{"id":4,"requested_at":"2026-11-21 12:08:09","caregiver":{"id":4,"full_name":"Cuidador SINTETICO Dos"}}}
+```
+
+### POST /links/{id}/confirm (paciente)
+Acepta la solicitud `{id}`. Desde ese momento el cuidador ve las tomas del paciente.
+```bash
+curl -s -X POST $B/links/4/confirm -H "Authorization: Bearer $TP"
+```
+`200`:
+```json
+{"link":{"id":4,"status":"active","linked_at":"2026-11-21 12:08:10"},"caregiver":{"id":4,"full_name":"Cuidador SINTETICO Dos"}}
+```
+Errores: `404` si `{id}` no es una solicitud del paciente en `awaiting_acceptance`; `409` si ya tiene un cuidador activo.
+
+### POST /links/{id}/reject (paciente)
+Rechaza la solicitud `{id}` (queda `revoked`). El paciente puede generar otro código.
+```bash
+curl -s -X POST $B/links/4/reject -H "Authorization: Bearer $TP"
+```
+`200`: `{"message":"Solicitud rechazada."}`. Errores: `404` igual que `confirm`.
 
 ### GET /medications (paciente)
 ```bash
@@ -226,21 +264,21 @@ curl -s $B/caregiver/patients -H "Authorization: Bearer $TC"
 Sin pacientes vinculados, `patients` es `[]`.
 
 ### GET /caregiver/patients/{id}/intakes/today (cuidador)
-Tomas de hoy de un paciente vinculado, con la misma forma que `/intakes/today` más el campo `patient`.
+Tomas de hoy de un paciente vinculado, con la misma forma que `/intakes/today` más el campo `patient`. La dosis (`dose`) **no se envía** salvo que el paciente la comparta (`patient.share_dose`, G-07).
 ```bash
 curl -s $B/caregiver/patients/1/intakes/today -H "Authorization: Bearer $TC"
 ```
 ```json
-{"patient":{"id":1,"full_name":"Paciente SINTETICO Uno"},"date":"2026-11-11","intakes":[...],"summary":{"total":3,"taken":1,"pending":2}}
+{"patient":{"id":1,"full_name":"Paciente SINTETICO Uno","share_dose":false},"date":"2026-11-11","intakes":[...],"summary":{"total":3,"taken":1,"pending":2}}
 ```
 Errores: `404` si ese paciente no tiene un vínculo activo con el cuidador.
 
 ### DELETE /caregiver/patients/{id} (cuidador)
-El cuidador deja de seguir a ese paciente (el vínculo queda como `revoked`).
+El cuidador deja de seguir a ese paciente, o retira su solicitud si el paciente no la ha aceptado (el vínculo queda como `revoked`).
 ```bash
 curl -s -X DELETE $B/caregiver/patients/5 -H "Authorization: Bearer $TC"
 ```
-`200`: `{"message":"Paciente desvinculado."}`. Errores: `404` si ese paciente no tiene un vínculo activo con el cuidador.
+`200`: `{"message":"Paciente desvinculado."}`. Errores: `404` si ese paciente no tiene un vínculo activo ni una solicitud pendiente con el cuidador.
 
 ## Estructura del código
 

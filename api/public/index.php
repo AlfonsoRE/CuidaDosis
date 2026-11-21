@@ -57,6 +57,9 @@ try {
 
     $router->add('POST', '/links/invite', [$linkCtl, 'invite']);
     $router->add('POST', '/links/accept', [$linkCtl, 'accept']);
+    $router->add('GET', '/links/pending', [$linkCtl, 'pending']);
+    $router->add('POST', '/links/{id}/confirm', [$linkCtl, 'confirm']);
+    $router->add('POST', '/links/{id}/reject', [$linkCtl, 'reject']);
     $router->add('DELETE', '/links/active', [$linkCtl, 'unlinkCaregiver']);
 
     $router->add('GET', '/medications', [$medCtl, 'list']);
