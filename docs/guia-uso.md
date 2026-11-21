@@ -50,7 +50,12 @@ En **Medicamentos** toca **+ Agregar**, escribe el nombre y la dosis, agrega una
 
 [CAPTURA: 11_aviso]
 
-### 2.5 Ajustes
+### 2.5 Historial
+La pestaña **Historial** muestra las tomas de los últimos 7 días, agrupadas por día (Hoy, Ayer y las fechas anteriores), con su estado y cuántas quedaron sin confirmar. Necesita conexión.
+
+[CAPTURA: 19_historial_paciente]
+
+### 2.6 Ajustes
 Toca **Ajustes** (arriba) para elegir la anticipación del aviso: 5 minutos (por defecto) o 10 minutos. El ajuste solo se guarda en tu teléfono. Abajo aparece el estado de los permisos.
 
 [CAPTURA: 05_ajustes_anticipacion]
@@ -59,7 +64,7 @@ Si falta un permiso (notificaciones, alarmas exactas) o el ahorro de batería pu
 
 [CAPTURA: 06_permisos]
 
-### 2.6 Vincular a tu cuidador
+### 2.7 Vincular a tu cuidador
 1. En la pestaña **Cuidador** toca **Generar código de invitación**. El código tiene 8 caracteres, dura **10 minutos** y sirve una sola vez.
 
 [CAPTURA: 07_generar_codigo]
@@ -96,6 +101,10 @@ Toca un paciente para ver sus tomas de hoy con las tres etiquetas. Es de solo le
 [CAPTURA: 14_cuidador_confirmada]
 
 [CAPTURA: 15_cuidador_sin_confirmar]
+
+Con **Ver historial de 7 días** ves sus tomas de los últimos 7 días por día, sin la dosis salvo que el paciente la comparta.
+
+[CAPTURA: 19b_historial_cuidador]
 
 Puedes **Dejar de seguir a este paciente**; para volver a verlo necesitarás un código nuevo.
 

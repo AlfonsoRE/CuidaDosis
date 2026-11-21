@@ -23,15 +23,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import mx.cuidadosis.app.container
+import mx.cuidadosis.app.ui.common.HistoryList
+import mx.cuidadosis.app.ui.common.HistoryViewModel
 import mx.cuidadosis.app.ui.medications.MedicationListTab
 
 enum class PatientTab(val label: String) {
     TODAY("Hoy"),
     MEDICATIONS("Medicamentos"),
+    HISTORY("Historial"),
     CAREGIVER("Cuidador"),
 }
 
-// Pantalla principal del paciente: pestañas Hoy, Medicamentos y Cuidador
+// Pantalla principal del paciente: pestañas Hoy, Medicamentos, Historial y Cuidador
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PatientHomeScreen(
@@ -83,6 +90,14 @@ fun PatientHomeScreen(
             when (tab) {
                 PatientTab.TODAY -> TodayTab(snackbar)
                 PatientTab.MEDICATIONS -> MedicationListTab(snackbar, onEdit = onEditMedication)
+                PatientTab.HISTORY -> HistoryList(
+                    viewModel(
+                        key = "historial",
+                        factory = viewModelFactory {
+                            initializer { HistoryViewModel { container.intakeRepository.history() } }
+                        },
+                    ),
+                )
                 PatientTab.CAREGIVER -> CaregiverLinkTab(snackbar)
             }
         }

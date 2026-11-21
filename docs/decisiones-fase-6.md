@@ -255,3 +255,9 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 - **Seed sin cuentas de demo:** `bd/seed_hosting.sql` no inserta nada; solo verifica que las 7 tablas existen y están vacías. En un servidor público las cuentas se crean desde la app.
 - **Plantilla:** `api/.env.hosting.example` con `APP_DEBUG=false`.
 - **Prueba:** solo local (base temporal y servidor embebido de PHP); nada contra servidores externos. Ver `docs/instalacion.md` 3.2.
+
+### D39. Pantalla de historial de 7 días (RF-15)
+- **Elección:** una pantalla reutilizable (`ui/common/HistoryList.kt`) con los días agrupados ("Hoy", "Ayer" y fechas), el resumen de cada día y las mismas tarjetas de toma. El paciente la ve en la pestaña nueva "Historial"; el cuidador, con el botón "Ver historial de 7 días" del detalle del paciente.
+- **Motivo:** reutiliza `GET /intakes/history` y `GET /caregiver/patients/{id}/intakes/history` (paso 3) y las etiquetas de `IntakeCard`, sin lógica nueva de estado. La dosis sigue oculta al cuidador porque la API no la envía.
+- **Limitación:** necesita conexión; no se guarda copia local del historial.
+- **Prueba:** `HistoryLabelTest` (3 pruebas). En emulador: el paciente demo ve hoy con 7 de 7; el Cuidador 1 del seed ve "Ayer, 20/11/2026: 2 de 3 tomas registradas, 1 sin confirmar" de su paciente, sin dosis.

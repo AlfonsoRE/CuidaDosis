@@ -49,6 +49,9 @@ interface ApiService {
     @GET("intakes/today")
     suspend fun todayIntakes(): Response<TodayResponse>
 
+    @GET("intakes/history")
+    suspend fun history(): Response<HistoryResponse>
+
     @POST("intakes/sync")
     suspend fun syncIntakes(@Body body: SyncRequest): Response<SyncResponse>
 
@@ -80,6 +83,9 @@ interface ApiService {
 
     @GET("caregiver/patients/{id}/intakes/today")
     suspend fun caregiverPatientToday(@Path("id") id: Int): Response<TodayResponse>
+
+    @GET("caregiver/patients/{id}/intakes/history")
+    suspend fun caregiverPatientHistory(@Path("id") id: Int): Response<HistoryResponse>
 
     @DELETE("caregiver/patients/{id}")
     suspend fun unlinkPatient(@Path("id") id: Int): Response<MessageResponse>

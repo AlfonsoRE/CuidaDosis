@@ -225,3 +225,21 @@ data class SyncResponse(
     val results: List<SyncResultDto>,
     @SerialName("last_sync_at") val lastSyncAt: String? = null,
 )
+
+// Historial de 7 días (RF-15): GET /intakes/history y /caregiver/patients/{id}/intakes/history
+
+@Serializable
+data class HistoryDayDto(
+    val date: String,
+    val intakes: List<IntakeDto>,
+    val summary: IntakeSummary,
+)
+
+@Serializable
+data class HistoryResponse(
+    val from: String,
+    val to: String,
+    val now: String? = null,
+    val days: List<HistoryDayDto>,
+    val patient: PersonRef? = null,
+)

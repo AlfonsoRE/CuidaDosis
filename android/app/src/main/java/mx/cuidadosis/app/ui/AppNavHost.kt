@@ -26,6 +26,7 @@ import mx.cuidadosis.app.data.pendingLogoutMessage
 import mx.cuidadosis.app.data.local.Session
 import mx.cuidadosis.app.ui.auth.LoginScreen
 import mx.cuidadosis.app.ui.auth.RegisterScreen
+import mx.cuidadosis.app.ui.caregiver.CaregiverHistoryScreen
 import mx.cuidadosis.app.ui.caregiver.CaregiverHomeScreen
 import mx.cuidadosis.app.ui.medications.MedicationFormScreen
 import mx.cuidadosis.app.ui.caregiver.CaregiverPatientScreen
@@ -43,6 +44,7 @@ import mx.cuidadosis.app.ui.settings.ServerScreen
 @Serializable data class MedicationFormRoute(val id: Int? = null)
 @Serializable object CaregiverHomeRoute
 @Serializable data class CaregiverPatientRoute(val id: Int, val name: String)
+@Serializable data class CaregiverHistoryRoute(val id: Int, val name: String)
 
 private fun homeFor(session: Session?): Any = when {
     session == null -> LoginRoute
@@ -150,10 +152,16 @@ fun AppNavHost(container: AppContainer) {
             )
         }
         composable<CaregiverPatientRoute> { entry ->
+            val route = entry.toRoute<CaregiverPatientRoute>()
             CaregiverPatientScreen(
-                patientName = entry.toRoute<CaregiverPatientRoute>().name,
+                patientName = route.name,
                 onBack = { navController.popBackStack() },
+                onHistory = { navController.navigate(CaregiverHistoryRoute(route.id, route.name)) },
             )
+        }
+        composable<CaregiverHistoryRoute> { entry ->
+            val route = entry.toRoute<CaregiverHistoryRoute>()
+            CaregiverHistoryScreen(route.id, route.name, onBack = { navController.popBackStack() })
         }
     }
 }

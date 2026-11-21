@@ -39,7 +39,7 @@ Script: `api/tests/run_api_tests.php` (casos API-01 a API-27: registro y sesión
 | `09_solicitud_pendiente.png` | El paciente ve la solicitud con Aceptar y Rechazar |
 | `10_vinculo_activo.png` | Vínculo activo |
 | `11_aviso.png` | Notificación del aviso previo con "Posponer 5 min" y "Posponer 10 min" |
-| `12_confirmada_por_el_paciente.png` | Toma confirmada con un toque, con las tres etiquetas visibles |
+| `12_confirmada_por_el_paciente.png` | Tomas "Confirmada por el paciente a las HH:MM" y una "Sin confirmar" |
 | `13_cuidador_pendiente.png` | Detalle del cuidador con una toma "Pendiente" |
 | `14_cuidador_confirmada.png` | Detalle del cuidador con tomas "Confirmada por el paciente" y la dosis oculta |
 | `15_cuidador_sin_confirmar.png` | Detalle del cuidador con una toma "Sin confirmar" |
@@ -48,5 +48,7 @@ Script: `api/tests/run_api_tests.php` (casos API-01 a API-27: registro y sesión
 | `16_ultima_sincronizacion.png` | Lista del cuidador con la última sincronización |
 | `17_modo_sin_red.png` | "Hoy" en modo avión con confirmaciones por enviar (2 en la versión de la Fase 8) |
 | `18_salir_con_pendientes.png` | "Salir" bloqueado con confirmaciones sin enviar (Fase 8) |
+| `19_historial_paciente.png` | Pestaña "Historial" del paciente (Fase 8) |
+| `19b_historial_cuidador.png` | Historial de 7 días visto por el cuidador: "Ayer" con una toma "Sin confirmar" y sin dosis (Fase 8) |
 
 Nota: 06, 07, 09, 10, 12 y 17 se volvieron a tomar en la Fase 8 con la pestaña "Medicamentos" ya corregida (c9ea6df). Todas las capturas actuales tienen la corrección. 12 muestra "Sin confirmar" y "Confirmada por el paciente"; "Pendiente" se ve en 13.

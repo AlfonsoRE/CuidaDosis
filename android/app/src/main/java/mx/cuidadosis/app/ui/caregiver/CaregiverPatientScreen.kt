@@ -42,6 +42,7 @@ import mx.cuidadosis.app.ui.common.summaryText
 fun CaregiverPatientScreen(
     patientName: String,
     onBack: () -> Unit,
+    onHistory: () -> Unit,
     viewModel: CaregiverPatientViewModel = viewModel(factory = CaregiverPatientViewModel.Factory),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -110,6 +111,12 @@ fun CaregiverPatientScreen(
                         item { Text("No tiene tomas programadas hoy.", style = MaterialTheme.typography.bodyLarge) }
                     }
                     items(today.intakes, key = { it.id }) { intake -> IntakeCard(intake.toView()) }
+                    item {
+                        OutlinedButton(
+                            onClick = onHistory,
+                            modifier = Modifier.padding(top = 8.dp),
+                        ) { Text("Ver historial de 7 días") }
+                    }
                     item {
                         OutlinedButton(
                             onClick = viewModel::askUnlink,

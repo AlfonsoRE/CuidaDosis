@@ -18,6 +18,7 @@ import mx.cuidadosis.app.data.local.SessionStore
 import mx.cuidadosis.app.data.remote.ApiClient
 import mx.cuidadosis.app.data.remote.ApiResult
 import mx.cuidadosis.app.data.remote.CaregiverPatientsResponse
+import mx.cuidadosis.app.data.remote.HistoryResponse
 import mx.cuidadosis.app.data.remote.SyncConfirmationDto
 import mx.cuidadosis.app.data.remote.SyncRequest
 import mx.cuidadosis.app.data.remote.TodayResponse
@@ -115,6 +116,12 @@ class IntakeRepository(
             wait = (wait * 2).coerceAtMost(300_000L)
         }
     }
+
+    // Historial de 7 días (RF-15); necesita conexión
+    suspend fun history(): ApiResult<HistoryResponse> = apiCall { api.service().history() }
+
+    suspend fun caregiverPatientHistory(patientId: Int): ApiResult<HistoryResponse> =
+        apiCall { api.service().caregiverPatientHistory(patientId) }
 
     suspend fun caregiverPatients(): ApiResult<CaregiverPatientsResponse> =
         apiCall { api.service().caregiverPatients() }

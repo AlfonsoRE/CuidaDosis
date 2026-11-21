@@ -28,7 +28,7 @@ El diseño objetivo es el de P2 v1.1 y P3 v1.0 (`docs/p2`, `docs/p3`, `docs/adr`
 6. Vista del cuidador con tres etiquetas (Pendiente, Confirmada por el paciente, Sin confirmar a los 30 min), última sincronización del paciente y dosis oculta salvo autorización (RF-10 a RF-12).
 7. Modo sin red: el paciente confirma sin conexión y la app envía las confirmaciones al volver la red, sin duplicados (RF-13).
 8. Advertencias de permisos de notificaciones, alarmas exactas y ahorro de batería (RF-14).
-9. Historial de 7 días en la API (RF-15, mínimo: sin pantalla en la app).
+9. Historial de 7 días para paciente (pestaña "Historial") y cuidador (RF-15).
 10. Alarma local del cuidador a T + 30 min si la toma sigue sin confirmar (RF-18).
 
 ### Fuera de alcance
