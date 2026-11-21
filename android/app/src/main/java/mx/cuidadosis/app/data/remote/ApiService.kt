@@ -62,6 +62,15 @@ interface ApiService {
     @POST("links/accept")
     suspend fun accept(@Body body: AcceptRequest): Response<AcceptResponse>
 
+    @GET("links/pending")
+    suspend fun pendingLink(): Response<PendingRequestResponse>
+
+    @POST("links/{id}/confirm")
+    suspend fun confirmLink(@Path("id") id: Int): Response<ConfirmLinkResponse>
+
+    @POST("links/{id}/reject")
+    suspend fun rejectLink(@Path("id") id: Int): Response<MessageResponse>
+
     @DELETE("links/active")
     suspend fun unlinkCaregiver(): Response<MessageResponse>
 

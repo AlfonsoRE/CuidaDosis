@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
@@ -36,10 +38,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import mx.cuidadosis.app.data.remote.AwaitingDto
 import mx.cuidadosis.app.data.remote.CaregiverPatientDto
 import mx.cuidadosis.app.ui.common.ErrorText
 import mx.cuidadosis.app.ui.common.LoadingBox
 import mx.cuidadosis.app.ui.common.formatApiDate
+import mx.cuidadosis.app.ui.common.formatApiDateTime
 import mx.cuidadosis.app.ui.common.summaryText
 
 // Pantalla principal del cuidador: sus pacientes con el resumen de hoy
@@ -95,6 +99,12 @@ fun CaregiverHomeScreen(
                     TextButton(onClick = viewModel::load, enabled = !state.loading) { Text("Actualizar") }
                 }
             }
+            if (state.awaiting.isNotEmpty()) {
+                item { Text("Esperando aceptación", style = MaterialTheme.typography.titleMedium) }
+                items(state.awaiting, key = { "a" + it.id }) { req ->
+                    AwaitingCard(req, onWithdraw = { viewModel.withdraw(req.patient.id) })
+                }
+            }
             when {
                 state.loading && data == null -> item { LoadingBox(Modifier.fillMaxWidth().padding(32.dp)) }
                 data == null -> item {
@@ -103,7 +113,7 @@ fun CaregiverHomeScreen(
                         OutlinedButton(onClick = viewModel::load) { Text("Reintentar") }
                     }
                 }
-                data.patients.isEmpty() -> item {
+                data.patients.isEmpty() && state.awaiting.isEmpty() -> item {
                     Text(
                         "Aún no sigues a ningún paciente. Pide a tu paciente su código de invitación " +
                             "y toca \"Vincular paciente\".",
@@ -127,7 +137,7 @@ fun CaregiverHomeScreen(
             title = { Text("Vincular paciente") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Escribe el código de 8 caracteres que generó tu paciente en su app.")
+                    Text("Escribe el código de 8 caracteres que generó tu paciente en su app. Dura 10 minutos.")
                     OutlinedTextField(
                         value = state.code,
                         onValueChange = viewModel::onCode,
@@ -147,6 +157,23 @@ fun CaregiverHomeScreen(
                 TextButton(onClick = viewModel::closeLinkDialog, enabled = !state.linking) { Text("Cancelar") }
             },
         )
+    }
+}
+
+@Composable
+private fun AwaitingCard(req: AwaitingDto, onWithdraw: () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(req.patient.fullName, style = MaterialTheme.typography.titleMedium)
+            Text(
+                "Solicitud enviada el ${formatApiDateTime(req.requestedAt)}. Verás sus tomas cuando la acepte en su app.",
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            TextButton(onClick = onWithdraw, modifier = Modifier.heightIn(min = 48.dp)) { Text("Retirar solicitud") }
+        }
     }
 }
 

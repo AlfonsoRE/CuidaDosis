@@ -190,3 +190,17 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 ### Pruebas realizadas (Paso 6)
 - Compila. 57 pruebas unitarias en verde (9 nuevas en `OfflineQueueTest`: doble toque, toma ya confirmada, respuesta repetida idempotente, sin respuesta sigue en cola, rechazada, 3 confirmaciones sin red, reglas de reintento y lista de hoy local).
 - Prueba en emulador con modo avión: en la Fase 7 (PR-08).
+
+## Paso 7. App: vínculo con aceptación (RF-08, RF-09)
+
+### D31. Pantallas
+- Paciente, pestaña "Cuidador": si hay una solicitud (`pending_request` de `/me`), muestra el nombre del cuidador, cuándo usó el código y los botones grandes "Aceptar" y "Rechazar", con la sugerencia de rechazar si no lo conoce. El texto del código dice que dura 10 minutos.
+- Cuidador: al usar el código, el mensaje es "Solicitud enviada a X. Espera a que la acepte". La lista principal muestra la sección "Esperando aceptación" (`awaiting` de `/me`) con "Retirar solicitud".
+- Mensajes claros (`linkErrorMessage`): 410 "El código venció (dura 10 minutos)...", 429 "Demasiados intentos... Espera 10 minutos", 404 "no existe o ya se usó". 422 conserva el mensaje del campo.
+- Con esto se resuelve la incompatibilidad temporal de D10.
+
+### D32. `share_dose` sin pantalla (G-07)
+- No se agregó un control para que el paciente comparta la dosis: el prompt lo marca como opcional y el diseño permite diferirlo (ADR-010). La dosis queda oculta al cuidador por defecto, que es lo que exige RF-10. Anotado en PENDIENTES.
+
+### Pruebas realizadas (Paso 7)
+- Compila. 60 pruebas unitarias en verde (3 nuevas en `LinkMessagesTest`). El flujo completo en emulador se ejecuta en la Fase 7 (PR-05).

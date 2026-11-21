@@ -112,11 +112,43 @@ data class InviteDto(
 @Serializable
 data class AcceptRequest(@SerialName("invite_code") val inviteCode: String)
 
+// El cuidador usó el código: la solicitud espera la aceptación del paciente (ADR-004)
 @Serializable
 data class AcceptResponse(
+    val link: LinkStateDto,
     val patient: PersonRef,
-    @SerialName("linked_at") val linkedAt: String,
+    val message: String? = null,
 )
+
+@Serializable
+data class LinkStateDto(
+    val id: Int,
+    val status: String,
+    @SerialName("requested_at") val requestedAt: String? = null,
+    @SerialName("linked_at") val linkedAt: String? = null,
+)
+
+// Solicitud que ve el paciente
+@Serializable
+data class PendingRequestDto(
+    val id: Int,
+    @SerialName("requested_at") val requestedAt: String,
+    val caregiver: PersonRef,
+)
+
+@Serializable
+data class PendingRequestResponse(val request: PendingRequestDto? = null)
+
+// Solicitud enviada que ve el cuidador
+@Serializable
+data class AwaitingDto(
+    val id: Int,
+    @SerialName("requested_at") val requestedAt: String,
+    val patient: PersonRef,
+)
+
+@Serializable
+data class ConfirmLinkResponse(val link: LinkStateDto, val caregiver: PersonRef)
 
 @Serializable
 data class LinkDto(
@@ -137,7 +169,9 @@ data class MeResponse(
     val user: UserDto,
     val link: LinkDto? = null,
     @SerialName("pending_invite") val pendingInvite: InviteDto? = null,
+    @SerialName("pending_request") val pendingRequest: PendingRequestDto? = null,
     val patients: List<LinkedPatientDto>? = null,
+    val awaiting: List<AwaitingDto>? = null,
 )
 
 // Vista del cuidador

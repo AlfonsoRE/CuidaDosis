@@ -154,6 +154,27 @@ class CaregiverLinkViewModel(private val repo: LinkRepository) : ViewModel() {
         }
     }
 
+    // Aceptar o rechazar la solicitud del cuidador (RF-08; ADR-004)
+    fun acceptRequest(linkId: Int) = respond("Ahora tu cuidador puede ver tus tomas.") { repo.confirm(linkId) }
+    fun rejectRequest(linkId: Int) = respond("Solicitud rechazada.") { repo.reject(linkId) }
+
+    private fun respond(ok: String, call: suspend () -> ApiResult<*>) {
+        _state.update { it.copy(busy = true) }
+        viewModelScope.launch {
+            val result = call()
+            _state.update {
+                it.copy(
+                    busy = false,
+                    message = when (result) {
+                        is ApiResult.Success -> ok
+                        is ApiResult.Error -> result.message
+                    },
+                )
+            }
+            load()
+        }
+    }
+
     fun askUnlink() = _state.update { it.copy(confirmUnlink = true) }
     fun cancelUnlink() = _state.update { it.copy(confirmUnlink = false) }
     fun messageShown() = _state.update { it.copy(message = null) }

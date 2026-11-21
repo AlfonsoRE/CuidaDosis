@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -75,7 +76,7 @@ fun CaregiverLinkTab(
                     }
                 }
                 Text(
-                    "Tu cuidador puede ver tus medicamentos de hoy y si ya marcaste cada toma. " +
+                    "Tu cuidador puede ver tus medicamentos de hoy y si confirmaste cada toma (no ve la dosis). " +
                         "Solo puedes tener un cuidador a la vez.",
                     style = MaterialTheme.typography.bodyMedium,
                 )
@@ -83,11 +84,43 @@ fun CaregiverLinkTab(
                     Text("Desvincular cuidador")
                 }
             }
+            me.pendingRequest != null -> {
+                val req = me.pendingRequest
+                Text("Solicitud de vínculo", style = MaterialTheme.typography.titleLarge)
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(req.caregiver.fullName, style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            "Usó tu código el ${formatApiDateTime(req.requestedAt)} y quiere ser tu cuidador. " +
+                                "Si aceptas, verá tus tomas de cada día y si las confirmaste.",
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
+                        Button(
+                            onClick = { viewModel.acceptRequest(req.id) },
+                            enabled = !state.busy,
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
+                        ) { Text("Aceptar", style = MaterialTheme.typography.titleMedium) }
+                        OutlinedButton(
+                            onClick = { viewModel.rejectRequest(req.id) },
+                            enabled = !state.busy,
+                            modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
+                        ) { Text("Rechazar", style = MaterialTheme.typography.titleMedium) }
+                    }
+                }
+                Text(
+                    "Si no conoces a esta persona, rechaza la solicitud.",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
             else -> {
                 Text("No tienes cuidador vinculado", style = MaterialTheme.typography.titleLarge)
                 Text(
                     "Genera un código y compártelo con la persona que te cuida. Ella lo escribe en su " +
-                        "app, en \"Vincular paciente\". El código dura 48 horas y sirve una sola vez.",
+                        "app, en \"Vincular paciente\". El código dura 10 minutos y sirve una sola vez. " +
+                        "Cuando lo use, aquí verás su solicitud y tú decides si la aceptas.",
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 val invite = me.pendingInvite
@@ -105,7 +138,7 @@ fun CaregiverLinkTab(
                                 fontSize = 36.sp,
                                 letterSpacing = 4.sp,
                             )
-                            Text("Vence: ${formatApiDateTime(invite.expiresAt)}", style = MaterialTheme.typography.bodySmall)
+                            Text("Vence: ${formatApiDateTime(invite.expiresAt)}", style = MaterialTheme.typography.bodyMedium)
                         }
                     }
                     OutlinedButton(onClick = viewModel::generateCode, enabled = !state.busy) {

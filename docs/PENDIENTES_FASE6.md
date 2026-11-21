@@ -16,3 +16,4 @@ Lo que no se pudo hacer o probar, con lo que se intentó. Lo que quedó fuera de
 - Si el token vence (401) con confirmaciones en la cola, la sesión se borra y con ella la copia local, así que esas confirmaciones se pierden. El token dura 30 días (720 h), así que es poco probable en el uso del prototipo.
 - La pestaña "Medicamentos" requiere conexión para dar de alta o editar.
 - Entre el paso 2 y el paso 7 la app del cuidador no podía vincularse (respuesta nueva de `/links/accept`).
+- G-07: no hay pantalla para que el paciente autorice compartir la dosis (`share_dose`); la dosis queda oculta al cuidador por defecto. Solo se puede activar en la BD (como en el seed). Ver D32.

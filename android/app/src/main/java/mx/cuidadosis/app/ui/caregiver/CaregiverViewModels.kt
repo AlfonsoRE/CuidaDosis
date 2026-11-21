@@ -17,6 +17,7 @@ import mx.cuidadosis.app.data.IntakeRepository
 import mx.cuidadosis.app.data.LinkRepository
 import mx.cuidadosis.app.data.normalizeInviteCode
 import mx.cuidadosis.app.data.remote.ApiResult
+import mx.cuidadosis.app.data.remote.AwaitingDto
 import mx.cuidadosis.app.data.remote.CaregiverPatientsResponse
 import mx.cuidadosis.app.data.remote.TodayResponse
 import mx.cuidadosis.app.ui.CaregiverPatientRoute
@@ -24,6 +25,8 @@ import mx.cuidadosis.app.ui.CaregiverPatientRoute
 data class CaregiverHomeUiState(
     val loading: Boolean = true,
     val data: CaregiverPatientsResponse? = null,
+    // Solicitudes enviadas que el paciente aún no acepta
+    val awaiting: List<AwaitingDto> = emptyList(),
     val error: String? = null,
     val showLinkDialog: Boolean = false,
     val code: String = "",
@@ -44,12 +47,23 @@ class CaregiverHomeViewModel(
         _state.update { it.copy(loading = true, error = null) }
         viewModelScope.launch {
             val result = intakes.caregiverPatients()
+            val me = links.me()
             _state.update {
+                val awaiting = (me as? ApiResult.Success)?.data?.awaiting ?: it.awaiting
                 when (result) {
-                    is ApiResult.Success -> it.copy(loading = false, data = result.data)
-                    is ApiResult.Error -> it.copy(loading = false, error = result.message)
+                    is ApiResult.Success -> it.copy(loading = false, data = result.data, awaiting = awaiting)
+                    is ApiResult.Error -> it.copy(loading = false, error = result.message, awaiting = awaiting)
                 }
             }
+        }
+    }
+
+    // Retira una solicitud que el paciente no ha aceptado
+    fun withdraw(patientId: Int) {
+        viewModelScope.launch {
+            val r = links.unlinkPatient(patientId)
+            _state.update { it.copy(message = if (r is ApiResult.Error) r.message else "Solicitud retirada.") }
+            load()
         }
     }
 
@@ -72,7 +86,7 @@ class CaregiverHomeViewModel(
                         it.copy(
                             linking = false,
                             showLinkDialog = false,
-                            message = "Ahora sigues a ${result.data.patient.fullName}.",
+                            message = "Solicitud enviada a ${result.data.patient.fullName}. Espera a que la acepte.",
                         )
                     }
                     load()
