@@ -1,0 +1,48 @@
+15:45:48 | alarma: ninguna | proceso: no | notif: ninguna
+15:46:11 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:46:36 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:46:58 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:47:19 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:47:41 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:48:02 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:48:24 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:48:46 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:49:07 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:49:29 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:49:51 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:50:13 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:50:34 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:50:56 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:51:17 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:51:39 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:52:02 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:52:25 | alarma: origWhen=2026-11-21 15:53:00.000 | proceso: 17409 | notif: ninguna
+15:52:47 | alarma: ninguna | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:53:10 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:53:36 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:53:57 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:54:19 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:54:41 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:55:03 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:55:25 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:55:46 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:56:08 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:56:30 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:56:51 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:57:12 | alarma: origWhen=2026-11-21 15:55:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 15:58)
+15:57:34 | alarma: origWhen=2026-11-21 15:58:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 16:00)
+15:57:55 | alarma: origWhen=2026-11-21 15:58:00.000 | proceso: 17409 | notif: android.title=String (Toma de las 16:00)
+15:58:17 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+15:58:38 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+15:58:59 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+15:59:21 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+15:59:42 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+16:00:03 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+16:00:24 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+16:00:45 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+16:01:07 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+16:01:28 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+16:01:49 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+16:02:10 | alarma: origWhen=2026-11-21 16:00:00.000 | proceso: 17409 | notif: android.title=String (Es la hora de tu toma de las 15:58)
+
+[exited with code 0]

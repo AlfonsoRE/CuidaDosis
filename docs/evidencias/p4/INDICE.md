@@ -52,3 +52,18 @@ Script: `api/tests/run_api_tests.php` (casos API-01 a API-27: registro y sesión
 | `19b_historial_cuidador.png` | Historial de 7 días visto por el cuidador: "Ayer" con una toma "Sin confirmar" y sin dosis (Fase 8) |
 
 Nota: 06, 07, 09, 10, 12 y 17 se volvieron a tomar en la Fase 8 con la pestaña "Medicamentos" ya corregida (c9ea6df). Todas las capturas actuales tienen la corrección. 12 muestra "Sin confirmar" y "Confirmada por el paciente"; "Pendiente" se ve en 13.
+
+## Teléfono físico (`fisico/`), Fase 8 Parte B
+POCO M6 Pro (Xiaomi, 2312FPCA6G), Android 16 (SDK 36), HyperOS OS3.0.307.0. Condiciones: batería "Sin restricciones", Inicio automático activado, notificaciones y alarmas exactas concedidas. Resumen de resultados: `fisico/RESUMEN.md`.
+
+| Archivo | Qué es |
+|---|---|
+| `fisico/00_instalacion_y_compatibilidad.md` | Pasos 0 y 1: instalación, hash del APK, cuentas, permisos y configuración de HyperOS |
+| `fisico/seg05_acceso.csv` | Paso 10 (SEG-05): 22 rutas sensibles responden 403 por localhost y por la IP local |
+| `fisico/puntualidad.csv` | Paso 2 (RNF-01): escenarios A (pantalla encendida) y B (pantalla apagada), con hora esperada, real y diferencia |
+| `fisico/puntualidad_A_logcat_app.log` | Log de la app durante el escenario A |
+| `fisico/puntualidad_A_notificaciones.txt` | Hora de publicación (`when`) de cada notificación del escenario A |
+| `fisico/puntualidad_B_log_sistema.log` | Líneas del sistema (AlarmManager y NotificationManagerService) del escenario B |
+| `fisico/reinicio.csv` | Paso 4 (RNF-03): reprogramación tras `adb reboot` y puntualidad de 2 tomas |
+| `fisico/reinicio_observacion.txt` | Estado de alarma, proceso y notificación cada 20 s después del reinicio |
+| `fisico/reinicio_log_sistema.log` | Arranque de la app por BootReceiver y entrega de alarmas |
