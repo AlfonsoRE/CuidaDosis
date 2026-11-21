@@ -17,3 +17,4 @@ Lo que no se pudo hacer o probar, con lo que se intentó. Lo que quedó fuera de
 - La pestaña "Medicamentos" requiere conexión para dar de alta o editar.
 - Entre el paso 2 y el paso 7 la app del cuidador no podía vincularse (respuesta nueva de `/links/accept`).
 - G-07: no hay pantalla para que el paciente autorice compartir la dosis (`share_dose`); la dosis queda oculta al cuidador por defecto. Solo se puede activar en la BD (como en el seed). Ver D32.
+- Cerrar sesión con confirmaciones en la cola sin enviar las borra (la copia local se limpia al salir). La guía de uso lo advierte; una mejora sería bloquear "Salir" o intentar enviar antes.

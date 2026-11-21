@@ -92,6 +92,8 @@ CuidaDosis/
 
 ## Cómo levantar el entorno local
 
+Guías completas: [instalación](docs/instalacion.md) (local, APK y hosting), [configuración](docs/configuracion.md) y [guía de uso](docs/guia-uso.md). Resultados de la Fase 6 en [RESUMEN_FASE6.md](RESUMEN_FASE6.md).
+
 ### 1. XAMPP
 1. Instala XAMPP y clona el repo en `C:\xampp\htdocs\CuidaDosis`.
 2. En el panel de XAMPP inicia **Apache** y **MySQL**.
