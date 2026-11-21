@@ -248,3 +248,10 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 - **Elección:** (a). "Salir" del paciente intenta enviar la cola; si quedan pendientes, muestra "Confirmaciones sin enviar" con cuántas son, que se perderían y qué hacer, y solo ofrece "Reintentar envío" y "Quedarme". No hay opción para descartarlas.
 - **Motivo:** es lo más simple que no pierde datos de salud registrados por el paciente. (c) dejaría datos de un usuario en el teléfono después de salir. La regla está en `canLogout` y `pendingLogoutMessage` (`LogoutGuardTest`).
 - **Prueba en emulador:** en modo avión se confirmó la toma de 13:10 y "Salir" mostró el diálogo (`docs/capturas/18_salir_con_pendientes.png`). "Reintentar envío" sin red mantuvo el diálogo. Con la red de vuelta, la confirmación llegó al servidor (received_at 14:11:53) y la sesión se cerró.
+
+### D38. Paquete de despliegue para hosting
+- **Elección:** un script (`deploy/build_hosting_package.php`) arma `build/hosting/` con `public_html/` (solo `index.php` y `.htaccess`) y, un nivel arriba, `src/`, `config/` y `.env.example`. El esquema para hosting se genera de `bd/schema.sql` quitando `CREATE DATABASE` y `USE`, porque el hosting asigna el nombre de la base. El script falla si el paquete trae un `.env` o archivos extra en `public_html`.
+- **Motivo:** en hosting compartido la raíz web suele ser fija (`public_html`). Con esta estructura, `.env`, `src` y `config` quedan fuera de la web aunque el hosting ignore los `.htaccess`. Generar el esquema evita mantener dos copias.
+- **Seed sin cuentas de demo:** `bd/seed_hosting.sql` no inserta nada; solo verifica que las 7 tablas existen y están vacías. En un servidor público las cuentas se crean desde la app.
+- **Plantilla:** `api/.env.hosting.example` con `APP_DEBUG=false`.
+- **Prueba:** solo local (base temporal y servidor embebido de PHP); nada contra servidores externos. Ver `docs/instalacion.md` 3.2.

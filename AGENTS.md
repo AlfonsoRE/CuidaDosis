@@ -76,7 +76,8 @@ CuidaDosis/
     src/            Código de la API (Fase 2)
     config/         Configuración y carga del .env (Fase 2)
     tests/          Pruebas automáticas de la API contra el servidor local (Fase 6)
-  bd/               Scripts SQL: schema.sql y seed.sql (Fase 1, v2 en Fase 6)
+  bd/               Scripts SQL: schema.sql y seed.sql (Fase 1, v2 en Fase 6); seed_hosting.sql sin cuentas de demo
+  deploy/           Script que arma el paquete para hosting en build/hosting/ (Fase 8)
   docs/             Documentación técnica: api.md, decisiones-fase-4.md, -5.md y -6.md
     p2/, p3/        Documentos de diseño P2 v1.1 y P3 v1.0 (p3/schema_v2.sql es el esquema objetivo)
     adr/            Decisiones arquitectónicas ADR-001 a ADR-010

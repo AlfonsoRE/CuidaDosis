@@ -74,7 +74,8 @@ CuidaDosis/
   .htaccess     Niega el acceso web a todo el repo
   android/      Proyecto de Android Studio
   api/          Backend PHP (solo api/public/ es accesible por web); api/tests/ tiene las pruebas automáticas
-  bd/           Scripts SQL (schema.sql y seed.sql)
+  bd/           Scripts SQL (schema.sql, seed.sql y seed_hosting.sql sin cuentas de demo)
+  deploy/       Script que arma el paquete para hosting (ver docs/instalacion.md)
   docs/         Documentación técnica: api.md, decisiones de las fases 4 a 6, diseño P2/P3, ADR y evidencias
 ```
 

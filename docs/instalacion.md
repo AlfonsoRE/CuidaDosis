@@ -1,6 +1,6 @@
 # Instalación de CuidaDosis
 
-Guía reproducible para levantar el prototipo. Los comandos de la parte local se ejecutaron en la verificación del 21/11/2026, en Windows 11 con XAMPP (Apache 2.4.58, PHP 8.2.12, MariaDB 10.4.32) y Android Studio. La parte de hosting no se pudo ejecutar porque el equipo no tiene un hosting; se marca como **pendiente de verificar**.
+Guía reproducible para levantar el prototipo. Los comandos de la parte local se ejecutaron en la verificación del 21/11/2026, en Windows 11 con XAMPP (Apache 2.4.58, PHP 8.2.12, MariaDB 10.4.32) y Android Studio. El paquete de hosting se armó y probó en la PC; subirlo a un hosting real no se ejecutó y se marca como **pendiente de verificar**.
 
 > Solo datos sintéticos (nombres con "SINTETICO" y correos `@ejemplo.test`). La app no recomienda dosis ni sustituye al médico.
 
@@ -86,13 +86,64 @@ La URL por defecto en el emulador es `http://10.0.2.2/CuidaDosis/api/public/`.
 - El APK debug permite HTTP sin cifrar solo para pruebas.
 - **Pendiente de ejecución manual:** puntualidad de avisos con pantalla bloqueada, ahorro de batería y reinicio en un teléfono real (ver [PENDIENTES_FASE6.md](PENDIENTES_FASE6.md)).
 
-## 3. Despliegue en un hosting (pendiente de verificar)
+## 3. Despliegue en un hosting
 
-No se ejecutó: el equipo no tiene hosting. Son los pasos que el diseño exige (ADR-001, ADR-008, ADR-009):
+El paquete se arma y se prueba en la PC. **No se ha ejecutado nada contra un servidor externo**: los pasos 3.3 a 3.5 (subir al hosting) están pendientes de verificar en un hosting real.
 
-1. **Carpeta pública:** solo `api/public/` debe quedar como raíz web (document root) del dominio o subdominio. `api/src`, `api/config`, `api/.env`, `bd/` y `docs/` deben quedar fuera de la carpeta pública. Si el hosting no deja cambiar la raíz, conserva los dos `.htaccess` del repo y comprueba con `curl` que `api/.env` responde 403.
-2. **`.env`:** créalo en el servidor (no lo subas al repo) con los datos de la base del hosting, `APP_DEBUG=false` y el `TOKEN_TTL_HOURS` deseado.
-3. **Base de datos:** importa `bd/schema.sql` en una base vacía (desde phpMyAdmin del hosting). Carga `bd/seed.sql` solo para demostraciones: son datos sintéticos.
-4. **Zona horaria:** la API fija `America/Mexico_City` en PHP y calcula el desfase de la sesión de MySQL en cada conexión, así que no depende de la zona del servidor. Revisa que la versión de PHP sea 8.2 o mayor, con `pdo_mysql`.
-5. **HTTPS:** obligatorio fuera de la red local. La versión release de la app rechaza HTTP; con HTTPS, la URL base sería `https://<dominio>/` (si `api/public/` es la raíz) y se configura con `api.baseUrl` en `android/local.properties` o desde **Servidor**.
-6. Repite las comprobaciones de la sección 1.4 contra el dominio del hosting.
+### 3.1 Armar el paquete (ejecutado)
+```bash
+C:/xampp/php/php.exe deploy/build_hosting_package.php
+```
+Crea `build/hosting/` (git lo ignora) con esta estructura, pensada para un hosting compartido donde la raíz web es `public_html/`:
+
+| Ruta en el paquete | Se sube a | Contenido | ¿Accesible por web? |
+|---|---|---|---|
+| `public_html/` | la raíz web de la cuenta | solo `index.php` y `.htaccess` (de `api/public/`) | Sí, es el único punto de entrada |
+| `src/` | la carpeta de la cuenta, **junto a** `public_html` | código de la API | No |
+| `config/` | junto a `public_html` | carga del `.env` y zona horaria | No |
+| `.env.example` | junto a `public_html`, renombrado a `.env` en el servidor | plantilla (`api/.env.hosting.example`) | No |
+| `bd/schema_hosting.sql` | no se sube: se importa en phpMyAdmin | `bd/schema.sql` sin `CREATE DATABASE` ni `USE` | No |
+| `bd/seed_hosting.sql` | no se sube: se importa después del esquema | sin cuentas de demostración; solo verifica que las 7 tablas existen y están vacías | No |
+| `MANIFIESTO.txt` | no se sube | SHA-256 de cada archivo | No |
+
+`index.php` busca `../src` y `../config`, y `config.php` busca `../.env`; por eso esas tres van un nivel arriba de `public_html`, fuera de la web. El script falla si el paquete trae un `.env` o si `public_html` tiene algo más que `index.php` y `.htaccess`. Nunca se suben `api/.env`, `bd/seed.sql`, `docs/`, `android/` ni `api/tests/`.
+
+Si el hosting permite elegir la raíz del dominio (VPS o panel con "document root"), se puede subir la carpeta `api/` completa sin `.env` y apuntar la raíz a `api/public/`.
+
+### 3.2 Prueba local del paquete (ejecutada el 21/11/2026)
+Con una base temporal y el servidor embebido de PHP, sin tocar la base principal:
+```bash
+set -a && . ./api/.env && set +a && export MYSQL_PWD="$DB_PASS"
+M="/c/xampp/mysql/bin/mysql.exe -h $DB_HOST -P $DB_PORT -u $DB_USER --default-character-set=utf8mb4"
+$M -e "CREATE DATABASE cuidadosis_pkgtest CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+$M cuidadosis_pkgtest < build/hosting/bd/schema_hosting.sql
+$M cuidadosis_pkgtest < build/hosting/bd/seed_hosting.sql
+sed 's/^DB_NAME=.*/DB_NAME=cuidadosis_pkgtest/; s/^APP_DEBUG=.*/APP_DEBUG=false/' api/.env > build/hosting/.env
+cd build/hosting && C:/xampp/php/php.exe -S 127.0.0.1:8099 -t public_html public_html/index.php
+```
+Resultado: 7 tablas con 0 filas; `GET /` respondió `ok` con la hora de México; el registro de un usuario sintético funcionó; `/../.env`, `/.env`, `/../src/Auth.php`, `/../config/config.php` y `/../bd/schema_hosting.sql` dieron 404. El servidor embebido no aplica `.htaccess`; las reglas del `.htaccess` ya están probadas en Apache (sección 1.4). Al terminar se borraron la base temporal (`DROP DATABASE cuidadosis_pkgtest`) y `build/hosting/.env`.
+
+### 3.3 Subir al hosting (pendiente de verificar)
+1. Crea en el panel una base MySQL o MariaDB y un usuario con permisos sobre ella.
+2. En phpMyAdmin del hosting, selecciona esa base e importa `bd/schema_hosting.sql` y luego `bd/seed_hosting.sql` (debe mostrar 0 en todas las columnas).
+3. Sube por el administrador de archivos o SFTP: el contenido de `public_html/` a la raíz web, y `src/`, `config/` y `.env.example` a la carpeta de la cuenta (un nivel arriba).
+4. En el servidor, renombra `.env.example` a `.env` y llena `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASS` con los datos del panel. Deja `APP_DEBUG=false`.
+5. Activa HTTPS (certificado del panel, por ejemplo Let's Encrypt) y la redirección de HTTP a HTTPS.
+6. En la app, compila con `api.baseUrl=https://<dominio>/` en `android/local.properties` o escríbelo en **Servidor**. La versión release solo acepta HTTPS.
+
+### 3.4 Lista de verificación después de subir (pendiente de verificar)
+| Revisión | Cómo | Esperado |
+|---|---|---|
+| HTTPS | abrir `https://<dominio>/` | `{"status":"ok"...}` con candado válido |
+| HTTP redirige | `curl -s -o /dev/null -w '%{http_code}' http://<dominio>/` | `301` o `308` |
+| Zona horaria `America/Mexico_City` | campo `time` de `GET /` | hora de México, no UTC; la API la fija en PHP y calcula el desfase para MySQL en cada conexión |
+| PHP | panel del hosting | 8.2 o mayor, con `pdo_mysql` |
+| `.env` no accesible | `curl -s -o /dev/null -w '%{http_code}' https://<dominio>/.env` y `https://<dominio>/../.env` | `403` o `404`, nunca `200` |
+| `src` no accesible | `https://<dominio>/src/Auth.php`, `https://<dominio>/../src/Auth.php` | `403` o `404` |
+| `bd` no accesible | `https://<dominio>/bd/schema_hosting.sql` | `403` o `404` (no debe estar en el servidor) |
+| Encabezado de token | iniciar sesión desde la app | sin errores 401 (el `.htaccess` pasa `Authorization` a PHP) |
+| Sin cuentas de demo | `SELECT COUNT(*) FROM users` en phpMyAdmin tras subir | `0` |
+| Debug apagado | `.env` | `APP_DEBUG=false` |
+
+### 3.5 Actualizar
+Vuelve a correr `deploy/build_hosting_package.php`, compara `MANIFIESTO.txt` con el anterior y sube solo `public_html/`, `src/` y `config/`. No vuelvas a importar `schema_hosting.sql`: borra las tablas.

@@ -18,3 +18,4 @@ Lo que no se pudo hacer o probar, con lo que se intentó. Lo que quedó fuera de
 - Entre el paso 2 y el paso 7 la app del cuidador no podía vincularse (respuesta nueva de `/links/accept`).
 - G-07: no hay pantalla para que el paciente autorice compartir la dosis (`share_dose`); la dosis queda oculta al cuidador por defecto. Solo se puede activar en la BD (como en el seed). Ver D32.
 - Resuelto en la Fase 8 (D37): "Salir" envía antes las confirmaciones pendientes y, si no puede, bloquea el cierre de sesión. Sigue el caso de token vencido (401), que borra la sesión sin pasar por "Salir".
+- Despliegue en hosting: el paquete y el procedimiento están listos y probados en la PC (D38), pero subirlo y la lista de verificación de `docs/instalacion.md` 3.4 están pendientes de ejecutar en un hosting real.
