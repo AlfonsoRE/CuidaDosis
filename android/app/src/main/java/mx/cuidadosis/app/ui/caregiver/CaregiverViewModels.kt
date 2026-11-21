@@ -15,7 +15,9 @@ import kotlinx.coroutines.launch
 import mx.cuidadosis.app.container
 import mx.cuidadosis.app.data.IntakeRepository
 import mx.cuidadosis.app.data.LinkRepository
+import mx.cuidadosis.app.data.local.SessionStore
 import mx.cuidadosis.app.data.normalizeInviteCode
+import mx.cuidadosis.app.reminders.CaregiverAlarmScheduler
 import mx.cuidadosis.app.data.remote.ApiResult
 import mx.cuidadosis.app.data.remote.AwaitingDto
 import mx.cuidadosis.app.data.remote.CaregiverPatientsResponse
@@ -39,6 +41,8 @@ data class CaregiverHomeUiState(
 class CaregiverHomeViewModel(
     private val intakes: IntakeRepository,
     private val links: LinkRepository,
+    private val alarms: CaregiverAlarmScheduler,
+    private val sessionStore: SessionStore,
 ) : ViewModel() {
     private val _state = MutableStateFlow(CaregiverHomeUiState())
     val state: StateFlow<CaregiverHomeUiState> = _state.asStateFlow()
@@ -55,7 +59,14 @@ class CaregiverHomeViewModel(
                     is ApiResult.Error -> it.copy(loading = false, error = result.message, awaiting = awaiting)
                 }
             }
+            if (result is ApiResult.Success) refreshAlarms()
         }
+    }
+
+    // Alarmas T + 30 con las tomas pendientes de hoy (RF-18)
+    private fun refreshAlarms() {
+        val userId = sessionStore.current?.userId ?: return
+        viewModelScope.launch { alarms.refresh(userId, intakes) }
     }
 
     // Retira una solicitud que el paciente no ha aceptado
@@ -100,7 +111,14 @@ class CaregiverHomeViewModel(
 
     companion object {
         val Factory = viewModelFactory {
-            initializer { CaregiverHomeViewModel(container.intakeRepository, container.linkRepository) }
+            initializer {
+                CaregiverHomeViewModel(
+                    container.intakeRepository,
+                    container.linkRepository,
+                    container.caregiverAlarms,
+                    container.sessionStore,
+                )
+            }
         }
     }
 }

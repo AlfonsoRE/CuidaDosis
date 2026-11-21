@@ -204,3 +204,19 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 
 ### Pruebas realizadas (Paso 7)
 - Compila. 60 pruebas unitarias en verde (3 nuevas en `LinkMessagesTest`). El flujo completo en emulador se ejecuta en la Fase 7 (PR-05).
+
+## Paso 8. App: vista del cuidador (RF-10 a RF-12, RF-18; ADR-007, ADR-010)
+
+### D33. Vista
+- Tarjetas con las tres etiquetas (mismo `IntakeCard` que el paciente), con la leyenda de que "Confirmada por el paciente" no verifica la ingesta. Se quitó el texto viejo que decía "Tomada".
+- Lista de pacientes: "N de M tomas registradas", "Sin confirmar: N" en rojo si hay, y "Última sincronización: fecha hora" (RF-12). El detalle repite la última sincronización y explica que, sin conexión del paciente, se ve el último estado enviado.
+- La dosis solo aparece si la API la manda (`share_dose = 1`); si no, se indica "La dosis no se muestra: el paciente no la comparte".
+
+### D34. Alarma del cuidador a T + 30 (RF-18)
+- `CaregiverAlarmScheduler` guarda (cifrado, sin respaldo, `caregiver_alarms.xml`) las tomas pendientes de hoy de todos sus pacientes con T + 30 en el futuro, obtenidas de `GET /caregiver/patients` y `GET /caregiver/patients/{id}/intakes/today`. Una sola alarma exacta, la más cercana.
+- Se actualiza al iniciar sesión o abrir la app como cuidador, al cargar la lista de pacientes y tras reiniciar el teléfono (con la copia local).
+- Al sonar (`goAsync`, máximo 15 s) vuelve a consultar al servidor: si la toma sigue pendiente avisa "Toma sin confirmar"; si no pudo consultar avisa "Revisa a ...", con la última sincronización conocida; si el vínculo se revocó (404) no avisa y deja de vigilar a ese paciente; si ya está confirmada, no avisa.
+- Limitación (ADR-007): solo cubre tomas de los días en que el cuidador abrió la app. Las de mañana se programan cuando la abra.
+
+### Pruebas realizadas (Paso 8)
+- Compila. 65 pruebas unitarias en verde (5 nuevas en `CaregiverAlarmTest`: T + 30, qué tomas se vigilan, la más cercana, avisar solo si sigue sin confirmar, sin conexión y vínculo revocado). La alarma en emulador y teléfono se prueba en la Fase 7 (PR-12).

@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
+import mx.cuidadosis.app.reminders.CaregiverAlarmScheduler
 import mx.cuidadosis.app.reminders.ReminderNotifier
 
 class CuidaDosisApp : Application() {
@@ -20,6 +21,7 @@ class CuidaDosisApp : Application() {
         super.onCreate()
         container = AppContainer(this)
         ReminderNotifier.createChannel(this)
+        CaregiverAlarmScheduler.createChannel(this)
         watchSessionForReminders()
         // Reenvía las confirmaciones hechas sin red cuando vuelve la conexión (RF-13)
         container.intakeRepository.startAutoSync(this, appScope)
@@ -37,8 +39,16 @@ class CuidaDosisApp : Application() {
                     if (session == null || !session.isPatient) {
                         scheduler.cancelAll()
                         container.patientStore.clear()
+                        // Cuidador: alarmas a T + 30 de sus pacientes (RF-18)
+                        if (session == null) {
+                            container.caregiverAlarms.cancelAll()
+                        } else {
+                            container.caregiverAlarms.reschedule()
+                            launch { container.caregiverAlarms.refresh(session.userId, container.intakeRepository) }
+                        }
                         return@collect
                     }
+                    container.caregiverAlarms.cancelAll()
                     if (scheduler.cachedUserId() == session.userId) {
                         scheduler.reschedule() // sin red, con la copia local
                     } else {

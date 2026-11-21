@@ -32,6 +32,8 @@ import mx.cuidadosis.app.ui.common.IntakeCard
 import mx.cuidadosis.app.ui.common.toView
 import mx.cuidadosis.app.ui.common.LoadingBox
 import mx.cuidadosis.app.ui.common.formatApiDate
+import mx.cuidadosis.app.data.CONFIRMATION_DISCLAIMER
+import mx.cuidadosis.app.ui.common.lastSyncText
 import mx.cuidadosis.app.ui.common.summaryText
 
 // Detalle de un paciente para el cuidador: tomas de hoy en solo lectura
@@ -69,16 +71,24 @@ fun CaregiverPatientScreen(
                             style = MaterialTheme.typography.titleLarge,
                         )
                         today?.let {
-                            Text(summaryText(it.summary.taken, it.summary.total), style = MaterialTheme.typography.bodyMedium)
+                            Text(summaryText(it.summary.confirmed, it.summary.total), style = MaterialTheme.typography.bodyLarge)
+                            Text(lastSyncText(it.patient?.lastSyncAt), style = MaterialTheme.typography.bodyLarge)
                         }
                     }
                     TextButton(onClick = viewModel::load, enabled = !state.loading) { Text("Actualizar") }
                 }
                 Text(
-                    "Solo lectura: el paciente marca sus tomas desde su app. \"Tomada\" indica que el " +
-                        "paciente tocó el botón, no confirma la ingesta.",
-                    style = MaterialTheme.typography.bodySmall,
+                    "Solo lectura. Etiquetas: \"Pendiente\" (aún en plazo), \"Confirmada por el paciente\" y " +
+                        "\"Sin confirmar\" (pasaron 30 minutos sin confirmación). $CONFIRMATION_DISCLAIMER",
+                    style = MaterialTheme.typography.bodyMedium,
                 )
+                Text(
+                    "Si el teléfono del paciente no tiene conexión, verás el último estado que envió; revisa la hora de la última sincronización.",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                if (today?.patient?.shareDose != true) {
+                    Text("La dosis no se muestra: el paciente no la comparte.", style = MaterialTheme.typography.bodyMedium)
+                }
             }
             when {
                 state.notLinked -> item {

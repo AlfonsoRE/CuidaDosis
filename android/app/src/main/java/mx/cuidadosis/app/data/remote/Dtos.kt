@@ -80,12 +80,21 @@ data class IntakeDto(
 }
 
 @Serializable
-data class IntakeSummary(val total: Int, val taken: Int, val pending: Int)
+data class IntakeSummary(
+    val total: Int,
+    val taken: Int,
+    val pending: Int,
+    val confirmed: Int = taken,
+    val unconfirmed: Int = 0,
+)
 
 @Serializable
 data class PersonRef(
     val id: Int,
     @SerialName("full_name") val fullName: String,
+    // Solo en la vista del cuidador
+    @SerialName("last_sync_at") val lastSyncAt: String? = null,
+    @SerialName("share_dose") val shareDose: Boolean? = null,
 )
 
 @Serializable
@@ -181,6 +190,7 @@ data class CaregiverPatientDto(
     val id: Int,
     @SerialName("full_name") val fullName: String,
     @SerialName("linked_at") val linkedAt: String,
+    @SerialName("last_sync_at") val lastSyncAt: String? = null,
     val summary: IntakeSummary,
 )
 

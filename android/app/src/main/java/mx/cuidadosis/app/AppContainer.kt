@@ -9,6 +9,7 @@ import mx.cuidadosis.app.data.local.PatientStore
 import mx.cuidadosis.app.data.local.SessionStore
 import mx.cuidadosis.app.data.local.SettingsStore
 import mx.cuidadosis.app.data.remote.ApiClient
+import mx.cuidadosis.app.reminders.CaregiverAlarmScheduler
 import mx.cuidadosis.app.reminders.ReminderScheduler
 
 // Dependencias de la app (inyección manual, sin frameworks)
@@ -22,4 +23,5 @@ class AppContainer(context: Context) {
     val medicationRepository = MedicationRepository(apiClient, sessionStore, patientStore, reminderScheduler)
     val intakeRepository = IntakeRepository(apiClient, sessionStore, patientStore, reminderScheduler)
     val linkRepository = LinkRepository(apiClient)
+    val caregiverAlarms = CaregiverAlarmScheduler(context)
 }

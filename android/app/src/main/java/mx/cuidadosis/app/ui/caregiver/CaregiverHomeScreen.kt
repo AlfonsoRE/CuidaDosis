@@ -44,6 +44,7 @@ import mx.cuidadosis.app.ui.common.ErrorText
 import mx.cuidadosis.app.ui.common.LoadingBox
 import mx.cuidadosis.app.ui.common.formatApiDate
 import mx.cuidadosis.app.ui.common.formatApiDateTime
+import mx.cuidadosis.app.ui.common.lastSyncText
 import mx.cuidadosis.app.ui.common.summaryText
 
 // Pantalla principal del cuidador: sus pacientes con el resumen de hoy
@@ -183,11 +184,16 @@ private fun PatientCard(patient: CaregiverPatientDto, onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(patient.fullName, style = MaterialTheme.typography.titleMedium)
-            Text(summaryText(s.taken, s.total), style = MaterialTheme.typography.bodyMedium)
-            if (s.pending > 0) {
-                Text("Pendientes: ${s.pending}", style = MaterialTheme.typography.bodySmall)
+            Text(summaryText(s.confirmed, s.total), style = MaterialTheme.typography.bodyLarge)
+            if (s.unconfirmed > 0) {
+                Text(
+                    "Sin confirmar: ${s.unconfirmed}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.error,
+                )
             }
-            Text("Toca para ver el detalle", style = MaterialTheme.typography.labelSmall)
+            Text(lastSyncText(patient.lastSyncAt), style = MaterialTheme.typography.bodyMedium)
+            Text("Toca para ver el detalle", style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

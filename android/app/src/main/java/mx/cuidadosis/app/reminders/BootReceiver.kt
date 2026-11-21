@@ -14,6 +14,10 @@ class BootReceiver : BroadcastReceiver() {
         if (intent.action !in ACTIONS) return
         val container = (context.applicationContext as CuidaDosisApp).container
         val session = container.sessionStore.current
+        if (session != null && !session.isPatient) {
+            container.caregiverAlarms.reschedule()
+            return
+        }
         if (session != null && session.isPatient && container.reminderScheduler.cachedUserId() == session.userId) {
             container.reminderScheduler.reschedule()
         } else {

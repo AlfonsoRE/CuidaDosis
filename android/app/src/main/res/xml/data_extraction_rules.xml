@@ -5,10 +5,12 @@
         <exclude domain="sharedpref" path="session.xml" />
         <exclude domain="sharedpref" path="reminders.xml" />
         <exclude domain="sharedpref" path="patient_local.xml" />
+        <exclude domain="sharedpref" path="caregiver_alarms.xml" />
     </cloud-backup>
     <device-transfer>
         <exclude domain="sharedpref" path="session.xml" />
         <exclude domain="sharedpref" path="reminders.xml" />
         <exclude domain="sharedpref" path="patient_local.xml" />
+        <exclude domain="sharedpref" path="caregiver_alarms.xml" />
     </device-transfer>
 </data-extraction-rules>

@@ -4,4 +4,5 @@
     <exclude domain="sharedpref" path="session.xml" />
     <exclude domain="sharedpref" path="reminders.xml" />
     <exclude domain="sharedpref" path="patient_local.xml" />
+    <exclude domain="sharedpref" path="caregiver_alarms.xml" />
 </full-backup-content>

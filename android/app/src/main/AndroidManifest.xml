@@ -41,6 +41,11 @@
             android:name=".reminders.ReminderReceiver"
             android:exported="false" />
 
+        <!-- Alarma del cuidador a T + 30 (RF-18) -->
+        <receiver
+            android:name=".reminders.CaregiverAlarmReceiver"
+            android:exported="false" />
+
         <!-- Botones "Posponer" de la notificación -->
         <receiver
             android:name=".reminders.SnoozeReceiver"
