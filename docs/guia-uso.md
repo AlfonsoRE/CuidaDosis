@@ -105,4 +105,6 @@ Si una toma de tu paciente sigue sin confirmar 30 minutos después de su hora, t
 ## 4. Cerrar sesión
 **Salir** (paciente) o **Cerrar sesión** (cuidador) borra los datos guardados en el teléfono y cancela los avisos.
 
-Si eres paciente y ves "confirmaciones por enviar", espera a tener conexión antes de salir: al cerrar sesión se borran las que no se hayan enviado.
+Si eres paciente y tienes confirmaciones sin enviar, **Salir** primero intenta enviarlas. Si no hay conexión, la app no te deja salir y lo explica: así no se pierden. Conéctate a internet y toca **Reintentar envío**, o **Quedarme** para seguir usando la app.
+
+[CAPTURA: 18_salir_con_pendientes]

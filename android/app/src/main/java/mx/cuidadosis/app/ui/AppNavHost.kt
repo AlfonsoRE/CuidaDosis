@@ -17,7 +17,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import mx.cuidadosis.app.AppContainer
+import mx.cuidadosis.app.data.canLogout
+import mx.cuidadosis.app.data.pendingLogoutMessage
 import mx.cuidadosis.app.data.local.Session
 import mx.cuidadosis.app.ui.auth.LoginScreen
 import mx.cuidadosis.app.ui.auth.RegisterScreen
@@ -52,6 +57,36 @@ fun AppNavHost(container: AppContainer) {
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     val logout: () -> Unit = { scope.launch { container.authRepository.logout() } }
+
+    // Paciente: antes de salir se envían las confirmaciones pendientes; si no se puede, no sale
+    var pendingAtLogout by remember { mutableStateOf(0) }
+    var sendingBeforeLogout by remember { mutableStateOf(false) }
+    val patientLogout: () -> Unit = {
+        scope.launch {
+            val intakes = container.intakeRepository
+            sendingBeforeLogout = true
+            if (intakes.hasPendingSync()) intakes.syncQueue()
+            sendingBeforeLogout = false
+            val pending = container.patientStore.current?.queue?.size ?: 0
+            if (canLogout(pending)) {
+                pendingAtLogout = 0
+                container.authRepository.logout()
+            } else {
+                pendingAtLogout = pending
+            }
+        }
+    }
+    if (pendingAtLogout > 0) {
+        AlertDialog(
+            onDismissRequest = { pendingAtLogout = 0 },
+            title = { Text("Confirmaciones sin enviar") },
+            text = { Text(pendingLogoutMessage(pendingAtLogout)) },
+            confirmButton = {
+                TextButton(onClick = patientLogout, enabled = !sendingBeforeLogout) { Text("Reintentar envío") }
+            },
+            dismissButton = { TextButton(onClick = { pendingAtLogout = 0 }) { Text("Quedarme") } },
+        )
+    }
 
     // Android 17+: pide permiso de red local si la API está en la LAN (XAMPP)
     val context = LocalContext.current
@@ -95,7 +130,7 @@ fun AppNavHost(container: AppContainer) {
                 onAddMedication = { navController.navigate(MedicationFormRoute()) },
                 onEditMedication = { id -> navController.navigate(MedicationFormRoute(id)) },
                 onSettings = { navController.navigate(ReminderSettingsRoute) },
-                onLogout = logout,
+                onLogout = patientLogout,
             )
         }
         composable<ReminderSettingsRoute> {

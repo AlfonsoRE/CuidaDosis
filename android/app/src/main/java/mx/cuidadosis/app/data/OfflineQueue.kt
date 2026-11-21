@@ -86,3 +86,18 @@ fun buildTodayList(data: PatientData, today: LocalDate): List<TodayItem> {
     }
     return items.values.sortedWith(compareBy({ it.scheduledFor }, { it.name.lowercase() }))
 }
+
+// Cierre de sesión seguro: con confirmaciones sin enviar no se permite salir, porque al salir
+// se borra la copia local y se perderían (Fase 8)
+fun canLogout(pendingConfirmations: Int): Boolean = pendingConfirmations <= 0
+
+fun pendingLogoutMessage(pendingConfirmations: Int): String {
+    val what = if (pendingConfirmations == 1) {
+        "1 confirmación que todavía no se envía"
+    } else {
+        "$pendingConfirmations confirmaciones que todavía no se envían"
+    }
+    val lost = if (pendingConfirmations == 1) "se perdería" else "se perderían"
+    return "Tienes $what al servidor. Si cierras sesión ahora $lost, así que no se puede salir " +
+        "todavía. Conéctate a internet y toca \"Reintentar envío\"."
+}

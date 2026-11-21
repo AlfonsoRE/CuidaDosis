@@ -240,3 +240,11 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 - Pruebas unitarias: 65 en verde. Las 32 de las fases anteriores no cambiaron. Las 33 nuevas cubren: estado calculado (`IntakeStateTest`), cálculo de avisos T menos L, T, pospuestos y reglas de L (`ReminderEventTest`), idempotencia de la cola (`OfflineQueueTest`), alarma T + 30 del cuidador (`CaregiverAlarmTest`) y mensajes de vínculo (`LinkMessagesTest`).
 - README actualizado (alcance RF-01 a RF-16 y RF-18, RF-17 fuera, cómo correr las pruebas). `docs/api.md` incluye los endpoints nuevos y `schedules` en medicamentos.
 - La tabla de requisitos con archivos, pruebas y pendientes manuales está en `RESUMEN_FASE6.md` (raíz), con los resultados de las pruebas en emulador de la Fase 7.
+
+## Fase 8
+
+### D37. Cerrar sesión con confirmaciones sin enviar
+- **Opciones:** (a) bloquear "Salir" hasta sincronizar; (b) preguntar y permitir salir perdiendo las confirmaciones; (c) conservar la cola cifrada después de salir.
+- **Elección:** (a). "Salir" del paciente intenta enviar la cola; si quedan pendientes, muestra "Confirmaciones sin enviar" con cuántas son, que se perderían y qué hacer, y solo ofrece "Reintentar envío" y "Quedarme". No hay opción para descartarlas.
+- **Motivo:** es lo más simple que no pierde datos de salud registrados por el paciente. (c) dejaría datos de un usuario en el teléfono después de salir. La regla está en `canLogout` y `pendingLogoutMessage` (`LogoutGuardTest`).
+- **Prueba en emulador:** en modo avión se confirmó la toma de 13:10 y "Salir" mostró el diálogo (`docs/capturas/18_salir_con_pendientes.png`). "Reintentar envío" sin red mantuvo el diálogo. Con la red de vuelta, la confirmación llegó al servidor (received_at 14:11:53) y la sesión se cerró.
