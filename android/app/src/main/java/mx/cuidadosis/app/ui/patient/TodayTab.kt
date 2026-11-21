@@ -109,7 +109,7 @@ fun TodayTab(
             title = { Text("¿Registrar la toma?") },
             text = {
                 Text(
-                    "${intake.name}, ${intake.dose}, de las ${intake.time}.\n" +
+                    "${intake.name}, ${intake.dose.orEmpty()}, de las ${intake.time}.\n" +
                         "Se registrará como tomada ahora. No se puede deshacer.",
                 )
             },

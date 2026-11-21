@@ -91,7 +91,7 @@ final class IntakeController
         $caregiver = $this->auth->requireRole($request, 'caregiver');
 
         $stmt = $this->pdo->prepare(
-            "SELECT u.id, u.full_name FROM links l JOIN users u ON u.id = l.patient_id
+            "SELECT u.id, u.full_name, l.share_dose FROM links l JOIN users u ON u.id = l.patient_id
               WHERE l.caregiver_id = ? AND l.patient_id = ? AND l.status = 'active'"
         );
         $stmt->execute([$caregiver['id'], $params['id']]);
@@ -100,9 +100,21 @@ final class IntakeController
             throw new ApiException(404, 'Ese paciente no está vinculado contigo.');
         }
 
+        $shareDose = (int) $patient['share_dose'] === 1;
         $data = $this->todayFor((int) $patient['id']);
+        // G-07: la dosis no sale de la API hacia el cuidador sin autorización del paciente
+        if (!$shareDose) {
+            $data['intakes'] = array_map(function (array $i): array {
+                unset($i['dose']);
+                return $i;
+            }, $data['intakes']);
+        }
         Response::json(200, [
-            'patient' => ['id' => (int) $patient['id'], 'full_name' => $patient['full_name']],
+            'patient' => [
+                'id' => (int) $patient['id'],
+                'full_name' => $patient['full_name'],
+                'share_dose' => $shareDose,
+            ],
         ] + $data);
     }
 

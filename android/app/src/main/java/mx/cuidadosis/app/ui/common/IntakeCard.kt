@@ -49,7 +49,7 @@ fun IntakeCard(
             )
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(intake.name, style = MaterialTheme.typography.titleMedium)
-                Text(intake.dose, style = MaterialTheme.typography.bodyMedium)
+                intake.dose?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
                 Text(
                     statusText(intake),
                     style = MaterialTheme.typography.bodySmall,

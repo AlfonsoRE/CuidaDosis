@@ -61,7 +61,8 @@ data class IntakeDto(
     val id: Int,
     @SerialName("medication_id") val medicationId: Int,
     val name: String,
-    val dose: String,
+    // La API la omite para el cuidador si el paciente no la comparte (G-07)
+    val dose: String? = null,
     val time: String,
     @SerialName("scheduled_for") val scheduledFor: String,
     val status: String,
