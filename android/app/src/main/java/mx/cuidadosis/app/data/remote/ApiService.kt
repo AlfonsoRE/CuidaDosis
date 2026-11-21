@@ -49,6 +49,9 @@ interface ApiService {
     @GET("intakes/today")
     suspend fun todayIntakes(): Response<TodayResponse>
 
+    @POST("intakes/sync")
+    suspend fun syncIntakes(@Body body: SyncRequest): Response<SyncResponse>
+
     @POST("intakes/{id}/take")
     suspend fun takeIntake(@Path("id") id: Int): Response<IntakeResponse>
 

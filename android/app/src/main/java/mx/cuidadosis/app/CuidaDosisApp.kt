@@ -21,6 +21,8 @@ class CuidaDosisApp : Application() {
         container = AppContainer(this)
         ReminderNotifier.createChannel(this)
         watchSessionForReminders()
+        // Reenvía las confirmaciones hechas sin red cuando vuelve la conexión (RF-13)
+        container.intakeRepository.startAutoSync(this, appScope)
     }
 
     // Avisos solo para el paciente con sesión activa. Al iniciar sesión (o abrir la app) se
@@ -43,7 +45,10 @@ class CuidaDosisApp : Application() {
                         scheduler.cancelAll()
                         container.patientStore.clear()
                     }
-                    launch { container.medicationRepository.list() }
+                    launch {
+                        container.medicationRepository.list()
+                        container.intakeRepository.refreshToday()
+                    }
                 }
         }
     }

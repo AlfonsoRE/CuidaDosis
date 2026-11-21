@@ -8,37 +8,83 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import mx.cuidadosis.app.data.TodayItem
+import mx.cuidadosis.app.data.buildTodayList
+import mx.cuidadosis.app.data.formatApiDateTimeValue
+import mx.cuidadosis.app.data.nowMexico
+import mx.cuidadosis.app.data.shouldRetrySync
+import mx.cuidadosis.app.data.local.PatientData
+import mx.cuidadosis.app.data.local.PatientStore
+import java.time.LocalDate
+import java.time.LocalDateTime
 import mx.cuidadosis.app.container
 import mx.cuidadosis.app.data.IntakeRepository
 import mx.cuidadosis.app.data.LinkRepository
 import mx.cuidadosis.app.data.remote.ApiResult
-import mx.cuidadosis.app.data.remote.IntakeDto
 import mx.cuidadosis.app.data.remote.MeResponse
-import mx.cuidadosis.app.data.remote.TodayResponse
 
 data class TodayUiState(
-    val loading: Boolean = true,
-    val today: TodayResponse? = null,
+    val loading: Boolean = false,
+    val items: List<TodayItem> = emptyList(),
+    val date: LocalDate = nowMexico().toLocalDate(),
+    val now: LocalDateTime = nowMexico(),
+    // Sin conexión con el servidor en el último intento (la pantalla sigue funcionando)
+    val offline: Boolean = false,
     val error: String? = null,
-    // Tomas que se están confirmando (para desactivar su botón)
-    val taking: Set<Int> = emptySet(),
+    val lastSyncAt: String? = null,
+    val waitingSync: Int = 0,
     val message: String? = null,
 )
 
-// Tomas de hoy del paciente y botón "Tomado" (un toque, sin diálogo; RF-07)
-class TodayViewModel(private val repo: IntakeRepository) : ViewModel() {
+/**
+ * Tomas de hoy del paciente desde la copia local (funciona sin red, RF-13) y botón "Tomado"
+ * (un toque, sin diálogo; RF-07). Al actualizar se envía la cola y se descarga la lista del servidor.
+ */
+class TodayViewModel(
+    private val repo: IntakeRepository,
+    private val store: PatientStore,
+) : ViewModel() {
     private val _state = MutableStateFlow(TodayUiState())
     val state: StateFlow<TodayUiState> = _state.asStateFlow()
 
-    fun load() {
-        _state.update { it.copy(loading = true, error = null) }
+    init {
+        viewModelScope.launch { store.data.collect { rebuild(it) } }
+        // Cada minuto: una toma pendiente pasa a "Sin confirmar" sin tener que recargar
         viewModelScope.launch {
-            val result = repo.today()
+            while (true) {
+                delay(60_000)
+                rebuild(store.current)
+            }
+        }
+    }
+
+    private fun rebuild(data: PatientData?) {
+        val now = nowMexico()
+        _state.update {
+            it.copy(
+                items = data?.let { d -> buildTodayList(d, now.toLocalDate()) }.orEmpty(),
+                date = now.toLocalDate(),
+                now = now,
+                lastSyncAt = data?.lastSyncAt,
+                waitingSync = data?.queue?.size ?: 0,
+            )
+        }
+    }
+
+    fun load() {
+        _state.update { it.copy(loading = true) }
+        viewModelScope.launch {
+            val result = repo.refreshToday()
             _state.update {
                 when (result) {
-                    is ApiResult.Success -> it.copy(loading = false, today = result.data)
-                    is ApiResult.Error -> it.copy(loading = false, error = result.message)
+                    is ApiResult.Success -> it.copy(loading = false, offline = false, error = null)
+                    is ApiResult.Error -> if (shouldRetrySync(result.code)) {
+                        it.copy(loading = false, offline = true, error = null)
+                    } else {
+                        it.copy(loading = false, offline = false, error = result.message)
+                    }
                 }
             }
         }
@@ -46,27 +92,21 @@ class TodayViewModel(private val repo: IntakeRepository) : ViewModel() {
 
     fun messageShown() = _state.update { it.copy(message = null) }
 
-    fun take(intake: IntakeDto) {
-        if (intake.id in _state.value.taking) return
-        _state.update { it.copy(taking = it.taking + intake.id) }
+    fun take(item: TodayItem) {
+        if (item.confirmed) return
+        repo.confirm(item.scheduleId, formatApiDateTimeValue(item.scheduledFor))
+        _state.update { it.copy(message = "Confirmada por el paciente: ${item.name}, ${item.time}.") }
+        // Se intenta enviar de inmediato; si no hay red queda en la cola y se reintenta
         viewModelScope.launch {
-            val result = repo.take(intake)
-            _state.update {
-                it.copy(
-                    taking = it.taking - intake.id,
-                    message = when (result) {
-                        is ApiResult.Success -> "Confirmada por el paciente: ${intake.name}, ${intake.time}."
-                        is ApiResult.Error -> result.message
-                    },
-                )
-            }
-            // Se recarga siempre: si la toma ya estaba confirmada (409) se ve el estado real
-            load()
+            val r = repo.syncQueue()
+            _state.update { it.copy(offline = r is ApiResult.Error && shouldRetrySync(r.code)) }
         }
     }
 
     companion object {
-        val Factory = viewModelFactory { initializer { TodayViewModel(container.intakeRepository) } }
+        val Factory = viewModelFactory {
+            initializer { TodayViewModel(container.intakeRepository, container.patientStore) }
+        }
     }
 }
 

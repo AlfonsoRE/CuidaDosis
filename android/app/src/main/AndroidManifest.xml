@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Reenviar confirmaciones hechas sin red cuando vuelve la conexión (Fase 6) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Android 17+: necesario para llegar a la API en la red local (10.0.2.2 o la IP de la PC) -->
     <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
     <!-- Aviso 5 minutos antes de cada toma (Fase 5) -->

@@ -155,3 +155,29 @@ data class CaregiverPatientsResponse(val date: String, val patients: List<Caregi
 
 @Serializable
 data class ErrorResponse(val error: String, val details: Map<String, String>? = null)
+
+// Sincronización de confirmaciones hechas sin red (POST /intakes/sync)
+
+@Serializable
+data class SyncConfirmationDto(
+    @SerialName("client_uuid") val clientUuid: String,
+    @SerialName("schedule_id") val scheduleId: Int,
+    @SerialName("scheduled_for") val scheduledFor: String,
+    @SerialName("confirmed_at") val confirmedAt: String,
+)
+
+@Serializable
+data class SyncRequest(val confirmations: List<SyncConfirmationDto>)
+
+@Serializable
+data class SyncResultDto(
+    @SerialName("client_uuid") val clientUuid: String,
+    val status: String,
+    val error: String? = null,
+)
+
+@Serializable
+data class SyncResponse(
+    val results: List<SyncResultDto>,
+    @SerialName("last_sync_at") val lastSyncAt: String? = null,
+)

@@ -29,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import mx.cuidadosis.app.ui.common.ErrorText
 import mx.cuidadosis.app.ui.common.IntakeCard
+import mx.cuidadosis.app.ui.common.toView
 import mx.cuidadosis.app.ui.common.LoadingBox
 import mx.cuidadosis.app.ui.common.formatApiDate
 import mx.cuidadosis.app.ui.common.summaryText
@@ -98,7 +99,7 @@ fun CaregiverPatientScreen(
                     if (today.intakes.isEmpty()) {
                         item { Text("No tiene tomas programadas hoy.", style = MaterialTheme.typography.bodyLarge) }
                     }
-                    items(today.intakes, key = { it.id }) { intake -> IntakeCard(intake) }
+                    items(today.intakes, key = { it.id }) { intake -> IntakeCard(intake.toView()) }
                     item {
                         OutlinedButton(
                             onClick = viewModel::askUnlink,

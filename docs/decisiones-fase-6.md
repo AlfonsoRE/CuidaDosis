@@ -165,3 +165,28 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 - `assembleDebug` compila. Pruebas unitarias: 48 en verde (las 32 anteriores sin cambios, más 12 de `ReminderEventTest` y 4 de `IntakeStateTest`).
 - Suite de la API repetida tras el cambio en medicamentos: 27 OK (`docs/evidencias/p4/api-20261121-1223.log`).
 - La verificación en emulador va con los casos PR de la Fase 7. Puntualidad, reinicio y ahorro de batería en teléfono físico: pendiente de ejecución manual.
+
+## Paso 6. App: modo sin red (RF-13; ADR-003)
+
+### D27. Archivo cifrado en lugar de Room
+- **Opciones:** (a) Room; (b) Room con SQLCipher; (c) el JSON cifrado que ya usa la app (`LocalCipher`, AES-GCM con clave en Android Keystore) en un archivo de preferencias.
+- **Elección:** (c), en `PatientStore` (`patient_local.xml`, excluido de respaldos).
+- **Motivo:** son pocos datos (medicamentos activos, tomas de hoy y una cola corta), se leen y escriben completos y no hacen falta consultas. Room no cifra por sí mismo; cifrar exigiría SQLCipher, más dependencias y un procesador de anotaciones. La opción (c) no agrega dependencias (regla de AGENTS.md) y reutiliza el cifrado ya probado de la sesión.
+
+### D28. Cola de confirmaciones
+- "Tomado" crea en el teléfono una `LocalConfirmation` con `UUID.randomUUID()`, la hora de México del toque y el `schedule_id`. Se guarda antes de cualquier llamada a la red, así que la pantalla y los avisos se actualizan sin conexión.
+- Un doble toque o una toma ya confirmada en el servidor no se vuelve a encolar (`enqueueConfirmation`).
+- Al sincronizar, se quitan de la cola las respuestas `created`, `duplicate`, `already_confirmed` y `rejected`. Las tres primeras pasan a "confirmadas en el servidor"; una rechazada se descarta (reintentar no la arreglaría) y se registra en el log.
+- Se reintenta solo ante falta de red o `5xx` (`shouldRetrySync`).
+
+### D29. Cuándo se envía la cola (sin WorkManager)
+- Justo después de cada toque, al abrir o actualizar "Hoy" (con lote vacío, para registrar la última sincronización), al recuperar la red (`registerDefaultNetworkCallback`, con permiso `ACCESS_NETWORK_STATE`) y con reintentos de 30 s, 1, 2 y hasta 5 min mientras queden pendientes.
+- **Motivo:** cubre el caso de uso sin agregar WorkManager. **Limitación:** si el sistema cierra la app sin red, la cola se envía la próxima vez que la app arranque (al abrirla o cuando suene una alarma). Anotado en PENDIENTES.
+
+### D30. "Hoy" desde la copia local
+- La pantalla se arma con `buildTodayList`: la última lista de hoy que mandó el servidor (incluye tomas confirmadas de medicamentos ya desactivados), más las horas de los medicamentos guardados que falten, con la cola encima. Muestra "Guardada en el teléfono; se enviará al haber conexión" en las tomas sin enviar, un aviso de "Sin conexión" y la hora de la última sincronización. El estado se recalcula cada minuto.
+- La pestaña "Medicamentos" (alta y edición) sigue necesitando red: dar de alta un medicamento sin servidor no tendría `schedule_id`.
+
+### Pruebas realizadas (Paso 6)
+- Compila. 57 pruebas unitarias en verde (9 nuevas en `OfflineQueueTest`: doble toque, toma ya confirmada, respuesta repetida idempotente, sin respuesta sigue en cola, rechazada, 3 confirmaciones sin red, reglas de reintento y lista de hoy local).
+- Prueba en emulador con modo avión: en la Fase 7 (PR-08).

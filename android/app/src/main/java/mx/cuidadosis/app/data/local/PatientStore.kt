@@ -28,11 +28,38 @@ data class LocalMedication(
 @Serializable
 data class ConfirmedIntake(val scheduleId: Int, val scheduledFor: String, val confirmedAt: String)
 
+// Confirmación hecha en el teléfono que espera envío (RF-13, ADR-003). El UUID la hace idempotente.
+@Serializable
+data class LocalConfirmation(
+    val clientUuid: String,
+    val scheduleId: Int,
+    val scheduledFor: String,
+    val confirmedAt: String,
+)
+
+// Copia de una toma de hoy tal como la mandó el servidor, para mostrar "Hoy" sin red
+@Serializable
+data class CachedIntake(
+    val scheduleId: Int,
+    val medicationId: Int,
+    val name: String,
+    val dose: String,
+    val time: String,
+    val scheduledFor: String,
+    val confirmedAt: String? = null,
+)
+
 @Serializable
 data class PatientData(
     val userId: Int,
     val medications: List<LocalMedication> = emptyList(),
     val serverConfirmed: List<ConfirmedIntake> = emptyList(),
+    val queue: List<LocalConfirmation> = emptyList(),
+    // Última lista de "Hoy" recibida del servidor y su fecha (yyyy-MM-dd)
+    val todayDate: String? = null,
+    val todayIntakes: List<CachedIntake> = emptyList(),
+    // Hora del servidor en la última sincronización exitosa
+    val lastSyncAt: String? = null,
 ) {
     fun reminderMeds(): List<ReminderMed> = medications.map { med ->
         ReminderMed(
@@ -44,9 +71,11 @@ data class PatientData(
         )
     }
 
-    // Pares (horario, hora programada) ya confirmados
+    // Pares (horario, hora programada) ya confirmados, en el servidor o en la cola local
     fun confirmedSet(): Set<Pair<Int, LocalDateTime>> =
-        serverConfirmed.mapNotNull { c -> parseApiDateTime(c.scheduledFor)?.let { c.scheduleId to it } }.toSet()
+        (serverConfirmed.map { it.scheduleId to it.scheduledFor } + queue.map { it.scheduleId to it.scheduledFor })
+            .mapNotNull { (id, at) -> parseApiDateTime(at)?.let { id to it } }
+            .toSet()
 }
 
 /**
