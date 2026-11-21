@@ -108,3 +108,25 @@ Con curl contra Apache local (usuarios sintéticos):
 - El cuidador ve `last_sync_at` en la lista y en el detalle, y `state` en cada toma.
 - Historial del Paciente 1: ayer 14:00 sale `unconfirmed` (pendiente del seed), las confirmadas `confirmed`; el cuidador recibe lo mismo sin `dose`; Cuidador 2 sin vínculo recibe 404.
 - El límite exacto de 30 min se prueba con horas controladas en el paso 4.
+
+## Paso 4. Pruebas automáticas de la API
+
+### D17. Script en PHP CLI con cURL
+- **Elección:** `api/tests/run_api_tests.php`, ejecutado con `C:\xampp\php\php.exe` (trae cURL y PDO). Sin dependencias nuevas.
+- **Motivo:** corre igual en cualquier máquina con XAMPP, y PHP permite consultar la BD para verificar lo que el HTTP no muestra (filas duplicadas, intentos registrados, `revoked_at`).
+
+### D18. Datos propios y limpieza
+- Cada corrida registra sus usuarios (`t<fecha><n>p@ejemplo.test`, nombres con SINTETICO) y al final los borra, con sus datos en cascada. `--keep` los conserva para revisarlos.
+- No depende del seed ni lo modifica, así que se puede correr con la BD en cualquier estado.
+
+### D19. Tiempo simulado
+- El reloj no se adelanta: se mueven fechas en la BD de forma controlada. Para el código vencido, `expires_at` 1 s en el pasado. Para "Sin confirmar", la hora programada de una toma se pone a ahora menos 29 min (debe seguir Pendiente) y a ahora menos 31 min (debe pasar a Sin confirmar), y se verifica que en la BD sigue `pending`.
+- La consulta se hace con el historial del cuidador, que abarca 7 días; así la prueba funciona aunque se corra poco después de medianoche.
+
+### D20. Log
+- `docs/evidencias/p4/api-AAAAMMDD-HHMM.log`. Si ya existe uno de ese minuto se agrega `-2`, `-3`, etc., para no sobrescribir evidencia. Código de salida 0 si todo pasa y 1 si algo falla.
+
+### Pruebas realizadas (Paso 4)
+- Corrida completa: 27 OK, 0 FALLO (`docs/evidencias/p4/api-20261121-1215.log`).
+- Comprobación de que el script detecta errores: con la regla cambiada a propósito a 20 min, API-23 falló ("T+29: unconfirmed") y el script salió con código 1. Se restauró la regla de 30 min y se repitió la corrida limpia. El log de la corrida saboteada se borró, porque la había sobrescrito en el mismo minuto (por eso se agregó D20).
+- `api/tests/` y `docs/evidencias/` responden 403 por web.
