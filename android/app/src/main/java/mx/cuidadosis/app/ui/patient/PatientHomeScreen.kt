@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.PrimaryScrollableTabRow
+import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -59,9 +60,14 @@ fun PatientHomeScreen(
                         TextButton(onClick = onLogout) { Text("Salir") }
                     },
                 )
-                PrimaryTabRow(selectedTabIndex = tab.ordinal) {
+                PrimaryScrollableTabRow(selectedTabIndex = tab.ordinal, edgePadding = 0.dp) {
                     PatientTab.entries.forEach { t ->
-                        Tab(selected = tab == t, onClick = { tab = t }, text = { Text(t.label) })
+                        // Una sola línea aunque la letra sea grande
+                        Tab(
+                            selected = tab == t,
+                            onClick = { tab = t },
+                            text = { Text(t.label, maxLines = 1, softWrap = false, style = MaterialTheme.typography.labelLarge) },
+                        )
                     }
                 }
             }

@@ -45,8 +45,9 @@ object ReminderNotifier {
         }
         val summary = when (kind) {
             ReminderKind.BEFORE -> {
-                val minutes = Duration.between(Instant.now(), intakeAt.atZone(REMINDER_ZONE).toInstant())
-                    .toMinutes().coerceAtLeast(1)
+                // Redondeo hacia arriba: la alarma suena unos milisegundos después de T - L
+                val seconds = Duration.between(Instant.now(), intakeAt.atZone(REMINDER_ZONE).toInstant()).seconds
+                val minutes = ((seconds + 30) / 60).coerceAtLeast(1)
                 if (minutes == 1L) "En 1 minuto" else "En $minutes minutos"
             }
             ReminderKind.DUE -> "Sigue pendiente"
