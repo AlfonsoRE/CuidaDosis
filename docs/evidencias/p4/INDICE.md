@@ -46,6 +46,7 @@ Script: `api/tests/run_api_tests.php` (casos API-01 a API-27: registro y sesión
 | `15b_letra_grande_cuidador.png` | Detalle del cuidador con la letra del sistema al 130 % |
 | `15c_alarma_cuidador.png` | Notificación de la alarma del cuidador a T + 30 |
 | `16_ultima_sincronizacion.png` | Lista del cuidador con la última sincronización |
-| `17_modo_sin_red.png` | "Hoy" en modo avión con 3 confirmaciones por enviar |
+| `17_modo_sin_red.png` | "Hoy" en modo avión con confirmaciones por enviar (2 en la versión de la Fase 8) |
+| `18_salir_con_pendientes.png` | "Salir" bloqueado con confirmaciones sin enviar (Fase 8) |
 
-Nota: 06, 07, 09, 10, 12 y 17 se tomaron antes de la corrección c9ea6df, por eso la pestaña "Medicamentos" aparece partida en dos líneas. 03 y las del cuidador ya tienen la corrección.
+Nota: 06, 07, 09, 10, 12 y 17 se volvieron a tomar en la Fase 8 con la pestaña "Medicamentos" ya corregida (c9ea6df). Todas las capturas actuales tienen la corrección. 12 muestra "Sin confirmar" y "Confirmada por el paciente"; "Pendiente" se ve en 13.
