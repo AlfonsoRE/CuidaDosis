@@ -130,3 +130,38 @@ Con curl contra Apache local (usuarios sintéticos):
 - Corrida completa: 27 OK, 0 FALLO (`docs/evidencias/p4/api-20261121-1215.log`).
 - Comprobación de que el script detecta errores: con la regla cambiada a propósito a 20 min, API-23 falló ("T+29: unconfirmed") y el script salió con código 1. Se restauró la regla de 30 min y se repitió la corrida limpia. El log de la corrida saboteada se borró, porque la había sobrescrito en el mismo minuto (por eso se agregó D20).
 - `api/tests/` y `docs/evidencias/` responden 403 por web.
+
+## Paso 5. App: avisos y confirmación (RF-05, RF-06, RF-07, RF-14, RF-16; ADR-002, ADR-006)
+
+Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toman con la opción más simple que cumple el diseño y se anotan aquí; los bloqueos van en `docs/PENDIENTES_FASE6.md`.
+
+### D21. Una sola alarma pendiente con tres tipos de evento
+- Se conserva el esquema de la Fase 5 (D5): una alarma exacta, la del próximo evento. Ahora hay tres tipos: `BEFORE` (T menos L), `DUE` (T, una sola vez, RF-06) y `SNOOZE` (pospuesto, RF-16). La función pura `nextReminderEvent` los calcula para ayer, hoy y mañana (hora de México).
+- Cada evento se registra al mostrarse (`ReminderStore.fired`), así no se repite.
+- **Al sonar se revisa la copia local:** si todos los medicamentos de esa hora ya están confirmados, no se muestra nada. Esto reemplaza la D3 de la Fase 5 ("se avisa aunque ya esté marcada"), porque ahora el teléfono sabe qué se confirmó.
+- Límite de retraso: `DUE` y `SNOOZE` no se muestran si llegan más de 10 min tarde (igual que D8 de la Fase 5). `BEFORE` solo vale antes de T.
+
+### D22. Anticipación L
+- Ajuste local en `SettingsStore` (no se envía al servidor, G-06), pantalla "Ajustes" del paciente con dos opciones (5 o 10 min, 5 por defecto). Cualquier valor guardado que no sea 5 o 10 se lee como 5 (`normalizeLead`). Al cambiarlo se reprograma de inmediato.
+
+### D23. Posponer desde la notificación
+- La notificación trae los botones "Posponer 5 min" y "Posponer 10 min" (`SnoozeReceiver`, no exportado). Posponer no marca la toma. Un pospuesto por toma: posponer otra vez lo reemplaza.
+- Si el pospuesto cae a la hora T o después, sustituye al segundo aviso, para no sonar dos veces seguidas.
+- No se agregó botón "Tomado" en la notificación: tocarla abre "Hoy" (se mantiene D4 de la Fase 5).
+
+### D24. Copia local cifrada `PatientStore`
+- Medicamentos con sus horarios (incluido el `schedule_id`) y tomas que el servidor reporta como confirmadas, en `patient_local.xml` cifrado con `LocalCipher` (AES-GCM, Keystore) y excluido de respaldos. Reemplaza la copia de la Fase 5 en `reminders.xml`, que ahora solo guarda eventos mostrados y pospuestos (sin nombres ni dosis).
+- **Cambio en la API:** `GET /medications` y `/medications/{id}` agregan `schedules: [{id, time}]` (se mantiene `times`). Sin el identificador, el teléfono no podría saber qué toma confirmó ni enviarla sin red.
+
+### D25. "Tomado" con un toque y etiquetas
+- Se quitó el diálogo de confirmación (RF-07, ADR-006). El botón se desactiva mientras se envía para evitar dobles toques.
+- Etiquetas en todas las tarjetas: "Pendiente", "Confirmada por el paciente a las HH:MM" y "Sin confirmar", recalculadas con la hora de México. La palabra "Tomada" desapareció de la interfaz. Se muestra la leyenda de que la confirmación no verifica la ingesta.
+- En este paso "Tomado" todavía usa `POST /intakes/{id}/take` (requiere red); el paso 6 lo cambia a la cola local.
+
+### D26. Advertencia de permisos (RF-14), adelantada del paso 9
+- `PermissionsCard` revisa notificaciones, alarmas exactas y ahorro de batería al volver a la app, con un botón para corregir cada uno, y desaparece cuando todo está bien. Va en "Hoy" y, siempre visible, en "Ajustes". Se hizo aquí porque la pantalla de ajustes la necesita.
+
+### Pruebas realizadas (Paso 5)
+- `assembleDebug` compila. Pruebas unitarias: 48 en verde (las 32 anteriores sin cambios, más 12 de `ReminderEventTest` y 4 de `IntakeStateTest`).
+- Suite de la API repetida tras el cambio en medicamentos: 27 OK (`docs/evidencias/p4/api-20261121-1223.log`).
+- La verificación en emulador va con los casos PR de la Fase 7. Puntualidad, reinicio y ahorro de batería en teléfono físico: pendiente de ejecución manual.

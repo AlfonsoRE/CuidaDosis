@@ -21,12 +21,12 @@ data class TodayUiState(
     val loading: Boolean = true,
     val today: TodayResponse? = null,
     val error: String? = null,
-    val pendingTake: IntakeDto? = null,
-    val taking: Boolean = false,
+    // Tomas que se están confirmando (para desactivar su botón)
+    val taking: Set<Int> = emptySet(),
     val message: String? = null,
 )
 
-// Tomas de hoy del paciente y botón "Tomado"
+// Tomas de hoy del paciente y botón "Tomado" (un toque, sin diálogo; RF-07)
 class TodayViewModel(private val repo: IntakeRepository) : ViewModel() {
     private val _state = MutableStateFlow(TodayUiState())
     val state: StateFlow<TodayUiState> = _state.asStateFlow()
@@ -44,25 +44,23 @@ class TodayViewModel(private val repo: IntakeRepository) : ViewModel() {
         }
     }
 
-    fun askTake(intake: IntakeDto) = _state.update { it.copy(pendingTake = intake) }
-    fun cancelTake() = _state.update { it.copy(pendingTake = null) }
     fun messageShown() = _state.update { it.copy(message = null) }
 
-    fun confirmTake() {
-        val intake = _state.value.pendingTake ?: return
-        _state.update { it.copy(pendingTake = null, taking = true) }
+    fun take(intake: IntakeDto) {
+        if (intake.id in _state.value.taking) return
+        _state.update { it.copy(taking = it.taking + intake.id) }
         viewModelScope.launch {
-            val result = repo.take(intake.id)
+            val result = repo.take(intake)
             _state.update {
                 it.copy(
-                    taking = false,
+                    taking = it.taking - intake.id,
                     message = when (result) {
-                        is ApiResult.Success -> "Registrada la toma de ${intake.time} de ${intake.name}."
+                        is ApiResult.Success -> "Confirmada por el paciente: ${intake.name}, ${intake.time}."
                         is ApiResult.Error -> result.message
                     },
                 )
             }
-            // Se recarga siempre: si la toma ya estaba registrada (409) se ve el estado real
+            // Se recarga siempre: si la toma ya estaba confirmada (409) se ve el estado real
             load()
         }
     }

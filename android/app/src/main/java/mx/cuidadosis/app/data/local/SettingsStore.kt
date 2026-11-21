@@ -5,9 +5,10 @@ import androidx.core.content.edit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import mx.cuidadosis.app.reminders.normalizeLead
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
-// URL base de la API elegida por el usuario (no es un dato secreto)
+// Ajustes locales del teléfono (no son datos secretos): URL base de la API y anticipación L del aviso
 class SettingsStore(context: Context, val defaultBaseUrl: String) {
     private val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
@@ -19,6 +20,16 @@ class SettingsStore(context: Context, val defaultBaseUrl: String) {
         _baseUrl.value = url
     }
 
+    // Anticipación L del primer aviso: 5 o 10 min, por defecto 5 (RF-05, G-06). Solo vive en el teléfono.
+    private val _reminderLead = MutableStateFlow(normalizeLead(prefs.getInt(KEY_LEAD, 5)))
+    val reminderLead: StateFlow<Int> = _reminderLead.asStateFlow()
+
+    fun setReminderLead(minutes: Int) {
+        val value = normalizeLead(minutes)
+        prefs.edit { putInt(KEY_LEAD, value) }
+        _reminderLead.value = value
+    }
+
     fun reset() {
         prefs.edit { remove(KEY_BASE_URL) }
         _baseUrl.value = defaultBaseUrl
@@ -26,6 +37,7 @@ class SettingsStore(context: Context, val defaultBaseUrl: String) {
 
     private companion object {
         const val KEY_BASE_URL = "api_base_url"
+        const val KEY_LEAD = "reminder_lead_minutes"
     }
 }
 

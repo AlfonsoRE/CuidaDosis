@@ -34,12 +34,14 @@ class CuidaDosisApp : Application() {
                     val scheduler = container.reminderScheduler
                     if (session == null || !session.isPatient) {
                         scheduler.cancelAll()
+                        container.patientStore.clear()
                         return@collect
                     }
                     if (scheduler.cachedUserId() == session.userId) {
                         scheduler.reschedule() // sin red, con la copia local
                     } else {
                         scheduler.cancelAll()
+                        container.patientStore.clear()
                     }
                     launch { container.medicationRepository.list() }
                 }

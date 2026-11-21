@@ -13,6 +13,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import mx.cuidadosis.app.MainActivity
 import mx.cuidadosis.app.R
+import java.time.Duration
+import java.time.Instant
 import java.time.LocalDateTime
 
 // Notificación del aviso. Muestra nombre y dosis tal como los escribió el usuario, sin interpretarlos.
@@ -21,7 +23,7 @@ object ReminderNotifier {
 
     fun createChannel(context: Context) {
         val channel = NotificationChannel(CHANNEL_ID, "Avisos de tomas", NotificationManager.IMPORTANCE_HIGH)
-            .apply { description = "Aviso 5 minutos antes de cada toma registrada" }
+            .apply { description = "Aviso antes de cada toma registrada y a la hora de la toma" }
         context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
     }
 
@@ -32,12 +34,24 @@ object ReminderNotifier {
         return permission && NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 
-    fun show(context: Context, intakeAt: LocalDateTime, meds: List<ReminderMed>) {
+    fun show(context: Context, intakeAt: LocalDateTime, kind: ReminderKind, meds: List<ReminderMed>) {
         if (meds.isEmpty() || !canNotify(context)) return
         val time = "%02d:%02d".format(intakeAt.hour, intakeAt.minute)
         val lines = meds.map { "${it.name}: ${it.dose}" }
-        val title = "Toma de las $time"
-        val summary = "En 5 minutos"
+        val title = when (kind) {
+            ReminderKind.BEFORE -> "Toma de las $time"
+            ReminderKind.DUE -> "Es la hora de tu toma de las $time"
+            ReminderKind.SNOOZE -> "Recordatorio: toma de las $time"
+        }
+        val summary = when (kind) {
+            ReminderKind.BEFORE -> {
+                val minutes = Duration.between(Instant.now(), intakeAt.atZone(REMINDER_ZONE).toInstant())
+                    .toMinutes().coerceAtLeast(1)
+                if (minutes == 1L) "En 1 minuto" else "En $minutes minutos"
+            }
+            ReminderKind.DUE -> "Sigue pendiente"
+            ReminderKind.SNOOZE -> "Aviso pospuesto"
+        }
 
         // Tocar el aviso abre la app; la pestaña inicial del paciente es "Hoy"
         val open = PendingIntent.getActivity(
@@ -50,21 +64,43 @@ object ReminderNotifier {
         val style = NotificationCompat.InboxStyle().setSummaryText(summary)
         lines.forEach { style.addLine(it) }
 
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
-            .setContentText(lines.joinToString(", "))
+            .setContentText("$summary: ${lines.joinToString(", ")}")
             .setStyle(style)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(open)
             .setAutoCancel(true)
-            .build()
+        // Posponer no marca la toma (RF-16)
+        SNOOZE_OPTIONS.forEach { minutes ->
+            builder.addAction(0, "Posponer $minutes min", snoozeIntent(context, intakeAt, minutes))
+        }
         try {
-            // Un id por hora del día: avisos de horas distintas no se reemplazan entre sí
-            NotificationManagerCompat.from(context).notify(intakeAt.hour * 60 + intakeAt.minute, notification)
+            NotificationManagerCompat.from(context).notify(notificationId(intakeAt), builder.build())
         } catch (_: SecurityException) {
             // El usuario quitó el permiso justo ahora: no hay nada más que hacer
         }
+    }
+
+    fun cancel(context: Context, intakeAt: LocalDateTime) =
+        NotificationManagerCompat.from(context).cancel(notificationId(intakeAt))
+
+    // Un id por hora del día: avisos de horas distintas no se reemplazan entre sí
+    private fun notificationId(intakeAt: LocalDateTime) = intakeAt.hour * 60 + intakeAt.minute
+
+    private fun snoozeIntent(context: Context, intakeAt: LocalDateTime, minutes: Int): PendingIntent {
+        val intent = Intent(context, SnoozeReceiver::class.java)
+            .setAction(SnoozeReceiver.ACTION)
+            .putExtra(SnoozeReceiver.EXTRA_INTAKE_AT, intakeAt.toString())
+            .putExtra(SnoozeReceiver.EXTRA_MINUTES, minutes)
+        // Código distinto por toma y por opción, para que cada botón lleve sus datos
+        return PendingIntent.getBroadcast(
+            context,
+            1 + notificationId(intakeAt) * 100 + minutes,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
     }
 }

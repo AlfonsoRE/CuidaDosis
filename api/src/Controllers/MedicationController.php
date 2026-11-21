@@ -30,7 +30,7 @@ final class MedicationController
         $meds = $stmt->fetchAll();
 
         $stmt = $this->pdo->prepare(
-            'SELECT s.medication_id, s.time_of_day FROM schedules s
+            'SELECT s.id, s.medication_id, s.time_of_day FROM schedules s
                JOIN medications m ON m.id = s.medication_id
               WHERE m.patient_id = ? AND m.active = 1 AND s.active = 1
               ORDER BY s.time_of_day'
@@ -38,7 +38,7 @@ final class MedicationController
         $stmt->execute([$patient['id']]);
         $times = [];
         foreach ($stmt->fetchAll() as $row) {
-            $times[(int) $row['medication_id']][] = substr($row['time_of_day'], 0, 5);
+            $times[(int) $row['medication_id']][] = ['id' => (int) $row['id'], 'time' => substr($row['time_of_day'], 0, 5)];
         }
 
         $result = array_map(
@@ -184,10 +184,13 @@ final class MedicationController
         }
 
         $stmt = $this->pdo->prepare(
-            'SELECT time_of_day FROM schedules WHERE medication_id = ? AND active = 1 ORDER BY time_of_day'
+            'SELECT id, time_of_day FROM schedules WHERE medication_id = ? AND active = 1 ORDER BY time_of_day'
         );
         $stmt->execute([$id]);
-        $times = array_map(fn (string $t) => substr($t, 0, 5), $stmt->fetchAll(PDO::FETCH_COLUMN));
+        $times = array_map(
+            fn (array $r) => ['id' => (int) $r['id'], 'time' => substr($r['time_of_day'], 0, 5)],
+            $stmt->fetchAll()
+        );
 
         return $this->format($med, $times);
     }
@@ -197,13 +200,15 @@ final class MedicationController
      * @param list<string> $times
      * @return array<string, mixed>
      */
-    private function format(array $med, array $times): array
+    private function format(array $med, array $schedules): array
     {
         return [
             'id' => (int) $med['id'],
             'name' => $med['name'],
             'dose' => $med['dose'],
-            'times' => $times,
+            'times' => array_column($schedules, 'time'),
+            // Identificadores para confirmar tomas sin red (POST /intakes/sync)
+            'schedules' => $schedules,
             'created_at' => $med['created_at'],
             'updated_at' => $med['updated_at'],
         ];

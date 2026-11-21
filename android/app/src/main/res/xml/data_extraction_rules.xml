@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Respaldo y transferencia en Android 12 o mayor. La sesión y la copia local de los avisos nunca se copian. -->
+<!-- Respaldo y transferencia en Android 12 o mayor. La sesión y las copias locales del paciente nunca se copian. -->
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="sharedpref" path="session.xml" />
         <exclude domain="sharedpref" path="reminders.xml" />
+        <exclude domain="sharedpref" path="patient_local.xml" />
     </cloud-backup>
     <device-transfer>
         <exclude domain="sharedpref" path="session.xml" />
         <exclude domain="sharedpref" path="reminders.xml" />
+        <exclude domain="sharedpref" path="patient_local.xml" />
     </device-transfer>
 </data-extraction-rules>

@@ -15,6 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import mx.cuidadosis.app.data.IntakeState
+import mx.cuidadosis.app.data.intakeState
+import mx.cuidadosis.app.data.nowMexico
+import mx.cuidadosis.app.data.parseApiDateTime
 import mx.cuidadosis.app.data.remote.IntakeDto
 
 /**
@@ -27,10 +31,11 @@ fun IntakeCard(
     modifier: Modifier = Modifier,
     action: (@Composable () -> Unit)? = null,
 ) {
-    val container = if (intake.isTaken) {
-        MaterialTheme.colorScheme.primaryContainer
-    } else {
-        MaterialTheme.colorScheme.surfaceVariant
+    val state = stateOf(intake)
+    val container = when (state) {
+        IntakeState.CONFIRMED -> MaterialTheme.colorScheme.primaryContainer
+        IntakeState.UNCONFIRMED -> MaterialTheme.colorScheme.errorContainer
+        IntakeState.PENDING -> MaterialTheme.colorScheme.surfaceVariant
     }
     Card(
         colors = CardDefaults.cardColors(containerColor = container),
@@ -51,12 +56,12 @@ fun IntakeCard(
                 Text(intake.name, style = MaterialTheme.typography.titleMedium)
                 intake.dose?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
                 Text(
-                    statusText(intake),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = if (!intake.isTaken && isTimePast(intake.time)) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
+                    statusText(intake, state),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = when (state) {
+                        IntakeState.UNCONFIRMED -> MaterialTheme.colorScheme.onErrorContainer
+                        else -> MaterialTheme.colorScheme.onSurfaceVariant
                     },
                 )
             }
@@ -65,8 +70,14 @@ fun IntakeCard(
     }
 }
 
-private fun statusText(intake: IntakeDto): String = when {
-    intake.isTaken -> "Tomada a las ${formatApiTime(intake.confirmedAt)}"
-    isTimePast(intake.time) -> "Pendiente, la hora ya pasó"
-    else -> "Pendiente"
+// Se recalcula con la hora actual de México: una toma pendiente pasa sola a "Sin confirmar" a T + 30
+fun stateOf(intake: IntakeDto): IntakeState {
+    val scheduled = parseApiDateTime(intake.scheduledFor) ?: return if (intake.isTaken) IntakeState.CONFIRMED else IntakeState.PENDING
+    return intakeState(scheduled, intake.isTaken, nowMexico())
+}
+
+// Nunca "Tomada": el sistema no verifica la ingesta (RF-07, ADR-006)
+private fun statusText(intake: IntakeDto, state: IntakeState): String = when (state) {
+    IntakeState.CONFIRMED -> intake.confirmedAt?.let { "${state.label} a las ${formatApiTime(it)}" } ?: state.label
+    else -> state.label
 }

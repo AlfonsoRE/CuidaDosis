@@ -39,6 +39,11 @@
             android:name=".reminders.ReminderReceiver"
             android:exported="false" />
 
+        <!-- Botones "Posponer" de la notificación -->
+        <receiver
+            android:name=".reminders.SnoozeReceiver"
+            android:exported="false" />
+
         <!-- Reprograma tras reiniciar, actualizar la app o cambiar la hora; solo acciones protegidas del sistema -->
         <receiver
             android:name=".reminders.BootReceiver"

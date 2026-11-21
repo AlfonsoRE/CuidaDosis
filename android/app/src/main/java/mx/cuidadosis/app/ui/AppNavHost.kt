@@ -26,12 +26,14 @@ import mx.cuidadosis.app.ui.medications.MedicationFormScreen
 import mx.cuidadosis.app.ui.caregiver.CaregiverPatientScreen
 import mx.cuidadosis.app.ui.patient.PatientHomeScreen
 import androidx.navigation.toRoute
+import mx.cuidadosis.app.ui.settings.ReminderSettingsScreen
 import mx.cuidadosis.app.ui.settings.ServerScreen
 
 // Rutas de navegación
 @Serializable object LoginRoute
 @Serializable object RegisterRoute
 @Serializable object ServerRoute
+@Serializable object ReminderSettingsRoute
 @Serializable object PatientHomeRoute
 @Serializable data class MedicationFormRoute(val id: Int? = null)
 @Serializable object CaregiverHomeRoute
@@ -92,8 +94,12 @@ fun AppNavHost(container: AppContainer) {
                 userName = session?.fullName.orEmpty(),
                 onAddMedication = { navController.navigate(MedicationFormRoute()) },
                 onEditMedication = { id -> navController.navigate(MedicationFormRoute(id)) },
+                onSettings = { navController.navigate(ReminderSettingsRoute) },
                 onLogout = logout,
             )
+        }
+        composable<ReminderSettingsRoute> {
+            ReminderSettingsScreen(container, onBack = { navController.popBackStack() })
         }
         composable<MedicationFormRoute> {
             MedicationFormScreen(

@@ -18,6 +18,7 @@ class BootReceiver : BroadcastReceiver() {
             container.reminderScheduler.reschedule()
         } else {
             container.reminderScheduler.cancelAll()
+            container.patientStore.clear()
         }
     }
 

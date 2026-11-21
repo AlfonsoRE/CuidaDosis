@@ -5,6 +5,7 @@ import mx.cuidadosis.app.data.AuthRepository
 import mx.cuidadosis.app.data.IntakeRepository
 import mx.cuidadosis.app.data.LinkRepository
 import mx.cuidadosis.app.data.MedicationRepository
+import mx.cuidadosis.app.data.local.PatientStore
 import mx.cuidadosis.app.data.local.SessionStore
 import mx.cuidadosis.app.data.local.SettingsStore
 import mx.cuidadosis.app.data.remote.ApiClient
@@ -16,8 +17,9 @@ class AppContainer(context: Context) {
     val sessionStore = SessionStore(context)
     private val apiClient = ApiClient(settingsStore, sessionStore)
     val authRepository = AuthRepository(apiClient, sessionStore)
-    val reminderScheduler = ReminderScheduler(context)
-    val medicationRepository = MedicationRepository(apiClient, sessionStore, reminderScheduler)
-    val intakeRepository = IntakeRepository(apiClient)
+    val patientStore = PatientStore(context)
+    val reminderScheduler = ReminderScheduler(context, patientStore, settingsStore)
+    val medicationRepository = MedicationRepository(apiClient, sessionStore, patientStore, reminderScheduler)
+    val intakeRepository = IntakeRepository(apiClient, sessionStore, patientStore, reminderScheduler)
     val linkRepository = LinkRepository(apiClient)
 }

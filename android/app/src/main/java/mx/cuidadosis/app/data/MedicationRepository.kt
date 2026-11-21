@@ -1,18 +1,23 @@
 package mx.cuidadosis.app.data
 
+import mx.cuidadosis.app.data.local.LocalMedication
+import mx.cuidadosis.app.data.local.LocalSchedule
+import mx.cuidadosis.app.data.local.PatientStore
 import mx.cuidadosis.app.data.local.SessionStore
 import mx.cuidadosis.app.data.remote.ApiClient
 import mx.cuidadosis.app.data.remote.ApiResult
 import mx.cuidadosis.app.data.remote.MedicationDto
 import mx.cuidadosis.app.data.remote.MedicationRequest
+import mx.cuidadosis.app.data.remote.ScheduleDto
 import mx.cuidadosis.app.data.remote.apiCall
 import mx.cuidadosis.app.reminders.ReminderScheduler
 
 // Medicamentos del paciente. Nombre y dosis son texto libre: la app no los interpreta.
-// Cada lista obtenida actualiza los avisos locales (Fase 5).
+// Cada lista obtenida actualiza la copia local cifrada y los avisos (ADR-002, ADR-003).
 class MedicationRepository(
     private val api: ApiClient,
     private val sessionStore: SessionStore,
+    private val patientStore: PatientStore,
     private val reminders: ReminderScheduler,
 ) {
 
@@ -21,7 +26,8 @@ class MedicationRepository(
             is ApiResult.Success -> {
                 val session = sessionStore.current
                 if (session != null && session.isPatient) {
-                    reminders.sync(session.userId, r.data.medications)
+                    patientStore.saveMedications(session.userId, r.data.medications.map { it.toLocal() })
+                    reminders.reschedule()
                 }
                 ApiResult.Success(r.data.medications)
             }
@@ -57,3 +63,11 @@ class MedicationRepository(
             is ApiResult.Error -> r
         }
 }
+
+// Si la API no mandara los horarios (versión anterior), se guardan sin identificador
+private fun MedicationDto.toLocal() = LocalMedication(
+    id = id,
+    name = name,
+    dose = dose,
+    schedules = schedules.ifEmpty { times.map { ScheduleDto(0, it) } }.map { LocalSchedule(it.id, it.time) },
+)

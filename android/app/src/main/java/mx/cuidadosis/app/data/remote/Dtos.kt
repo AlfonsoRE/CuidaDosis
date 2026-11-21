@@ -43,7 +43,12 @@ data class MedicationDto(
     val name: String,
     val dose: String,
     val times: List<String>,
+    // Identificador de cada hora; la app lo usa para confirmar sin red
+    val schedules: List<ScheduleDto> = emptyList(),
 )
+
+@Serializable
+data class ScheduleDto(val id: Int, val time: String)
 
 @Serializable
 data class MedicationListResponse(val medications: List<MedicationDto>)
@@ -60,12 +65,15 @@ data class MedicationRequest(val name: String, val dose: String, val times: List
 data class IntakeDto(
     val id: Int,
     @SerialName("medication_id") val medicationId: Int,
+    @SerialName("schedule_id") val scheduleId: Int? = null,
     val name: String,
     // La API la omite para el cuidador si el paciente no la comparte (G-07)
     val dose: String? = null,
     val time: String,
     @SerialName("scheduled_for") val scheduledFor: String,
     val status: String,
+    // Estado calculado por la API: pending, confirmed o unconfirmed (ADR-005)
+    val state: String? = null,
     @SerialName("confirmed_at") val confirmedAt: String? = null,
 ) {
     val isTaken: Boolean get() = status == "taken"
@@ -83,6 +91,8 @@ data class PersonRef(
 @Serializable
 data class TodayResponse(
     val date: String,
+    // Hora del servidor al responder
+    val now: String? = null,
     val intakes: List<IntakeDto>,
     val summary: IntakeSummary,
     val patient: PersonRef? = null,

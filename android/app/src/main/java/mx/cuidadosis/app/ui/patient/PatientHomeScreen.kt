@@ -37,6 +37,7 @@ fun PatientHomeScreen(
     userName: String,
     onAddMedication: () -> Unit,
     onEditMedication: (Int) -> Unit,
+    onSettings: () -> Unit,
     onLogout: () -> Unit,
 ) {
     var tab by rememberSaveable { mutableStateOf(PatientTab.TODAY) }
@@ -53,7 +54,10 @@ fun PatientHomeScreen(
                             Text(userName, style = MaterialTheme.typography.bodySmall)
                         }
                     },
-                    actions = { TextButton(onClick = onLogout) { Text("Cerrar sesión") } },
+                    actions = {
+                        TextButton(onClick = onSettings) { Text("Ajustes") }
+                        TextButton(onClick = onLogout) { Text("Salir") }
+                    },
                 )
                 PrimaryTabRow(selectedTabIndex = tab.ordinal) {
                     PatientTab.entries.forEach { t ->

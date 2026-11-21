@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -26,6 +26,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import mx.cuidadosis.app.data.CONFIRMATION_DISCLAIMER
 import mx.cuidadosis.app.ui.common.ErrorText
 import mx.cuidadosis.app.ui.common.IntakeCard
 import mx.cuidadosis.app.ui.common.LoadingBox
@@ -61,17 +62,17 @@ fun TodayTab(
                         style = MaterialTheme.typography.titleLarge,
                     )
                     today?.let {
-                        Text(summaryText(it.summary.taken, it.summary.total), style = MaterialTheme.typography.bodyMedium)
+                        Text(summaryText(it.summary.taken, it.summary.total), style = MaterialTheme.typography.bodyLarge)
                     }
                 }
                 TextButton(onClick = viewModel::load, enabled = !state.loading) { Text("Actualizar") }
             }
             Text(
-                "Toca \"Tomado\" cuando tomes tu medicamento. Solo registra que lo marcaste.",
-                style = MaterialTheme.typography.bodySmall,
+                "Toca \"Tomado\" cuando tomes tu medicamento. $CONFIRMATION_DISCLAIMER",
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
-        item { NotificationsOffCard() }
+        item { PermissionsCard() }
         when {
             state.loading && today == null -> item { LoadingBox(Modifier.fillMaxWidth().padding(32.dp)) }
             state.error != null && today == null -> item {
@@ -93,9 +94,10 @@ fun TodayTab(
                     IntakeCard(intake) {
                         if (!intake.isTaken) {
                             Button(
-                                onClick = { viewModel.askTake(intake) },
-                                enabled = !state.taking,
-                            ) { Text("Tomado") }
+                                onClick = { viewModel.take(intake) },
+                                enabled = intake.id !in state.taking,
+                                modifier = Modifier.heightIn(min = 56.dp),
+                            ) { Text("Tomado", style = MaterialTheme.typography.titleMedium) }
                         }
                     }
                 }
@@ -103,18 +105,4 @@ fun TodayTab(
         }
     }
 
-    state.pendingTake?.let { intake ->
-        AlertDialog(
-            onDismissRequest = viewModel::cancelTake,
-            title = { Text("¿Registrar la toma?") },
-            text = {
-                Text(
-                    "${intake.name}, ${intake.dose.orEmpty()}, de las ${intake.time}.\n" +
-                        "Se registrará como tomada ahora. No se puede deshacer.",
-                )
-            },
-            confirmButton = { TextButton(onClick = viewModel::confirmTake) { Text("Sí, la tomé") } },
-            dismissButton = { TextButton(onClick = viewModel::cancelTake) { Text("Cancelar") } },
-        )
-    }
 }
