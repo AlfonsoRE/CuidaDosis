@@ -69,9 +69,12 @@ try {
     $router->add('DELETE', '/medications/{id}', [$medCtl, 'deactivate']);
 
     $router->add('GET', '/intakes/today', [$intakeCtl, 'today']);
+    $router->add('POST', '/intakes/sync', [$intakeCtl, 'sync']);
+    $router->add('GET', '/intakes/history', [$intakeCtl, 'history']);
     $router->add('POST', '/intakes/{id}/take', [$intakeCtl, 'take']);
     $router->add('GET', '/caregiver/patients', [$intakeCtl, 'caregiverPatients']);
     $router->add('GET', '/caregiver/patients/{id}/intakes/today', [$intakeCtl, 'caregiverPatientToday']);
+    $router->add('GET', '/caregiver/patients/{id}/intakes/history', [$intakeCtl, 'caregiverPatientHistory']);
     $router->add('DELETE', '/caregiver/patients/{id}', [$linkCtl, 'unlinkPatient']);
 
     $router->dispatch(Request::fromGlobals());

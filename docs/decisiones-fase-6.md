@@ -70,3 +70,41 @@ Con curl contra Apache local y la BD del seed v2 (usuarios sintéticos):
 - Código con `expires_at` movido al pasado por SQL: 410.
 - Rechazo: 200 y el vínculo queda `revoked` con `revoked_at`.
 - Cuidador 1 con 5 códigos inexistentes: 404 cinco veces, el sexto 429 con `Retry-After: 599`; quedaron 5 fallos registrados; un código válido durante el bloqueo también da 429.
+
+## Paso 3. API de tomas (RF-07, RF-10 a RF-13, RF-15; G-03, G-04; ADR-003, ADR-005)
+
+### D11. Forma del lote de sincronización
+- **Duda:** el prompt describe el lote como una lista, pero la API solo acepta objetos JSON como cuerpo.
+- **Elección:** `{"confirmations":[{client_uuid, schedule_id, scheduled_for, confirmed_at}, ...]}`, máximo 100 por envío, con un resultado por elemento: `created`, `duplicate`, `already_confirmed` o `rejected`.
+- **Motivo:** se conserva la validación del cuerpo de todas las rutas. Con un resultado por elemento, un dato malo no tumba el lote y la app sabe qué sacar de su cola.
+
+### D12. Reglas de idempotencia
+- Un `client_uuid` ya recibido del mismo paciente devuelve `duplicate`, sin tocar la BD. Si es de otro paciente se rechaza sin revelar nada.
+- Dos envíos simultáneos del mismo UUID: el segundo choca con el índice único (1062) y también responde `duplicate`.
+- Si la toma ya estaba confirmada con otro UUID (por ejemplo, desde `/take` o desde otro envío), se conserva la primera confirmación y responde `already_confirmed`.
+- Si la toma no existía (por ejemplo, el teléfono confirmó sin red y nadie consultó ese día), se crea ya confirmada.
+
+### D13. Validación de cada confirmación
+- El horario debe ser del paciente (aunque después se haya desactivado: la confirmación pudo hacerse antes), la hora de `scheduled_for` debe coincidir con la del horario y la fecha debe estar en los últimos 7 días.
+- `confirmed_at` es la hora del toque en el teléfono (RF-07). Se acepta hasta 5 min en el futuro (reloj adelantado) y desde un día antes de la toma (confirmaciones tempranas, como permitía `/take`). `received_at` es la hora del servidor.
+
+### D14. `last_sync_at` se actualiza en cada sincronización, aunque venga vacía
+- **Motivo:** RF-12 quiere que el cuidador sepa cuándo el teléfono se comunicó por última vez. Un lote vacío sirve de señal de vida. `/take` también lo actualiza.
+
+### D15. Estado calculado en SQL
+- `state` (`pending`, `confirmed` o `unconfirmed`) se calcula en la consulta con `NOW()` de MariaDB (zona `America/Mexico_City`), y nunca se guarda (ADR-005). Se mantiene `status` y los campos viejos de `summary` para no romper la app actual.
+- Las respuestas incluyen `now`, para que la app compare con la hora del servidor.
+
+### D16. Historial de 7 días y días no consultados
+- **Duda:** las tomas solo se creaban al consultar el día; un día sin consultas no tendría tomas y una omisión no se vería.
+- **Elección:** `/intakes/history` rellena con `INSERT IGNORE` los días faltantes (hoy menos 6 a ayer) como pendientes, solo para horarios activos cuya `created_at` es anterior a esa hora. Esos huecos aparecen como "Sin confirmar".
+- **Limitación:** de un horario ya desactivado no se rellenan días, porque no se guarda cuándo se desactivó; solo se ven las tomas que ya existían.
+- El cuidador tiene su propio historial (`/caregiver/patients/{id}/intakes/history`), con las mismas reglas de vínculo activo y dosis oculta.
+
+### Pruebas realizadas (Paso 3)
+Con curl contra Apache local (usuarios sintéticos):
+- Lote de 4 con Paciente 1: uno `created`; horario de otro paciente, UUID mal formado y hora que no coincide con el horario, `rejected`. Reenviar el mismo lote: `duplicate` para el primero y en BD sigue una sola fila con ese UUID y una sola toma de ese horario y día.
+- Otro UUID para la misma toma: `already_confirmed`. Lote vacío: 200 y `last_sync_at` actualizado. Sin `confirmations`: 422. Cuidador: 403.
+- El cuidador ve `last_sync_at` en la lista y en el detalle, y `state` en cada toma.
+- Historial del Paciente 1: ayer 14:00 sale `unconfirmed` (pendiente del seed), las confirmadas `confirmed`; el cuidador recibe lo mismo sin `dose`; Cuidador 2 sin vínculo recibe 404.
+- El límite exacto de 30 min se prueba con horas controladas en el paso 4.

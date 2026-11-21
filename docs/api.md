@@ -60,9 +60,12 @@ Todas las respuestas de error tienen esta forma:
 | PUT | `/medications/{id}` | paciente | Reemplaza nombre, dosis y horas |
 | DELETE | `/medications/{id}` | paciente | Desactiva el medicamento (no lo borra) |
 | GET | `/intakes/today` | paciente | Tomas de hoy |
-| POST | `/intakes/{id}/take` | paciente | Marca una toma de hoy como tomada |
+| POST | `/intakes/sync` | paciente | Sincroniza en lote confirmaciones con UUID (idempotente) |
+| GET | `/intakes/history` | paciente | Tomas de los últimos 7 días |
+| POST | `/intakes/{id}/take` | paciente | Confirma una toma de hoy (compatibilidad) |
 | GET | `/caregiver/patients` | cuidador | Sus pacientes con el resumen de hoy |
 | GET | `/caregiver/patients/{id}/intakes/today` | cuidador | Tomas de hoy de uno de sus pacientes |
+| GET | `/caregiver/patients/{id}/intakes/history` | cuidador | Tomas de 7 días de uno de sus pacientes |
 | DELETE | `/caregiver/patients/{id}` | cuidador | Deja de seguir a ese paciente o retira su solicitud |
 
 ## Ejemplos
@@ -226,17 +229,58 @@ curl -s -X DELETE $B/medications/6 -H "Authorization: Bearer $TP"
 ```
 `200`: `{"message":"Medicamento desactivado."}`
 
+### Estado de una toma (ADR-005)
+Cada toma trae `status` (lo guardado: `pending` o `taken`) y `state` (lo que se muestra, calculado en cada consulta con la hora del servidor):
+
+| `state` | Etiqueta en la app | Regla |
+|---|---|---|
+| `pending` | Pendiente | `status = pending` y ahora ≤ `scheduled_for` + 30 min |
+| `confirmed` | Confirmada por el paciente | `status = taken` |
+| `unconfirmed` | Sin confirmar | `status = pending` y ahora > `scheduled_for` + 30 min |
+
+"Sin confirmar" **no se guarda**. "Confirmada por el paciente" solo significa que el paciente tocó "Tomado"; no verifica la ingesta. Las respuestas traen `now` (hora del servidor) para que la app calcule igual. `summary` trae `total`, `confirmed`, `unconfirmed` y, por compatibilidad, `taken` (= `confirmed`) y `pending` (todo lo no confirmado).
+
 ### GET /intakes/today (paciente)
-Crea como pendientes las tomas de hoy que todavía no existan y devuelve la lista del día ordenada por hora. Incluye las tomas de medicamentos y horarios activos, más las ya marcadas como tomadas aunque después se hayan desactivado.
+Crea como pendientes las tomas de hoy que todavía no existan y devuelve la lista del día ordenada por hora. Incluye las tomas de medicamentos y horarios activos, más las ya confirmadas aunque después se hayan desactivado.
 ```bash
 curl -s $B/intakes/today -H "Authorization: Bearer $TP"
 ```
 ```json
-{"date":"2026-11-11","intakes":[{"id":1,"medication_id":1,"name":"Medicamento SINTETICO A","dose":"1 tableta (dato de prueba)","time":"08:00","scheduled_for":"2026-11-11 08:00:00","status":"taken","confirmed_at":"2026-11-11 08:03:00"},{"id":2,"medication_id":2,"name":"Medicamento SINTETICO B","dose":"5 ml (dato de prueba)","time":"14:00","scheduled_for":"2026-11-11 14:00:00","status":"pending","confirmed_at":null}],"summary":{"total":3,"taken":1,"pending":2}}
+{"date":"2026-11-21","now":"2026-11-21 12:11:45","intakes":[{"id":1,"schedule_id":1,"medication_id":1,"name":"Medicamento SINTETICO A","dose":"1 tableta (dato de prueba)","time":"08:00","scheduled_for":"2026-11-21 08:00:00","status":"taken","state":"confirmed","confirmed_at":"2026-11-21 08:03:00","received_at":"2026-11-21 08:04:00"},{"id":3,"schedule_id":2,"medication_id":1,"name":"Medicamento SINTETICO A","dose":"1 tableta (dato de prueba)","time":"20:00","scheduled_for":"2026-11-21 20:00:00","status":"pending","state":"pending","confirmed_at":null,"received_at":null}],"summary":{"total":2,"taken":1,"pending":1,"confirmed":1,"unconfirmed":0}}
+```
+
+### POST /intakes/sync (paciente)
+Envía en lote las confirmaciones hechas en el teléfono, incluso sin red al momento del toque (RF-13; ADR-003). Cada una lleva un `client_uuid` generado en el teléfono. Es **idempotente**: reenviar el mismo lote no duplica nada ni da error. Actualiza `users.last_sync_at` (RF-12) aunque el lote venga vacío, así que también sirve para avisar que el teléfono tiene conexión.
+
+Cada confirmación: `client_uuid` (UUID), `schedule_id` (entero), `scheduled_for` y `confirmed_at` (`YYYY-MM-DD HH:MM:SS`, hora de México). Máximo 100 por envío.
+```bash
+curl -s -X POST $B/intakes/sync -H "Authorization: Bearer $TP" -H 'Content-Type: application/json' \
+  -d '{"confirmations":[{"client_uuid":"11111111-2222-4333-8444-555555555555","schedule_id":3,"scheduled_for":"2026-11-21 14:00:00","confirmed_at":"2026-11-21 12:11:44"}]}'
+```
+`200`, con un resultado por confirmación en el mismo orden:
+```json
+{"results":[{"client_uuid":"11111111-2222-4333-8444-555555555555","status":"created","intake_id":2}],"last_sync_at":"2026-11-21 12:11:44"}
+```
+| `status` | Significado | ¿La app la borra de su cola? |
+|---|---|---|
+| `created` | Se guardó la confirmación | Sí |
+| `duplicate` | Ese `client_uuid` ya se había recibido | Sí |
+| `already_confirmed` | La toma ya estaba confirmada por otro envío; se conserva la primera | Sí |
+| `rejected` | Datos inválidos (`error` dice por qué): UUID mal formado, horario ajeno, hora que no coincide con el horario, fecha fuera de los últimos 7 días o `confirmed_at` en el futuro (más de 5 min) | Sí, no tiene caso reintentar |
+
+Errores del lote completo: `422` si `confirmations` no es una lista o trae más de 100; `403` para el cuidador. La app debe reintentar solo ante errores de red o `5xx`.
+
+### GET /intakes/history (paciente)
+Tomas de los últimos 7 días, hoy incluido, agrupadas por día del más reciente al más antiguo (RF-15). Los días que nadie consultó se rellenan como pendientes (y por lo tanto "Sin confirmar"), solo para horarios activos que ya existían a esa hora.
+```bash
+curl -s $B/intakes/history -H "Authorization: Bearer $TP"
+```
+```json
+{"from":"2026-11-15","to":"2026-11-21","now":"2026-11-21 12:12:00","days":[{"date":"2026-11-21","intakes":[...],"summary":{...}},{"date":"2026-11-20","intakes":[...],"summary":{"total":3,"taken":2,"pending":1,"confirmed":2,"unconfirmed":1}}]}
 ```
 
 ### POST /intakes/{id}/take (paciente)
-Solo para tomas propias de hoy que sigan pendientes, a cualquier hora del día. No se puede deshacer.
+Se conserva por compatibilidad; la app usa `/intakes/sync`. Solo para tomas propias de hoy que sigan pendientes, a cualquier hora del día. No se puede deshacer. También actualiza `last_sync_at`.
 ```bash
 curl -s -X POST $B/intakes/2/take -H "Authorization: Bearer $TP"
 ```
@@ -259,9 +303,9 @@ Lista los pacientes vinculados (un cuidador puede tener varios), con el resumen 
 curl -s $B/caregiver/patients -H "Authorization: Bearer $TC"
 ```
 ```json
-{"date":"2026-11-11","patients":[{"id":5,"full_name":"Paciente SINTETICO Tres","linked_at":"2026-11-11 09:31:25","summary":{"total":1,"taken":0,"pending":1}},{"id":1,"full_name":"Paciente SINTETICO Uno","linked_at":"2026-11-10 11:14:34","summary":{"total":3,"taken":1,"pending":2}}]}
+{"date":"2026-11-21","now":"2026-11-21 12:11:45","patients":[{"id":5,"full_name":"Paciente SINTETICO Tres","linked_at":"2026-11-21 10:07:39","last_sync_at":null,"summary":{"total":1,"taken":0,"pending":1,"confirmed":0,"unconfirmed":0}},{"id":1,"full_name":"Paciente SINTETICO Uno","linked_at":"2026-11-20 12:06:39","last_sync_at":"2026-11-21 12:11:45","summary":{"total":3,"taken":2,"pending":1,"confirmed":2,"unconfirmed":0}}]}
 ```
-Sin pacientes vinculados, `patients` es `[]`.
+Sin pacientes vinculados, `patients` es `[]`. `last_sync_at` es la última vez que el teléfono del paciente sincronizó (`null` si nunca); con él el cuidador distingue una toma sin confirmar de un teléfono sin conexión (RF-12).
 
 ### GET /caregiver/patients/{id}/intakes/today (cuidador)
 Tomas de hoy de un paciente vinculado, con la misma forma que `/intakes/today` más el campo `patient`. La dosis (`dose`) **no se envía** salvo que el paciente la comparta (`patient.share_dose`, G-07).
@@ -269,9 +313,12 @@ Tomas de hoy de un paciente vinculado, con la misma forma que `/intakes/today` m
 curl -s $B/caregiver/patients/1/intakes/today -H "Authorization: Bearer $TC"
 ```
 ```json
-{"patient":{"id":1,"full_name":"Paciente SINTETICO Uno","share_dose":false},"date":"2026-11-11","intakes":[...],"summary":{"total":3,"taken":1,"pending":2}}
+{"patient":{"id":1,"full_name":"Paciente SINTETICO Uno","share_dose":false,"last_sync_at":"2026-11-21 12:11:45"},"date":"2026-11-21","now":"2026-11-21 12:11:45","intakes":[...],"summary":{"total":3,"taken":2,"pending":1,"confirmed":2,"unconfirmed":0}}
 ```
 Errores: `404` si ese paciente no tiene un vínculo activo con el cuidador.
+
+### GET /caregiver/patients/{id}/intakes/history (cuidador)
+Igual que `/intakes/history`, con el campo `patient` y sin `dose` salvo `share_dose`. `404` sin vínculo activo.
 
 ### DELETE /caregiver/patients/{id} (cuidador)
 El cuidador deja de seguir a ese paciente, o retira su solicitud si el paciente no la ha aceptado (el vínculo queda como `revoked`).
