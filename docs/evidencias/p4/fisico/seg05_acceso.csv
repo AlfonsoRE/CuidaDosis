@@ -1,0 +1,23 @@
+caso,host,ruta,esperado,obtenido,resultado,fecha,entorno,commit
+SEG-05,localhost,/CuidaDosis/api/.env,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/api/src/,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/api/src/Auth.php,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/api/config/config.php,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/bd/,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/bd/schema.sql,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/bd/seed.sql,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/api/public/.env,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/api/public/.htaccess,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/.git/config,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,localhost,/CuidaDosis/deploy/build_hosting_package.php,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/api/.env,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/api/src/,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/api/src/Auth.php,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/api/config/config.php,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/bd/,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/bd/schema.sql,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/bd/seed.sql,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/api/public/.env,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/api/public/.htaccess,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/.git/config,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
+SEG-05,IP_LOCAL_DE_LA_PC,/CuidaDosis/deploy/build_hosting_package.php,403 o 404,403,OK,2026-11-21 14:58,Apache 2.4.58 XAMPP con los .htaccess del repo; curl desde la PC,48d5e6b
