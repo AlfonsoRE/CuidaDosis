@@ -1,0 +1,7 @@
+16:57:04 
+16:57:15 
+16:57:26 
+16:57:37 
+16:57:47 
+16:57:58 
+16:58:09             when=1795301882438/1795301882438                 android.title=String (Revisa a Paciente SINTETICO Alarma)                 android.text=String (No se pudo consultar la toma de las 16:28 (sin conexión). El teléfono del paciente aún no ha sincronizado.) 

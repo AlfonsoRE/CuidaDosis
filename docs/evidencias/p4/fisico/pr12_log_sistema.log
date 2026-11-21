@@ -1,0 +1,4 @@
+11-21 16:58:00.008 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{368c50d type 0 origWhen 1795301880000 whenElapsed 4534900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.CAREGIVER_CHECK package name mx.cuidadosis.app at 4534900 ms
+11-21 16:58:02.429 W/CuidaDosis(17409): Error de red al llamar a la API
+11-21 16:58:02.447 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=101709244, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 16:58:02.679 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=101709244 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
