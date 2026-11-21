@@ -234,3 +234,9 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 
 ### Pruebas realizadas (Paso 9)
 - Compila; 65 pruebas unitarias en verde. La revisión visual con letra del sistema grande se hace con capturas en la Fase 7.
+
+## Paso 10. Pruebas unitarias del cliente y cierre
+
+- Pruebas unitarias: 65 en verde. Las 32 de las fases anteriores no cambiaron. Las 33 nuevas cubren: estado calculado (`IntakeStateTest`), cálculo de avisos T menos L, T, pospuestos y reglas de L (`ReminderEventTest`), idempotencia de la cola (`OfflineQueueTest`), alarma T + 30 del cuidador (`CaregiverAlarmTest`) y mensajes de vínculo (`LinkMessagesTest`).
+- README actualizado (alcance RF-01 a RF-16 y RF-18, RF-17 fuera, cómo correr las pruebas). `docs/api.md` incluye los endpoints nuevos y `schedules` en medicamentos.
+- La tabla de requisitos con archivos, pruebas y pendientes manuales está en `RESUMEN_FASE6.md` (raíz), con los resultados de las pruebas en emulador de la Fase 7.

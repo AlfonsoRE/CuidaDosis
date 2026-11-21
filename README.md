@@ -2,7 +2,7 @@
 
 Aplicación móvil para recordar y registrar la toma de medicamentos, con seguimiento por parte de un cuidador. Una sola app sirve para ambos roles.
 
-**Problema que atiende:** las personas con tratamientos diarios olvidan tomas o no recuerdan si ya las tomaron, y quienes las cuidan no tienen una forma sencilla de saberlo. CuidaDosis avisa al paciente 5 minutos antes de cada toma, le permite marcarla como "Tomado" y deja que un cuidador vinculado consulte el estado del día de cada uno de sus pacientes.
+**Problema que atiende:** las personas con tratamientos diarios olvidan tomas o no recuerdan si ya las tomaron, y quienes las cuidan no tienen una forma sencilla de saberlo. CuidaDosis avisa al paciente antes de cada toma (5 o 10 minutos, a su elección) y otra vez a la hora si sigue pendiente, le permite confirmarla con un toque aun sin internet y deja que un cuidador vinculado consulte el estado del día de cada uno de sus pacientes y reciba una alarma si una toma queda sin confirmar.
 
 > Prototipo académico. CuidaDosis no recomienda dosis ni sustituye al médico.
 
@@ -17,21 +17,28 @@ Aplicación móvil para recordar y registrar la toma de medicamentos, con seguim
 
 ## Alcance
 
-### Funciones del alcance mínimo
-1. Registro e inicio de sesión con roles: paciente y cuidador.
-2. Vinculación entre paciente y cuidador mediante un código de invitación; cualquiera de los dos puede desvincularse.
-3. Alta de medicamentos con horario diario.
-4. Aviso 5 minutos antes de cada toma (alarma local en Android).
-5. Botón "Tomado" y vista de estado de las tomas para el cuidador (puede seguir a varios pacientes).
+El diseño objetivo es el de P2 v1.1 y P3 v1.0 (`docs/p2`, `docs/p3`, `docs/adr`). La Fase 6 alinea el prototipo con él.
+
+### Dentro del prototipo: RF-01 a RF-16 y RF-18
+1. Registro e inicio de sesión con roles: paciente y cuidador (RF-01, RF-02).
+2. Alta, edición y desactivación de medicamentos con varias horas diarias (RF-03, RF-04).
+3. Aviso local L minutos antes de cada toma (L = 5 o 10, por defecto 5, ajuste del teléfono), segundo aviso a la hora si sigue pendiente y posponer 5 o 10 min (RF-05, RF-06, RF-16).
+4. Botón "Tomado" con un toque, sin diálogo. El estado se llama "Confirmada por el paciente" (RF-07).
+5. Vinculación con código de 8 caracteres que dura 10 min; el paciente acepta o rechaza la solicitud; 5 intentos fallidos en 10 min bloquean al cuidador. Cualquiera de los dos puede desvincularse (RF-08, RF-09).
+6. Vista del cuidador con tres etiquetas (Pendiente, Confirmada por el paciente, Sin confirmar a los 30 min), última sincronización del paciente y dosis oculta salvo autorización (RF-10 a RF-12).
+7. Modo sin red: el paciente confirma sin conexión y la app envía las confirmaciones al volver la red, sin duplicados (RF-13).
+8. Advertencias de permisos de notificaciones, alarmas exactas y ahorro de batería (RF-14).
+9. Historial de 7 días en la API (RF-15, mínimo: sin pantalla en la app).
+10. Alarma local del cuidador a T + 30 min si la toma sigue sin confirmar (RF-18).
 
 ### Fuera de alcance
-- Notificaciones push.
+- RF-17: notificación push al cuidador (queda como Futuro).
 - Reportes.
 - Varios cuidadores activos por paciente.
 - Recomendaciones de dosis.
 
 ### Limitaciones
-- El botón "Tomado" registra un clic del usuario; no comprueba que el medicamento realmente se haya ingerido.
+- "Confirmada por el paciente" registra un toque del usuario; no comprueba que el medicamento realmente se haya ingerido.
 - El sistema no recomienda dosis ni sustituye al médico. El nombre y la dosis son texto libre que escribe el usuario y la app no los interpreta.
 - El aviso es una alarma local del teléfono: sale aunque no haya red, pero no avisa si las notificaciones están desactivadas, y algunos fabricantes con ahorro de energía agresivo pueden retrasarlo. Las horas son de México (`America/Mexico_City`) aunque el teléfono esté en otra zona.
 - Es un prototipo para entorno local; no está preparado para producción.
@@ -66,9 +73,9 @@ CuidaDosis/
   README.md     Este archivo
   .htaccess     Niega el acceso web a todo el repo
   android/      Proyecto de Android Studio
-  api/          Backend PHP (solo api/public/ es accesible por web)
+  api/          Backend PHP (solo api/public/ es accesible por web); api/tests/ tiene las pruebas automáticas
   bd/           Scripts SQL (schema.sql y seed.sql)
-  docs/         Documentación técnica (api.md y decisiones de las fases 4 y 5)
+  docs/         Documentación técnica: api.md, decisiones de las fases 4 a 6, diseño P2/P3, ADR y evidencias
 ```
 
 ## Tecnologías y versiones
@@ -104,9 +111,9 @@ También puedes importar ambos archivos desde phpMyAdmin (primero `schema.sql`, 
 
 | Correo | Rol | Situación |
 |---|---|---|
-| paciente1@ejemplo.test | Paciente | Vinculado con cuidador1; tiene medicamentos y tomas de hoy |
-| paciente2@ejemplo.test | Paciente | Tiene un código de invitación pendiente: `SINT0002` |
-| paciente3@ejemplo.test | Paciente | Vinculado con cuidador1; un medicamento a las 12:00 |
+| paciente1@ejemplo.test | Paciente | Vinculado con cuidador1 (no comparte la dosis); tomas de hoy y de ayer |
+| paciente2@ejemplo.test | Paciente | Código pendiente `SINT0002` (vence 10 min después de cargar el seed) |
+| paciente3@ejemplo.test | Paciente | Vinculado con cuidador1 (sí comparte la dosis); un medicamento a las 12:00 |
 | cuidador1@ejemplo.test | Cuidador | Vinculado con paciente1 y paciente3 (varios pacientes) |
 | cuidador2@ejemplo.test | Cuidador | Sin vincular; sirve para probar el código `SINT0002` |
 
@@ -119,11 +126,15 @@ erDiagram
     medications ||--o{ schedules : "horas diarias"
     schedules ||--o{ intake_logs : "tomas"
     users ||--o{ api_tokens : "sesiones"
+    users ||--o{ link_attempts : "intentos de código"
 ```
 
 - Un paciente tiene como máximo un cuidador activo; un cuidador puede tener varios pacientes.
 - Paciente o cuidador pueden desvincularse; el vínculo queda como `revoked` (no se borra) y el paciente puede invitar a otro cuidador.
-- El código de invitación caduca a las 48 horas y es de un solo uso.
+- El código de invitación caduca a los 10 minutos y es de un solo uso. Al usarlo, el vínculo queda en `awaiting_acceptance` hasta que el paciente lo acepta.
+- Cada confirmación lleva un `client_uuid` único generado en el teléfono; reenviarla no la duplica.
+- "Sin confirmar" se calcula (pendiente y más de 30 min después de la hora); no se guarda.
+- La dosis solo se envía al cuidador si `links.share_dose = 1` (por defecto 0).
 - Un medicamento puede tener varias horas diarias.
 - Las tomas del día se crean como pendientes cuando se consulta el día.
 - Medicamentos y horarios se desactivan en lugar de borrarse, para conservar el historial.
@@ -142,7 +153,7 @@ erDiagram
    - Sin recompilar: en la pantalla de login toca **Servidor**, escribe la URL, usa **Probar conexión** y **Guardar**.
 3. Ejecuta la app con el botón Run, o compila desde terminal con `gradlew.bat assembleDebug` dentro de `android/`.
 4. En Android 17 o superior la app pide el permiso de **dispositivos cercanos / red local** (`ACCESS_LOCAL_NETWORK`). Hay que aceptarlo: sin él Android bloquea la conexión a la PC con XAMPP (10.0.2.2 o la IP local).
-5. Para el aviso 5 minutos antes, el paciente debe aceptar el permiso de **notificaciones** (Android 13 o superior). La alarma exacta usa `USE_EXACT_ALARM`, que Android concede al instalar.
+5. Para los avisos, paciente y cuidador deben aceptar el permiso de **notificaciones** (Android 13 o superior). La alarma exacta usa `USE_EXACT_ALARM`, que Android concede al instalar. Si falta algún permiso o el ahorro de batería puede afectar los avisos, la app lo indica con una tarjeta.
 6. El tráfico HTTP sin cifrar solo se permite en la versión debug. La versión release exige HTTPS.
 
 > Si `gradlew.bat` falla con `jlink executable ... does not exist`, Gradle eligió una JRE incompleta (por ejemplo, la de una extensión de VS Code). Usa el JDK de Android Studio:
@@ -151,19 +162,21 @@ erDiagram
 > gradlew.bat assembleDebug "-Dorg.gradle.java.installations.auto-detect=false" "-Dorg.gradle.java.installations.paths=C:\Program Files\Android\Android Studio\jbr"
 > ```
 
-**Qué hace la app hoy (Fase 5):**
+**Qué hace la app hoy (Fase 6):**
 - **Todos:** registro con rol (paciente o cuidador), inicio y cierre de sesión.
-- **Paciente**, en tres pestañas:
-  - **Hoy:** tomas del día con el botón "Tomado" (pide confirmación y no se puede deshacer).
-  - **Medicamentos:** lista, alta, edición y desactivación, con varias horas diarias.
-  - **Cuidador:** generar el código de invitación o desvincular al cuidador.
-  - **Aviso 5 minutos antes** de cada toma con una notificación local (nombre y dosis tal como se escribieron). Tocarla abre "Hoy". Se reprograma al iniciar sesión, al cambiar medicamentos, al reiniciar el teléfono y al cambiar la hora; se cancela al cerrar sesión. Si las notificaciones están apagadas, "Hoy" muestra una tarjeta para activarlas.
+- **Paciente**, en tres pestañas más "Ajustes":
+  - **Hoy:** tomas del día con el botón "Tomado" (un toque). Funciona sin red: la confirmación se guarda cifrada en el teléfono y se envía sola al volver la conexión. Muestra la última sincronización y avisa si no hay conexión.
+  - **Medicamentos:** lista, alta, edición y desactivación, con varias horas diarias (requiere conexión).
+  - **Cuidador:** generar el código (10 min), aceptar o rechazar la solicitud del cuidador, desvincularlo.
+  - **Ajustes:** anticipación del aviso (5 o 10 min) y estado de los permisos.
+  - **Avisos:** a T menos L y a la hora T si sigue pendiente, con botones "Posponer 5 min" y "Posponer 10 min". No suenan si la toma ya está confirmada. Se reprograman al reiniciar el teléfono.
 - **Cuidador:**
-  - Lista de sus pacientes con el resumen de hoy.
-  - **Vincular paciente** con el código de invitación.
-  - Detalle de solo lectura de las tomas de hoy de cada paciente, con la opción de dejar de seguirlo.
+  - Lista de pacientes con el resumen de hoy, "Sin confirmar" y la última sincronización; sección "Esperando aceptación".
+  - **Vincular paciente** con el código, con mensajes claros si el código venció o hubo demasiados intentos.
+  - Detalle de solo lectura con las tres etiquetas; la dosis solo si el paciente la comparte.
+  - Alarma local a los 30 min de cada toma pendiente que, al sonar, revisa el estado y solo avisa si sigue sin confirmar.
 
-Las decisiones de la Fase 4 están en [docs/decisiones-fase-4.md](docs/decisiones-fase-4.md) y las de la Fase 5 en [docs/decisiones-fase-5.md](docs/decisiones-fase-5.md).
+Las decisiones están en [docs/decisiones-fase-4.md](docs/decisiones-fase-4.md), [docs/decisiones-fase-5.md](docs/decisiones-fase-5.md) y [docs/decisiones-fase-6.md](docs/decisiones-fase-6.md). Lo pendiente, en [docs/PENDIENTES_FASE6.md](docs/PENDIENTES_FASE6.md).
 
 ## Cómo probar la API
 
@@ -172,6 +185,14 @@ Comprobación rápida (Apache encendido):
 curl -i http://localhost/CuidaDosis/api/public/
 ```
 Debe responder con `"status":"ok"`. La lista de endpoints, el formato de errores y ejemplos curl con los usuarios sintéticos están en [docs/api.md](docs/api.md).
+
+Pruebas automáticas de la API (Apache y MySQL encendidos; crean y borran sus propios usuarios sintéticos):
+```
+C:\xampp\php\php.exe api\tests\run_api_tests.php
+```
+Imprime cada caso con OK o FALLO y guarda el log en `docs/evidencias/p4/api-AAAAMMDD-HHMM.log`.
+
+Pruebas unitarias de la app (dentro de `android/`): `gradlew.bat testDebugUnitTest`.
 
 ## Estado del proyecto
 
@@ -183,13 +204,9 @@ Debe responder con `"status":"ok"`. La lista de endpoints, el formato de errores
 | 3 | App Android base: registro, login por rol y gestión de medicamentos | Hecho |
 | 4 | App: tomas de hoy con "Tomado", vinculación y vista del cuidador | Hecho |
 | 5 | Alarmas locales: aviso 5 minutos antes de cada toma | Hecho |
+| 6 | Alineación con P2 v1.1 y P3: BD v2, vínculo con aceptación, sincronización sin red, avisos T menos L y T, alarma del cuidador | Hecho (pruebas en teléfono físico pendientes) |
 
-Funciones del alcance mínimo (se marcan cuando funcionan de punta a punta en la app):
-- [x] Registro e inicio de sesión con roles
-- [x] Vinculación con código de invitación
-- [x] Alta de medicamentos con horario diario
-- [x] Aviso 5 minutos antes de la toma
-- [x] Botón "Tomado" y vista de estado para el cuidador
+Las funciones de las fases 0 a 5 funcionan de punta a punta. El detalle por requisito de la Fase 6 está en `RESUMEN_FASE6.md`.
 
 ## Aviso de datos
 

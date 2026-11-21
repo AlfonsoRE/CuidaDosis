@@ -194,8 +194,9 @@ curl -s -X POST $B/links/4/reject -H "Authorization: Bearer $TP"
 curl -s $B/medications -H "Authorization: Bearer $TP"
 ```
 ```json
-{"medications":[{"id":1,"name":"Medicamento SINTETICO A","dose":"1 tableta (dato de prueba)","times":["08:00","20:00"],"created_at":"2026-11-11 10:14:34","updated_at":"2026-11-11 10:14:34"}]}
+{"medications":[{"id":1,"name":"Medicamento SINTETICO A","dose":"1 tableta (dato de prueba)","times":["08:00","20:00"],"schedules":[{"id":1,"time":"08:00"},{"id":2,"time":"20:00"}],"created_at":"2026-11-21 12:01:39","updated_at":"2026-11-21 12:01:39"}]}
 ```
+`schedules` trae el identificador de cada hora; la app lo guarda para confirmar tomas sin red con `/intakes/sync`. `times` se conserva por compatibilidad. Lo mismo aplica a las respuestas de alta, detalle y edición.
 
 ### POST /medications (paciente)
 Campos: `name` y `dose` (texto libre, de 1 a 100) y `times` (de 1 a 10 horas `HH:MM`, sin repetir).
