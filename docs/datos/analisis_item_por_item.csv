@@ -1,0 +1,10 @@
+﻿Item,Nucleo_14,Item_por_item,Efecto
+C1 aviso util (4 o 5),14 de 14,21 de 23,Sin cambio
+C2 5 min aceptables,14 de 14,20 de 21,Sin cambio
+C3 un toque para confirmar,11 de 14,14 de 23,Menor apoyo; se mantiene
+C4 ver cada toma,14 de 14,20 de 23,Sin cambio
+C6 aviso al cuidador,14 de 14,20 de 23,Sin cambio
+C9 ver la dosis,6 de 14,14 de 23,Opcional para el paciente
+B3 pospone la alarma,7 de 14,13 de 22,RF-16 pasa a Media
+B2 prefiere 5 min,2 de 14,4 de 22,Dispersion
+B2 prefiere 10 min,5 de 14,7 de 22,Dispersion

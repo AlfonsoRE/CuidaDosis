@@ -3,7 +3,7 @@ RF-01,PR-5,"OE3, OE4",E9,Funcional
 RF-02,PR-5,"OE3, OE4",P1 §5.5; RNF-05,Funcional
 RF-03,PR-1,"OE2, OE3","E1, E9 (H-01, H-09)",Funcional
 RF-04,PR-1,OE3,"E9, E10 (H-11)",Funcional
-RF-05,"PR-1, PR-3","OE2, OE3, OE5","C1, C2, B4, E4, E9 (H-04, H-09)",En dispositivo físico
+RF-05,"PR-1, PR-3","OE2, OE3, OE5","C1, C2, B2, B4, E4, E9 (H-04, H-09)",En dispositivo físico
 RF-06,PR-1,OE3,"B3, E4 (H-01, H-04)",En dispositivo físico
 RF-07,PR-3,OE3,"C3, E5, E9 (H-05)",Funcional
 RF-08,"PR-2, PR-5","OE3, OE4","E6, E9 (H-06, H-09)",Funcional
@@ -16,6 +16,7 @@ RF-14,PR-4,"OE4, OE5","B5, B6, E8 (H-07)",En dispositivo físico
 RF-15,PR-2,OE3,"C9, E9, E10 (H-03, H-09)",Funcional
 RF-16,PR-1,OE3,"B3, E10 (H-11)",Funcional
 RF-17,PR-2,OE2,"C6, E9, E10 (H-10)",No se prueba (Futuro)
+RF-18,"PR-2, PR-3","OE2, OE3","C6, E2, E9, E10 (H-02, H-10)",En dispositivo físico
 RNF-01,PR-4,"OE4, OE5","B5, B6, E8 (H-07)",En dispositivo físico
 RNF-02,PR-4,OE4,"B5, E8 (H-07)",En dispositivo físico
 RNF-03,PR-4,OE4,E8; P1 §5.3,En dispositivo físico
