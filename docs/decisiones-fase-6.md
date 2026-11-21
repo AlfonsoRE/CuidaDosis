@@ -220,3 +220,17 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 
 ### Pruebas realizadas (Paso 8)
 - Compila. 65 pruebas unitarias en verde (5 nuevas en `CaregiverAlarmTest`: T + 30, qué tomas se vigilan, la más cercana, avisar solo si sigue sin confirmar, sin conexión y vínculo revocado). La alarma en emulador y teléfono se prueba en la Fase 7 (PR-12).
+
+## Paso 9. Permisos y accesibilidad (RF-14, RNF-04)
+
+### D35. Permisos
+- La tarjeta de permisos (D26) también aparece en la lista del cuidador, y la app pide el permiso de notificaciones al cuidador, porque su alarma a T + 30 lo necesita.
+- Revisa notificaciones, alarmas exactas (`canScheduleExactAlarms`) y ahorro de batería (`isIgnoringBatteryOptimizations`). Cada punto trae un botón que abre el ajuste del sistema correspondiente. Para la batería se abre la lista de optimización en lugar de pedir la exención directa, para no requerir el permiso `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`. También se recuerda revisar No molestar, que la app no puede consultar sin permisos especiales.
+
+### D36. Tamaño de letra y botones
+- Tipografía base más grande (cuerpo 18 sp, títulos 19 a 26 sp; nada por debajo de 14 sp), todo en `sp` para que también crezca con el tamaño de letra del sistema.
+- Botones principales ("Tomado", "Aceptar", "Rechazar") de al menos 56 dp de alto; los demás de al menos 48 dp, que es el mínimo de Material.
+- Las tarjetas exponen su estado a TalkBack (`stateDescription`) con la etiqueta de la toma.
+
+### Pruebas realizadas (Paso 9)
+- Compila; 65 pruebas unitarias en verde. La revisión visual con letra del sistema grande se hace con capturas en la Fase 7.

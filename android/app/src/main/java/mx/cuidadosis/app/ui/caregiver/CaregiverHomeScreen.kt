@@ -41,6 +41,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import mx.cuidadosis.app.data.remote.AwaitingDto
 import mx.cuidadosis.app.data.remote.CaregiverPatientDto
 import mx.cuidadosis.app.ui.common.ErrorText
+import mx.cuidadosis.app.ui.patient.PermissionsCard
+import mx.cuidadosis.app.ui.patient.RequestNotificationPermission
 import mx.cuidadosis.app.ui.common.LoadingBox
 import mx.cuidadosis.app.ui.common.formatApiDate
 import mx.cuidadosis.app.ui.common.formatApiDateTime
@@ -58,6 +60,8 @@ fun CaregiverHomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
+    // La alarma a T + 30 necesita notificaciones (RF-14, RF-18)
+    RequestNotificationPermission()
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.load() }
     LaunchedEffect(state.message) {
@@ -100,6 +104,7 @@ fun CaregiverHomeScreen(
                     TextButton(onClick = viewModel::load, enabled = !state.loading) { Text("Actualizar") }
                 }
             }
+            item { PermissionsCard() }
             if (state.awaiting.isNotEmpty()) {
                 item { Text("Esperando aceptación", style = MaterialTheme.typography.titleMedium) }
                 items(state.awaiting, key = { "a" + it.id }) { req ->
