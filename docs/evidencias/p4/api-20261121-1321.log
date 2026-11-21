@@ -1,0 +1,117 @@
+CuidaDosis: pruebas automáticas de la API
+Fecha y hora: 2026-11-21 13:21:26 (America/Mexico_City)
+URL base: http://localhost/CuidaDosis/api/public
+Datos: usuarios SINTETICO creados por este script (@ejemplo.test)
+------------------------------------------------------------------------
+[OK   ] API-01 registro de paciente
+    entrada:  POST /auth/register role=patient t112113212601p@ejemplo.test
+    esperado: 201 con token de 64 hex
+    obtenido: 201 {"role":"patient","token_len":64}
+[OK   ] API-02 registro de cuidadores
+    entrada:  POST /auth/register role=caregiver (2 cuentas)
+    esperado: 201 y 201
+    obtenido: 201 y 201
+[OK   ] API-03 correo repetido
+    entrada:  POST /auth/register con t112113212601p@ejemplo.test
+    esperado: 409
+    obtenido: 409 {"error":"Ya existe una cuenta con ese correo."}
+[OK   ] API-04 inicio de sesión
+    entrada:  POST /auth/login credenciales correctas
+    esperado: 200 con token
+    obtenido: 200 {"user":"t112113212601p@ejemplo.test","has_token":true}
+[OK   ] API-05 contraseña incorrecta
+    entrada:  POST /auth/login contraseña errónea
+    esperado: 401
+    obtenido: 401 {"error":"Correo o contraseña incorrectos."}
+[OK   ] API-06 token inválido
+    entrada:  GET /me con token inexistente
+    esperado: 401
+    obtenido: 401 {"error":"La sesión no es válida o ya expiró. Inicia sesión de nuevo."}
+[OK   ] API-07 código de invitación
+    entrada:  POST /links/invite (paciente)
+    esperado: 201, 8 caracteres, vence en 10 min (590 a 600 s)
+    obtenido: 201 {"invite_code":"Q43A3B2G","expires_at":"2026-11-21 13:31:27"} | segundos para vencer: 600
+[OK   ] API-08 cuidador usa el código
+    entrada:  POST /links/accept {invite_code: Q43A3B2G en minúsculas}
+    esperado: 200 y status awaiting_acceptance
+    obtenido: 200 {"link":{"id":23,"status":"awaiting_acceptance","requested_at":"2026-11-21 13:21:27"},"patient":{"id":34,"full_name":"Paciente SINTETICO prueba API"},"message":"Solicitud enviada. Espera a que el paciente la acepte."}
+[OK   ] API-09 sin aceptación no hay datos
+    entrada:  GET /caregiver/patients/{id}/intakes/today antes de aceptar
+    esperado: 404
+    obtenido: 404 {"error":"Ese paciente no está vinculado contigo."}
+[OK   ] API-10 paciente ve la solicitud
+    entrada:  GET /links/pending (paciente)
+    esperado: 200 con request.id = 23
+    obtenido: 200 {"request":{"id":23,"requested_at":"2026-11-21 13:21:27","caregiver":{"id":35,"full_name":"Cuidador SINTETICO prueba API"}}}
+[OK   ] API-11 el cuidador no puede aceptar
+    entrada:  POST /links/23/confirm con token de cuidador
+    esperado: 403
+    obtenido: 403 {"error":"Esta acción solo está permitida para el rol paciente."}
+[OK   ] API-12 paciente acepta
+    entrada:  POST /links/23/confirm (paciente)
+    esperado: 200 y status active
+    obtenido: 200 {"link":{"id":23,"status":"active","linked_at":"2026-11-21 13:21:27"},"caregiver":{"id":35,"full_name":"Cuidador SINTETICO prueba API"}}
+[OK   ] API-13 cuidador con vínculo activo
+    entrada:  GET /caregiver/patients/{id}/intakes/today
+    esperado: 200
+    obtenido: 200 {"patient":{"id":34,"full_name":"Paciente SINTETICO prueba API","share_dose":false,"last_sync_at":null},"date":"2026-11-21","now":"2026-11-21 13:21:27","intakes":[],"summary":{"total":0,"taken":0,"pending":0,"confirme...
+[OK   ] API-14 código de un solo uso
+    entrada:  POST /links/accept con el mismo código (otro cuidador)
+    esperado: 404
+    obtenido: 404 {"error":"El código no existe o ya se usó."}
+[OK   ] API-15 código vencido
+    entrada:  POST /links/accept Z6ECW885 con expires_at movido 1 s al pasado en BD
+    esperado: 410 con mensaje de código vencido
+    obtenido: 410 {"error":"El código venció. Pide al paciente que genere uno nuevo."}
+[OK   ] API-16 cinco intentos fallidos
+    entrada:  POST /links/accept x5 con códigos inexistentes ZZZZZZZ1..5
+    esperado: 404 x5
+    obtenido: 404, 404, 404, 404, 404
+[OK   ] API-17 sexto intento bloqueado
+    entrada:  POST /links/accept (6.º intento en menos de 10 min)
+    esperado: 429 con Retry-After
+    obtenido: 429 {"error":"Demasiados intentos con códigos incorrectos. Espera unos minutos y vuelve a intentarlo."} | Retry-After: 600
+[OK   ] API-18 bloqueo también para código válido
+    entrada:  POST /links/accept P8YF4X5W (válido) durante el bloqueo
+    esperado: 429 y siguen 5 fallos registrados en link_attempts
+    obtenido: 429 {"error":"Demasiados intentos con códigos incorrectos. Espera unos minutos y vuelve a intentarlo."} | fallos: 5
+[OK   ] API-19 alta de medicamento
+    entrada:  POST /medications con horas 00:00 y 00:01
+    esperado: 201
+    obtenido: 201 {"medication":{"id":12,"name":"Medicamento SINTETICO prueba API","dose":"1 unidad (dato de prueba)","times":["00:00","00:01"],"schedules":[{"id":20,"time":"00:00"},{"id":21,"time":"00:01"}],"created_at":"2026-11-21 13...
+[OK   ] API-20 sincronización repetida con el mismo UUID
+    entrada:  POST /intakes/sync dos veces con client_uuid ef190921-6536-4309-8530-1f3cbfd6910f
+    esperado: 200 created, luego 200 duplicate; 1 fila con ese UUID y 1 toma
+    obtenido: 200 created, 200 duplicate | filas UUID: 1, filas toma: 1
+[OK   ] API-21 received_at y last_sync_at
+    entrada:  BD tras la sincronización y GET /caregiver/patients
+    esperado: received_at y last_sync_at guardados; el cuidador ve last_sync_at
+    obtenido: guardados: sí | last_sync_at en lista: 2026-11-21 13:21:28
+[OK   ] API-22 sincronizar horario ajeno
+    entrada:  POST /intakes/sync de otro paciente con schedule_id ajeno
+    esperado: 200 con status rejected
+    obtenido: 200 {"results":[{"client_uuid":"a581d06c-b317-4e5d-8059-22e3e6eaf368","status":"rejected","error":"La toma no corresponde a un horario tuyo de los últimos 7 días, o las horas no son válidas."}],"last_sync_at":"2026-11-...
+[OK   ] API-23 estado calculado Pendiente / Sin confirmar / Confirmada
+    entrada:  toma pendiente con scheduled_for = ahora - 29 min y luego ahora - 31 min; toma sincronizada
+    esperado: pending, unconfirmed, confirmed; en BD sigue status pending
+    obtenido: T+29: pending, T+31: unconfirmed, sincronizada: confirmed | BD: pending
+[OK   ] API-24 dosis oculta al cuidador (G-07)
+    entrada:  GET /caregiver/patients/{id}/intakes/today con share_dose = 0
+    esperado: 200 sin campo dose y patient.share_dose = false
+    obtenido: 200 | dose presente: no | share_dose: false
+[OK   ] API-25 cuidador sin vínculo
+    entrada:  GET /caregiver/patients/{id}/intakes/today con cuidador no vinculado
+    esperado: 404
+    obtenido: 404 {"error":"Ese paciente no está vinculado contigo."}
+[OK   ] API-26 cuidador en endpoint de paciente
+    entrada:  GET /intakes/today con token de cuidador
+    esperado: 403
+    obtenido: 403 {"error":"Esta acción solo está permitida para el rol paciente."}
+[OK   ] API-27 acceso perdido al revocar
+    entrada:  DELETE /links/active (paciente) y luego el cuidador consulta hoy e historial
+    esperado: 200; luego 404 y 404; vínculo revoked con revoked_at
+    obtenido: 200; luego 404 y 404 | BD: revoked, revoked_at: sí
+------------------------------------------------------------------------
+Limpieza: se borraron 5 usuarios de prueba y sus datos.
+Resultado: 27 OK, 0 FALLO
+Log: docs/evidencias/p4/api-20261121-1321.log
