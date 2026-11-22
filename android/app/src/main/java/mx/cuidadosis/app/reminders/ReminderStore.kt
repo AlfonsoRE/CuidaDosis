@@ -47,11 +47,18 @@ class ReminderStore(context: Context) {
         }
     }
 
+    // Códigos de las alarmas programadas (una por aviso, v1.1), para cancelar las que sobren
+    fun scheduledCodes(): Set<Int> =
+        prefs.getStringSet(KEY_SCHEDULED, emptySet()).orEmpty().mapNotNull { it.toIntOrNull() }.toSet()
+
+    fun setScheduledCodes(codes: Set<Int>) = prefs.edit { putStringSet(KEY_SCHEDULED, codes.map { it.toString() }.toSet()) }
+
     fun clear() = prefs.edit { clear() }
 
     private companion object {
         const val KEY_FIRED = "fired"
         const val KEY_SNOOZES = "snoozes"
+        const val KEY_SCHEDULED = "scheduled_codes"
         const val LEGACY_DATA = "data"
         const val LEGACY_NOTIFIED = "notified"
     }

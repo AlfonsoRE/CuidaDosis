@@ -103,9 +103,24 @@ fun nextReminderEvent(
     confirmed: Set<Pair<Int, LocalDateTime>> = emptySet(),
     snoozes: List<Snooze> = emptyList(),
     kinds: Set<ReminderKind> = ReminderKind.entries.toSet(),
-): ReminderEvent? {
+): ReminderEvent? = upcomingReminderEvents(meds, now, leadMinutes, fired, confirmed, snoozes, kinds).firstOrNull()
+
+/**
+ * Todos los avisos pendientes de ayer, hoy y mañana (mismas reglas que [nextReminderEvent]),
+ * ordenados por hora de disparo. Desde la v1.1 cada uno lleva su propia alarma, así que un aviso
+ * atrasado por el sistema ya no arrastra a los siguientes.
+ */
+fun upcomingReminderEvents(
+    meds: List<ReminderMed>,
+    now: Instant,
+    leadMinutes: Int = REMINDER_MINUTES_BEFORE.toInt(),
+    fired: Set<String> = emptySet(),
+    confirmed: Set<Pair<Int, LocalDateTime>> = emptySet(),
+    snoozes: List<Snooze> = emptyList(),
+    kinds: Set<ReminderKind> = ReminderKind.entries.toSet(),
+): List<ReminderEvent> {
     val times = meds.flatMap { med -> med.times.mapNotNull { parseTime(it) } }.distinct()
-    if (times.isEmpty()) return null
+    if (times.isEmpty()) return emptyList()
 
     val today = now.atZone(REMINDER_ZONE).toLocalDate()
     val slots = listOf(today.minusDays(1), today, today.plusDays(1))
@@ -142,8 +157,16 @@ fun nextReminderEvent(
             }
         }
     }
-    return candidates.minWithOrNull(compareBy({ it.triggerAt }, { it.intakeAt }, { it.kind.ordinal }))
+    return candidates.sortedWith(compareBy({ it.triggerAt }, { it.intakeAt }, { it.kind.ordinal }))
 }
+
+/**
+ * Código de PendingIntent único y estable por evento: día (ciclo de 400 días), minuto del día y tipo.
+ * Hay un solo pospuesto por toma, así que tipo y hora bastan. Rango 10 000 000 a 12 304 000.
+ */
+fun alarmRequestCode(event: ReminderEvent): Int =
+    10_000_000 + ((event.intakeAt.toLocalDate().toEpochDay() % 400).toInt() * 1440 + event.intakeAt.hour * 60 + event.intakeAt.minute) * 4 +
+        event.kind.ordinal
 
 // Próximo aviso previo (T - L) sin considerar confirmaciones ni pospuestos (forma de la Fase 5)
 data class Reminder(
