@@ -54,7 +54,7 @@ fun ReminderSettingsScreen(container: AppContainer, onBack: () -> Unit) {
             Text("Anticipación del aviso", style = MaterialTheme.typography.titleLarge)
             Text(
                 "¿Cuántos minutos antes de cada toma quieres el primer aviso? Si a la hora de la toma " +
-                    "sigue pendiente, el teléfono avisa una vez más.",
+                    "sigue pendiente, suena una alarma hasta que toques Tomado o Posponer.",
                 style = MaterialTheme.typography.bodyLarge,
             )
             Column(Modifier.selectableGroup()) {

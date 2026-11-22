@@ -4,7 +4,7 @@ Guía para cualquier asistente de IA (y persona) que trabaje en este repositorio
 
 ## 1. Contexto del proyecto
 
-CuidaDosis es un prototipo académico (Seminario de Análisis y Diseño de Sistemas) con plazo corto. Un paciente registra sus medicamentos y horarios diarios, recibe un aviso L minutos antes de cada toma (L = 5 o 10, por defecto 5) y otro a la hora de la toma si sigue pendiente, y confirma con un toque en "Tomado". Un cuidador consulta el estado de las tomas de sus pacientes vinculados (puede tener varios) y recibe una alarma local si una toma queda sin confirmar.
+CuidaDosis es un prototipo académico (Seminario de Análisis y Diseño de Sistemas) con plazo corto. Un paciente registra sus medicamentos y horarios diarios, recibe un aviso L minutos antes de cada toma (L = 5 o 10, por defecto 5) y una alarma a la hora de la toma que se repite hasta que confirma con un toque en "Tomado" o la pospone. Un cuidador consulta el estado de las tomas de sus pacientes vinculados (puede tener varios) y recibe una alarma local si una toma queda sin confirmar.
 
 El diseño objetivo es el de P2 v1.1 y P3 v1.0: `docs/p2/CuidaDosis_P2.pdf`, `docs/p3/CuidaDosis_P3.pdf`, `docs/p3/schema_v2.sql`, `docs/adr/` (ADR-001 a ADR-010) y `docs/diagramas/`. Los identificadores RF, RNF, G y ADR de este archivo se refieren a esos documentos.
 
@@ -19,9 +19,9 @@ Componentes:
 1. Registro e inicio de sesión con roles: paciente y cuidador (RF-01, RF-02).
 2. Alta, edición y desactivación de medicamentos con una o varias horas diarias (RF-03, RF-04).
 3. Avisos locales en el teléfono del paciente (RF-05, RF-06, RF-16; ADR-002):
-   - Aviso a T menos L, con L = 5 o 10 min elegido en un ajuste local del teléfono (por defecto 5).
-   - Segundo aviso, una sola vez, a la hora T si la toma sigue pendiente.
-   - Posponer el aviso 5 o 10 min sin marcar la toma.
+   - Aviso a T menos L (notificación con sonido y vibración), con L = 5 o 10 min elegido en un ajuste local del teléfono (por defecto 5).
+   - Alarma a la hora T si la toma sigue pendiente (v1.1, ajuste de requisito del equipo): sonido de alarma y vibración que se repiten hasta que el paciente toca "Tomado" o "Posponer", con un límite de 2 minutos; después queda una notificación persistente sin sonido.
+   - Posponer 5 o 10 min sin marcar la toma: detiene la alarma y vuelve a sonar al plazo.
 4. Confirmación con un solo toque en "Tomado", sin diálogo adicional, guardando la hora real (RF-07; ADR-006). El estado se llama "Confirmada por el paciente" en todas las vistas, nunca "Tomada" ni "Ingerida".
 5. Vinculación con código de invitación de 8 caracteres, un solo uso y 10 min de vigencia. Al usarlo el cuidador, el vínculo queda "esperando aceptación" y solo se activa cuando el paciente lo acepta. Tras 5 intentos fallidos en 10 min la API responde 429 (RF-08; ADR-004). El paciente o el cuidador pueden revocar el vínculo en cualquier momento; después el paciente puede invitar a otro cuidador (RF-09).
 6. Vista del cuidador (lista de sus pacientes y detalle de cada uno) con medicamento, hora programada, estado y hora de confirmación (RF-10 a RF-12; ADR-005, ADR-010):
@@ -152,7 +152,7 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 - Fechas en hora local `America/Mexico_City`, tanto en PHP como en la sesión de MySQL.
 - Reglas de datos: un cuidador activo por paciente, un cuidador puede tener varios pacientes, los vínculos se revocan (`status = 'revoked'`, `revoked_at`) en lugar de borrarse, código de invitación de 8 caracteres con 10 min de vigencia y un solo uso, vínculo en `awaiting_acceptance` hasta que el paciente lo acepta, intentos de código registrados en `link_attempts`, confirmaciones con `client_uuid` único (sincronización idempotente), "Sin confirmar" calculado y nunca guardado, dosis oculta al cuidador mientras `links.share_dose = 0`, varias horas diarias por medicamento, tomas del día creadas como pendientes al consultar el día (`INSERT IGNORE`), medicamentos y horarios se desactivan en lugar de borrarse.
 - Kotlin: estilo oficial, arquitectura simple (pantalla Compose, ViewModel, repositorio, Retrofit). Inyección manual con `AppContainer`, JSON con kotlinx.serialization, navegación con navigation-compose y rutas `@Serializable`. El token se guarda cifrado con Android Keystore (`SessionStore`) y no se respalda. Paquetes de UI: `ui/auth`, `ui/patient` (pestañas Hoy, Medicamentos, Historial y Cuidador), `ui/medications`, `ui/caregiver` y `ui/common`.
-- Avisos locales en el paquete `reminders`: alarmas exactas calculadas en hora de México con la copia local cifrada de los medicamentos. Paciente: aviso a T menos L y segundo aviso a T si sigue pendiente, más posponer 5 o 10 min. Cuidador: alarma a T + 30 min que consulta el estado antes de avisar. Se reprograman tras reiniciar el teléfono y se cancelan al cerrar sesión o al expirar el token.
+- Avisos locales en el paquete `reminders`: alarmas exactas calculadas en hora de México con la copia local cifrada de los medicamentos. Paciente: aviso a T menos L y alarma repetida a T (máximo 2 min de sonido) si sigue pendiente, más posponer 5 o 10 min; una alarma de reloj (`setAlarmClock`) por aviso. Cuidador: alarma a T + 30 min que consulta el estado antes de avisar (notificación normal, sin repetir). Canales de notificación con vibración (IDs `_v2`). Se reprograman tras reiniciar el teléfono y se cancelan al cerrar sesión o al expirar el token.
 - Las horas que se comparan con "ahora" en la app usan `America/Mexico_City`, igual que la API, sin importar la zona del teléfono.
 - Mantén el código simple; es un prototipo. No agregues dependencias sin justificarlo.
 

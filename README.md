@@ -22,7 +22,7 @@ El diseño objetivo es el de P2 v1.1 y P3 v1.0 (`docs/p2`, `docs/p3`, `docs/adr`
 ### Dentro del prototipo: RF-01 a RF-16 y RF-18
 1. Registro e inicio de sesión con roles: paciente y cuidador (RF-01, RF-02).
 2. Alta, edición y desactivación de medicamentos con varias horas diarias (RF-03, RF-04).
-3. Aviso local L minutos antes de cada toma (L = 5 o 10, por defecto 5, ajuste del teléfono), segundo aviso a la hora si sigue pendiente y posponer 5 o 10 min (RF-05, RF-06, RF-16).
+3. Aviso local L minutos antes de cada toma con sonido y vibración (L = 5 o 10, por defecto 5, ajuste del teléfono); a la hora de la toma, alarma que suena y vibra hasta que el paciente toca "Tomado" o "Posponer 5/10 min" (máximo 2 min de sonido) (RF-05, RF-06, RF-16).
 4. Botón "Tomado" con un toque, sin diálogo. El estado se llama "Confirmada por el paciente" (RF-07).
 5. Vinculación con código de 8 caracteres que dura 10 min; el paciente acepta o rechaza la solicitud; 5 intentos fallidos en 10 min bloquean al cuidador. Cualquiera de los dos puede desvincularse (RF-08, RF-09).
 6. Vista del cuidador con tres etiquetas (Pendiente, Confirmada por el paciente, Sin confirmar a los 30 min), última sincronización del paciente y dosis oculta salvo autorización (RF-10 a RF-12).
@@ -172,7 +172,7 @@ erDiagram
   - **Medicamentos:** lista, alta, edición y desactivación, con varias horas diarias (requiere conexión).
   - **Cuidador:** generar el código (10 min), aceptar o rechazar la solicitud del cuidador, desvincularlo.
   - **Ajustes:** anticipación del aviso (5 o 10 min) y estado de los permisos.
-  - **Avisos:** a T menos L y a la hora T si sigue pendiente, con botones "Posponer 5 min" y "Posponer 10 min". No suenan si la toma ya está confirmada. Se reprograman al reiniciar el teléfono.
+  - **Avisos (v1.1):** notificación a T menos L y alarma a la hora T con pantalla de alarma y botones "Tomado", "Posponer 5 min" y "Posponer 10 min". La alarma suena y vibra hasta que se atiende (máximo 2 minutos; después queda una notificación sin sonido). No suena si la toma ya está confirmada. Cada aviso tiene su propia alarma de reloj y se reprograman al reiniciar el teléfono (después del primer desbloqueo).
 - **Cuidador:**
   - Lista de pacientes con el resumen de hoy, "Sin confirmar" y la última sincronización; sección "Esperando aceptación".
   - **Vincular paciente** con el código, con mensajes claros si el código venció o hubo demasiados intentos.

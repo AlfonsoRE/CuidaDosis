@@ -103,7 +103,8 @@ HyperOS cierra o retrasa las apps en segundo plano. En la verificación se usó 
 2. **Batería sin restricciones:** Ajustes → Aplicaciones → CuidaDosis (Info. de la aplicación) → Ahorro de batería → **Sin restricciones**.
 3. **Inicio automático:** app Seguridad → Autoencendido en segundo plano → activa **CuidaDosis**. Sin esto, la app puede no reprogramar los avisos al reiniciar el teléfono.
 4. Las alarmas exactas (`USE_EXACT_ALARM`) se conceden al instalar; no hay que activarlas.
-5. Al abrir "Hoy" no debe aparecer la tarjeta roja de permisos.
+5. **v1.1, alarma de la toma:** permite "Mostrar en pantalla de bloqueo" y "Ventanas emergentes" para CuidaDosis (Info. de la aplicación → Notificaciones y Otros permisos) para que la pantalla de alarma aparezca con el teléfono bloqueado, y deja el **volumen de alarma** por encima de cero.
+6. Al abrir "Hoy" no debe aparecer la tarjeta roja de permisos.
 
 Los resultados medidos en el teléfono físico están en `docs/evidencias/p4/fisico/RESUMEN.md`.
 

@@ -48,11 +48,17 @@ La lista muestra cada medicamento con sus horas ("Horario: ...") y los botones *
 
 [CAPTURA: 04b_lista_medicamentos]
 
-### 2.4 Avisos
-- El teléfono avisa **5 o 10 minutos antes** de cada toma, según tu ajuste.
-- Si a la hora de la toma sigue pendiente, avisa **una vez más**.
-- En la notificación puedes tocar **Posponer 5 min** o **Posponer 10 min**: vuelve a avisar después y la toma sigue pendiente.
-- Si ya confirmaste la toma, no suena.
+### 2.4 Avisos y alarma
+- **Aviso previo:** **5 o 10 minutos antes** de cada toma, según tu ajuste, llega una notificación con sonido y vibración.
+- **Alarma:** a la hora de la toma, si sigue pendiente, suena una **alarma** con vibración y se abre la pantalla de alarma (o una notificación que no se quita sola). Muestra la hora y los medicamentos, con los botones **Tomado**, **Posponer 5 min** y **Posponer 10 min**.
+- **Cómo se detiene:** toca **Tomado** (registra "Confirmada por el paciente") o **Posponer** (vuelve a sonar después y la toma sigue pendiente). También se detiene si confirmas la toma en "Hoy".
+- Si nadie la atiende, la alarma deja de sonar a los **2 minutos** y queda una notificación fija, sin sonido, con los mismos botones.
+- Si ya confirmaste la toma, la alarma no suena.
+- **Volumen y No molestar:** la alarma usa el **volumen de alarma** del teléfono (no el de llamadas ni el de notificaciones); revisa que no esté en cero. Con **No molestar** activo, solo suena si en los ajustes de No molestar están permitidas las **alarmas** (suele estarlo).
+
+[CAPTURA: 20_alarma_pantalla]
+
+[CAPTURA: 20b_alarma_notificacion]
 
 [CAPTURA: 11_aviso]
 
@@ -114,7 +120,10 @@ Con **Ver historial de 7 días** ves sus tomas de los últimos 7 días por día,
 
 Puedes **Dejar de seguir a este paciente**; para volver a verlo necesitarás un código nuevo.
 
-### 3.4 Alarma a los 30 minutos
+### 3.4 Aviso a los 30 minutos
+
+[CAPTURA: 21_cuidador_notificacion]
+
 Si una toma de tu paciente sigue sin confirmar 30 minutos después de su hora, tu teléfono muestra **Toma sin confirmar**. Antes de avisar, la app consulta el estado; si ya se confirmó, no suena. Si no hay conexión, te avisa que revises e indica la última sincronización conocida. Funciona para las tomas del día en que abriste la app.
 
 ## 4. Cerrar sesión

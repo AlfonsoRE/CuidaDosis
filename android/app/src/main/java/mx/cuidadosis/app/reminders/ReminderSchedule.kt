@@ -90,7 +90,7 @@ fun pendingMedsAt(
 /**
  * Calcula el próximo aviso entre todas las tomas de ayer, hoy y mañana (fecha de México):
  * - BEFORE a T - [leadMinutes]; si ya pasó pero aún no es T, sale de inmediato.
- * - DUE a la hora T, una sola vez, si la toma sigue pendiente (hasta T + 10 min).
+ * - DUE a la hora T si la toma sigue pendiente (hasta T + 10 min): desde la v1.1 es la alarma que se\n *   repite hasta Tomado o Posponer (el planificador la dispara una vez; la repetición es de la notificación).
  * - SNOOZE a la hora elegida al posponer (hasta 10 min después).
  * Se omiten las tomas ya confirmadas y los eventos de [fired] (ya mostrados).
  * [kinds] limita los tipos considerados.

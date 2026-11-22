@@ -9,7 +9,7 @@ Datos verificados para redactar el manual de instalación y el manual de usuario
 |---|---|
 | Nombre | CuidaDosis |
 | Paquete (applicationId) | `mx.cuidadosis.app` |
-| Versión | `versionName` 1.0, `versionCode` 1 |
+| Versión | `versionName` 1.1.0, `versionCode` 2 (la v1.0 evaluada en el teléfono está etiquetada `v1.0-evaluada`) |
 | Archivo | `app-debug.apk` (`android/app/build/outputs/apk/debug/`); no se versiona |
 | SHA-256 del APK usado en la verificación física | `4944677b3fe8ced85e3ce72665d432cdc3fca97b59b14cd804ecfd42bdc749ff` (compilado del commit `3fbba32`) |
 | Android mínimo | 8.0 (API 26) |
@@ -56,7 +56,8 @@ Plantillas: `api/.env.example` (local) y `api/.env.hosting.example` (hosting). E
 | Paciente | Cuidador | Generar código (10 min), aceptar o rechazar solicitud, desvincular |
 | Paciente | Ajustes | Anticipación del aviso (5 o 10 min) y estado de permisos |
 | Paciente | Diálogo al salir | Bloquea el cierre de sesión si hay confirmaciones sin enviar |
-| Paciente | Notificaciones | Aviso a T − L, segundo aviso a T, botones Posponer 5 y 10 min |
+| Paciente | Notificaciones (v1.1) | Aviso a T − L con sonido y vibración; alarma a T que suena y vibra hasta Tomado o Posponer 5/10 min (máximo 2 min, luego notificación fija sin sonido) |
+| Paciente | Pantalla de alarma (v1.1) | Hora y medicamentos de la toma, botones Tomado, Posponer 5 min y Posponer 10 min; se muestra sobre la pantalla de bloqueo |
 | Cuidador | Mis pacientes | Resumen del día, "Sin confirmar", última sincronización, "Esperando aceptación", **Vincular paciente**, **Cerrar sesión** |
 | Cuidador | Vincular paciente | Diálogo para escribir el código |
 | Cuidador | Detalle del paciente | Tomas de hoy con etiquetas (sin dosis salvo autorización), **Ver historial de 7 días**, **Dejar de seguir** |
@@ -65,6 +66,16 @@ Plantillas: `api/.env.example` (local) y `api/.env.hosting.example` (hosting). E
 
 ## 5. Configuración especial de teléfonos Xiaomi / HyperOS
 Verificada en el POCO M6 Pro: notificaciones permitidas, Ahorro de batería **Sin restricciones** y **Autoencendido en segundo plano** activado para CuidaDosis. Sin esto, HyperOS puede retrasar o anular los avisos y la reprogramación tras reiniciar. Ver [instalacion.md](instalacion.md) 2.3 y [guia-uso.md](guia-uso.md) sección 5.
+
+## 5b. Canales de notificación (v1.1)
+| Canal | Uso | Sonido y vibración |
+|---|---|---|
+| `intake_before_v2` "Aviso antes de la toma" | Aviso T − L | Sonido de notificación y vibración breve |
+| `intake_alarm_v2` "Alarma de la toma" | Alarma a T y al terminar un pospuesto | Sonido de alarma (volumen de alarma) y vibración que se repiten, máximo 2 min |
+| `intake_alarm_silent_v2` "Toma pendiente (sin sonido)" | Notificación fija tras los 2 min | Sin sonido ni vibración |
+| `caregiver_alerts_v2` "Tomas sin confirmar" | Cuidador a T + 30 | Sonido y vibración breves, sin repetir |
+
+Los canales de la v1.0 (`intake_reminders`, `caregiver_alerts`, configuración anterior sin vibración) se eliminan al abrir la v1.1. Con No molestar, la alarma solo suena si están permitidas las alarmas; en modo silencio o vibración sigue el volumen de alarma.
 
 ## 6. No implementado
 - **RF-17:** notificación push al cuidador desde el servidor. Fuera de alcance; la compensa en parte la alarma local del cuidador a T + 30 (RF-18), que solo funciona si el cuidador abrió la app ese día.

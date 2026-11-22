@@ -86,7 +86,7 @@ class ReminderScheduler(
 
     /**
      * Pospone el aviso de una toma [minutes] minutos (RF-16). No marca la toma.
-     * Si el pospuesto cae a la hora de la toma o después, sustituye al segundo aviso (T).
+     * Si el pospuesto cae a la hora de la toma o después, sustituye a la alarma de la hora T.
      */
     @Synchronized
     fun snooze(intakeAt: LocalDateTime, minutes: Int) {
