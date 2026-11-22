@@ -19,6 +19,15 @@ val SNOOZE_OPTIONS = listOf(5, 10)
 // Un aviso que llega más tarde que esto (teléfono apagado, por ejemplo) ya no se muestra
 const val LATE_LIMIT_MINUTES = 10L
 
+// Alarma de la toma (RF-06, v1.1): suena hasta 2 minutos; después queda la notificación sin sonido
+const val ALARM_RING_LIMIT_SECONDS = 120L
+
+// Momento en que la alarma deja de sonar si nadie la atiende
+fun alarmRingUntil(startedAt: Instant): Instant = startedAt.plusSeconds(ALARM_RING_LIMIT_SECONDS)
+
+// Al cumplirse el límite: queda la notificación persistente solo si la toma sigue pendiente
+fun shouldKeepSilentReminder(pendingMeds: Int): Boolean = pendingMeds > 0
+
 // Cualquier valor guardado que no sea 5 o 10 se trata como 5
 fun normalizeLead(value: Int?): Int = if (value != null && value in REMINDER_LEAD_OPTIONS) value else 5
 

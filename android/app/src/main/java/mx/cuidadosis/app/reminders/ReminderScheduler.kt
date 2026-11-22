@@ -76,15 +76,18 @@ class ReminderScheduler(
         if (!at.isBefore(intakeAt.atZone(REMINDER_ZONE).toInstant())) {
             store.addFired(eventKey(intakeAt, ReminderKind.DUE), nowMexico())
         }
-        ReminderNotifier.cancel(context, intakeAt)
+        // Detiene el sonido de la alarma de esa toma; vuelve a sonar al terminar el plazo
+        ReminderNotifier.stopAlarm(context, intakeAt)
         reschedule()
     }
 
-    // Quita la notificación de una toma ya confirmada y reprograma
+    // Una toma confirmada detiene su alarma (si sonaba) y quita la notificación
     fun onConfirmed(intakeAt: LocalDateTime) {
-        if (pendingMedsFor(intakeAt).isEmpty()) ReminderNotifier.cancel(context, intakeAt)
+        if (pendingMedsFor(intakeAt).isEmpty()) ReminderNotifier.stopAlarm(context, intakeAt)
         reschedule()
     }
+
+    fun firedKeys(): Set<String> = store.fired()
 
     fun cachedUserId(): Int? = patientStore.current?.userId
 

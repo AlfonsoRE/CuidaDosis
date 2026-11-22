@@ -267,3 +267,18 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 ### D40. Etiqueta y versión
 - El commit evaluado en el teléfono físico (`827eef4`) quedó etiquetado como `v1.0-evaluada` (etiqueta local, sin push).
 - `versionName` pasa a `1.1.0` y `versionCode` a `2`. APK debug compilado antes de los cambios de código de esta fase: `app-debug.apk`, SHA-256 `f3842fe4a53a99d35c99b6d8a990671a06b7fabef479068705218db269fa86f5`. El APK final de la fase (con los cambios) se registra en `docs/evidencias/p4/emulador_v1.1/RESUMEN.md`.
+
+### D41. Ajuste de requisito por decisión del equipo: RF-06 pasa a alarma del paciente
+- **Antes (v1.0):** a la hora T, un segundo aviso que sonaba una sola vez.
+- **Ahora (v1.1):** a la hora T suena una **alarma** con sonido y vibración que se repiten hasta que el paciente toca "Tomado" o "Posponer 5/10 min" en la notificación o en la pantalla de alarma. Límite: 2 minutos de sonido; después queda una notificación persistente sin sonido, con los mismos botones, hasta que la atienda. Si la toma ya está confirmada, la alarma no suena. Lo mismo vale al terminar un pospuesto.
+- **Aviso previo (T - L, RF-05):** sin cambios de comportamiento; ahora su canal tiene vibración.
+- **Cuidador (RF-18):** sin cambios de comportamiento; notificación normal (sonido y vibración breves, sin repetir) con el mensaje de respaldo sin red. Su canal nuevo tiene vibración.
+- **Mecanismo elegido:**
+  - Canal `intake_alarm_v2`, importancia alta, vibración activada, sonido de alarma del sistema (`RingtoneManager.TYPE_ALARM`) con `AudioAttributes.USAGE_ALARM`, y la bandera `Notification.FLAG_INSISTENT` (repite sonido y vibración hasta que se cancela la notificación). Categoría `CATEGORY_ALARM`, `ongoing` y `fullScreenIntent` a `AlarmActivity`, que se muestra sobre la pantalla de bloqueo.
+  - El corte de 2 minutos es una alarma exacta aparte (`RingLimitReceiver`): si la toma sigue pendiente, vuelve a publicar la notificación en el canal `intake_alarm_silent_v2` (sin sonido ni vibración, persistente); si ya se confirmó, la quita.
+  - "Tomado" en la notificación o en la pantalla de alarma confirma todos los medicamentos pendientes de esa hora con la misma cola local de RF-13 y la envía si hay red. "Tomado" y "Posponer" cancelan la notificación (eso corta el sonido) y el corte de 2 minutos. Confirmar desde "Hoy" también detiene la alarma.
+  - **Motivo:** `FLAG_INSISTENT` es el mecanismo estándar para repetir el sonido de una notificación hasta que se atiende, sin un servicio en primer plano ni reproducir audio propio; `USAGE_ALARM` usa el volumen de alarma.
+- **Modo silencio y No molestar:** con `USAGE_ALARM` el sonido sigue el **volumen de alarma**, así que en modo vibración o silencio el teléfono suele sonar si ese volumen no está en cero (depende del fabricante). Con No molestar, las notificaciones de categoría alarma pasan solo si el usuario permite "Alarmas" en No molestar (lo habitual por defecto); la app no pide el permiso de política de No molestar para saltárselo. Esto se indica en la guía de uso.
+- **Pantalla completa:** se declaró `USE_FULL_SCREEN_INTENT`. En Android 14 o superior el sistema puede no conceder la pantalla completa a apps que no son de reloj o llamadas; en ese caso la alarma queda como notificación emergente que sigue sonando, y la pantalla se abre al tocarla.
+- **Canales anteriores:** `intake_reminders` (v1.0, configuración anterior sin vibración) y `caregiver_alerts` se eliminan al iniciar la app; los nuevos tienen IDs distintos porque Android no cambia los ajustes de un canal ya creado.
+- La "Tomado" en la notificación sustituye a D4 de la Fase 5 (antes solo se abría la app): ahora la confirmación está en la cola local y no requiere red.

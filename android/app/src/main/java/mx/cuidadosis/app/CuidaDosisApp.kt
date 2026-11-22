@@ -20,7 +20,7 @@ class CuidaDosisApp : Application() {
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this)
-        ReminderNotifier.createChannel(this)
+        ReminderNotifier.createChannels(this)
         CaregiverAlarmScheduler.createChannel(this)
         watchSessionForReminders()
         // Reenvía las confirmaciones hechas sin red cuando vuelve la conexión (RF-13)

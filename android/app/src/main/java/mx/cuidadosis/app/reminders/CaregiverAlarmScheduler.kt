@@ -170,13 +170,21 @@ class CaregiverAlarmScheduler(private val context: Context) {
     }
 
     companion object {
-        const val CHANNEL_ID = "caregiver_alerts"
+        // v1.1: canal nuevo con vibración (un canal creado no cambia sus ajustes)
+        const val CHANNEL_ID = "caregiver_alerts_v2"
+        private const val LEGACY_CHANNEL = "caregiver_alerts"
         private const val KEY = "data"
 
         fun createChannel(context: Context) {
-            val channel = NotificationChannel(CHANNEL_ID, "Tomas sin confirmar", NotificationManager.IMPORTANCE_HIGH)
-                .apply { description = "Aviso al cuidador 30 minutos después de una toma sin confirmar" }
-            context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
+            // Notificación normal (sonido y vibración breves, sin repetir), como el aviso previo del paciente
+            val channel = NotificationChannel(CHANNEL_ID, "Tomas sin confirmar", NotificationManager.IMPORTANCE_HIGH).apply {
+                description = "Aviso al cuidador 30 minutos después de una toma sin confirmar"
+                enableVibration(true)
+                vibrationPattern = longArrayOf(0, 400, 200, 400)
+            }
+            val manager = context.getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
+            manager.deleteNotificationChannel(LEGACY_CHANNEL)
         }
     }
 }

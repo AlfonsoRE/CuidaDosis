@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Alarma de la toma (v1.1): vibración y pantalla de alarma sobre el bloqueo -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
         android:name=".CuidaDosisApp"
@@ -36,7 +39,18 @@
             </intent-filter>
         </activity>
 
-        <!-- Alarma del próximo aviso (solo la app la programa) -->
+        <!-- Pantalla de la alarma de la toma (RF-06, v1.1): se abre sobre la pantalla de bloqueo -->
+        <activity
+            android:name=".reminders.AlarmActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:taskAffinity="mx.cuidadosis.app.alarma"
+            android:theme="@style/Theme.CuidaDosis" />
+
+        <!-- Alarmas de los avisos (solo la app las programa) -->
         <receiver
             android:name=".reminders.ReminderReceiver"
             android:exported="false" />
@@ -46,9 +60,15 @@
             android:name=".reminders.CaregiverAlarmReceiver"
             android:exported="false" />
 
-        <!-- Botones "Posponer" de la notificación -->
+        <!-- Botones "Tomado" y "Posponer" de la notificación, y corte de la alarma a los 2 minutos -->
         <receiver
             android:name=".reminders.SnoozeReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".reminders.TakeReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".reminders.RingLimitReceiver"
             android:exported="false" />
 
         <!-- Reprograma tras reiniciar, actualizar la app o cambiar la hora; solo acciones protegidas del sistema -->
