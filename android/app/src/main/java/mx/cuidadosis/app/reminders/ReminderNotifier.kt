@@ -177,7 +177,9 @@ object ReminderNotifier {
         val alarms = context.getSystemService(AlarmManager::class.java)
         val pi = ringLimitIntent(context, intakeAt, kind)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarms.canScheduleExactAlarms()) {
-            alarms.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi)
+            // v1.1.1: alarma de reloj, como los avisos. En el teléfono, HyperOS agrupaba el corte hecho con
+            // setExactAndAllowWhileIdle y la alarma sonaba hasta 6 minutos con la pantalla apagada.
+            alarms.setAlarmClock(AlarmManager.AlarmClockInfo(at, alarmScreen(context, intakeAt, kind)), pi)
         } else {
             alarms.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi)
         }

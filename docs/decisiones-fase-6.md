@@ -290,3 +290,17 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 - **Motivo:** `setAlarmClock` es el tipo de alarma que el sistema trata como alarma de reloj del usuario: no la difiere por Doze ni la agrupa, y sale del modo de reposo poco antes. Una alarma por aviso elimina el arrastre aunque alguna llegara tarde. El cambio es local al planificador; la lógica de qué avisos tocan no cambió.
 - **Efecto visible:** Android muestra el ícono de alarma en la barra de estado y la "próxima alarma" en el reloj del sistema; tocarla abre la app.
 - **Reinicio:** `BootReceiver` llama a `reschedule()`, que vuelve a programar todos los avisos. **El desbloqueo sigue siendo necesario:** Android entrega `BOOT_COMPLETED` hasta el primer desbloqueo, y los datos de la app (cifrados, en el almacenamiento de credenciales) no se pueden leer antes. Evitarlo requeriría reestructurar la app para el arranque directo (receptor `directBootAware` con `LOCKED_BOOT_COMPLETED` y una copia de las horas en el almacenamiento protegido del dispositivo, sin acceder al resto de la app antes del desbloqueo). Se deja como pendiente.
+
+## Fase 10 (pruebas de la v1.1.0 en el teléfono físico)
+
+### D43. Método de medición en el teléfono con la v1.1
+- **Elección:** la hora esperada sale de `origWhen` de cada línea `sending alarm ... INTAKE_REMINDER` del log del sistema (en la v1.1 cada aviso tiene su propia alarma, así que coincide exactamente con T - 5 o T), y la hora real es la siguiente publicación (`NotificationManagerService:post:mx.cuidadosis.app`). El log se guarda en la PC con un flujo continuo filtrado a la app (`adb logcat`), que no despierta la pantalla. Script: `api/tests/puntualidad_v11_csv.php`.
+- **Motivo:** en la v1.0, HyperOS no guardó el log propio de la app con la pantalla apagada; el log del sistema sí. El flujo continuo evita perder líneas si el búfer rota.
+- **Pantalla apagada con la v1.1:** la alarma a T abre la pantalla de alarma, que enciende la pantalla por diseño (`setTurnScreenOn`). La pantalla vuelve a apagarse sola a los 60 s; por eso las tomas se espacian 2 minutos, igual que en la v1.0, y el escenario se mantiene comparable. No se toca el teléfono durante la medición.
+- **Observación del emulador:** el usuario oyó el sonido de la alarma en las bocinas de la laptop durante el retest en el emulador; queda como observación del emulador, sin sustituir la prueba física.
+
+### D44. Versión 1.1.1: el corte de 2 minutos también como alarma de reloj
+- **Hallazgo (teléfono físico, v1.1.0, pantalla apagada):** los avisos (`setAlarmClock`) llegaron puntuales y HyperOS registró "not align this alarm" para cada uno, pero los cortes de 2 minutos de la alarma (`RingLimitReceiver`, programados con `setExactAndAllowWhileIdle`) los agrupó: se entregaron juntos a las 21:57:25, 22:02:25, 22:07:25 y 22:12:25. La notificación insistente siguió activa entre 145 y 385 s, en lugar de 120 s.
+- **Elección:** programar el corte con `setAlarmClock` (mismo mecanismo que los avisos) y subir a 1.1.1 (`versionCode` 3). APK: SHA-256 `157fcf454f381fa2daaadd7712a0cd0b86ee1cbe1d080062e9dd6ccd0f3d2938`.
+- **Motivo:** es el cambio mínimo; en este teléfono las alarmas de reloj no se agrupan (comprobado con los avisos). Efecto secundario: Android también muestra el corte como "próxima alarma" durante esos 2 minutos.
+- **Prueba:** se instala después de terminar las mediciones de la 1.1.0 y se repite solo el límite de 2 minutos con la pantalla apagada (paso 6).
