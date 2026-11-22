@@ -261,3 +261,9 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
 - **Motivo:** reutiliza `GET /intakes/history` y `GET /caregiver/patients/{id}/intakes/history` (paso 3) y las etiquetas de `IntakeCard`, sin lógica nueva de estado. La dosis sigue oculta al cuidador porque la API no la envía.
 - **Limitación:** necesita conexión; no se guarda copia local del historial.
 - **Prueba:** `HistoryLabelTest` (3 pruebas). En emulador: el paciente demo ve hoy con 7 de 7; el Cuidador 1 del seed ve "Ayer, 20/11/2026: 2 de 3 tomas registradas, 1 sin confirmar" de su paciente, sin dosis.
+
+## Fase 9 (versión 1.1.0)
+
+### D40. Etiqueta y versión
+- El commit evaluado en el teléfono físico (`827eef4`) quedó etiquetado como `v1.0-evaluada` (etiqueta local, sin push).
+- `versionName` pasa a `1.1.0` y `versionCode` a `2`. APK debug compilado antes de los cambios de código de esta fase: `app-debug.apk`, SHA-256 `f3842fe4a53a99d35c99b6d8a990671a06b7fabef479068705218db269fa86f5`. El APK final de la fase (con los cambios) se registra en `docs/evidencias/p4/emulador_v1.1/RESUMEN.md`.
