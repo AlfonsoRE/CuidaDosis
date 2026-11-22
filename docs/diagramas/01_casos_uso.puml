@@ -7,7 +7,7 @@ actor "Cuidador" as C
 rectangle "CuidaDosis" {
   usecase "UC-01 Registrarse / iniciar sesión" as U1
   usecase "UC-02 Gestionar medicamentos y horarios" as U2
-  usecase "UC-03 Recibir avisos (T-L y T)" as U3
+  usecase "UC-03 Recibir aviso (T-L) y alarma (T)" as U3
   usecase "UC-04 Confirmar toma (un toque)" as U4
   usecase "UC-05 Posponer aviso" as U5
   usecase "UC-06 Generar código de invitación" as U6

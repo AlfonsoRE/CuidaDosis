@@ -1,7 +1,7 @@
 @startuml
 title Estados de la toma (visibles al usuario)
 [*] --> Pendiente : toma programada
-Pendiente --> Pendiente : aviso T-L, aviso T, posponer
+Pendiente --> Pendiente : aviso T-L, alarma T, posponer
 Pendiente --> ConfirmadaPorElPaciente : toque en "Tomado"
 Pendiente --> SinConfirmar : T+30 sin confirmación (calculado)
 SinConfirmar --> ConfirmadaPorElPaciente : confirmación tardía
