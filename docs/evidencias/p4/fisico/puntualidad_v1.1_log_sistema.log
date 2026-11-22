@@ -1,0 +1,249 @@
+11-21 21:39:19.491 I/CuidaDosis(12753): Avisos programados: 80; próximo BEFORE: toma de 2026-11-21T21:52 (hora de México), disparo 2026-11-22T03:47:00Z
+11-21 21:39:20.246 I/CuidaDosis(12753): Avisos programados: 80; próximo BEFORE: toma de 2026-11-21T21:52 (hora de México), disparo 2026-11-22T03:47:00Z
+11-21 21:39:20.958 I/CuidaDosis(12753): Avisos programados: 80; próximo BEFORE: toma de 2026-11-21T21:52 (hora de México), disparo 2026-11-22T03:47:00Z
+11-21 21:47:00.009 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{85a7e8b type 0 origWhen 1795319220000 whenElapsed 21874900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 21874901 ms
+11-21 21:47:00.137 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=191044506, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:47:00.378 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=191044506 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:47:00.562 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1312|null|10133
+11-21 21:47:01.031 I/CuidaDosis(12753): Avisos programados: 79; próximo BEFORE: toma de 2026-11-21T21:54 (hora de México), disparo 2026-11-22T03:49:00Z
+11-21 21:49:00.007 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{3e183f2 type 0 origWhen 1795319340000 whenElapsed 21994900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 21994901 ms
+11-21 21:49:00.037 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=57290517, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:49:00.357 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=57290517 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:49:00.899 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|0|0|mx.cuidadosis.app|g:Aggregate_AlertingSection|10133|0|mx.cuidadosis.app|g:Aggregate_AlertingSection
+11-21 21:49:00.945 I/CuidaDosis(12753): Avisos programados: 78; próximo BEFORE: toma de 2026-11-21T21:56 (hora de México), disparo 2026-11-22T03:51:00Z
+11-21 21:49:01.030 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1314|null|10133
+11-21 21:51:00.010 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{a002373 type 0 origWhen 1795319460000 whenElapsed 22114900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22114900 ms
+11-21 21:51:00.065 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=150169416, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:51:00.300 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=150169416 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:51:00.620 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1316|null|10133
+11-21 21:51:00.774 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|0|0|mx.cuidadosis.app|g:Aggregate_AlertingSection|10133|0|mx.cuidadosis.app|g:Aggregate_AlertingSection
+11-21 21:51:00.897 I/CuidaDosis(12753): Avisos programados: 77; próximo DUE: toma de 2026-11-21T21:52 (hora de México), disparo 2026-11-22T03:52:00Z
+11-21 21:52:00.007 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{ee92cde type 0 origWhen 1795319520000 whenElapsed 22174900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22174900 ms
+11-21 21:52:00.064 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=43574951, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:52:00.296 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=43574951 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:52:00.569 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1312|null|10133
+11-21 21:52:00.820 I/CuidaDosis(12753): Avisos programados: 76; próximo BEFORE: toma de 2026-11-21T21:58 (hora de México), disparo 2026-11-22T03:53:00Z
+11-21 21:53:00.009 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{1a1fd83 type 0 origWhen 1795319580000 whenElapsed 22234900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22234901 ms
+11-21 21:53:00.058 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=66687490, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:53:00.303 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=66687490 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:53:00.611 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1318|null|10133
+11-21 21:53:00.921 I/CuidaDosis(12753): Avisos programados: 75; próximo DUE: toma de 2026-11-21T21:54 (hora de México), disparo 2026-11-22T03:54:00Z
+11-21 21:54:00.003 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{316977b type 0 origWhen 1795319640000 whenElapsed 22294900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22294900 ms
+11-21 21:54:00.062 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=193840019, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:54:00.293 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=193840019 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:54:00.568 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1314|null|10133
+11-21 21:54:00.826 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:48.942 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:49.391 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:49.600 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:49.844 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:50.083 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:50.373 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:50.557 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:50.809 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:51.014 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:51.226 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:51.521 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:51.819 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:52.098 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:52.403 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:52.599 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:52.788 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:53.036 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:53.297 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:53.476 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:53.656 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:53.850 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:54.040 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:54.261 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:54:54.462 I/CuidaDosis(12753): Avisos programados: 74; próximo BEFORE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T03:55:00Z
+11-21 21:55:00.295 I/CuidaDosis(12753): Avisos programados: 73; próximo DUE: toma de 2026-11-21T21:56 (hora de México), disparo 2026-11-22T03:56:00Z
+11-21 21:55:00.538 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1320|null|10133
+11-21 21:56:00.007 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{a457662 type 0 origWhen 1795319760000 whenElapsed 22414900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22414900 ms
+11-21 21:56:00.066 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=61234073, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:56:00.297 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=61234073 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:56:00.571 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1316|null|10133
+11-21 21:56:00.745 I/CuidaDosis(12753): Avisos programados: 72; próximo BEFORE: toma de 2026-11-21T22:02 (hora de México), disparo 2026-11-22T03:57:00Z
+11-21 21:57:00.009 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{a4cc7f8 type 0 origWhen 1795319820000 whenElapsed 22474900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22474900 ms
+11-21 21:57:00.065 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=28414428, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:57:00.309 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=28414428 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:57:00.621 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1322|null|10133
+11-21 21:57:00.947 I/CuidaDosis(12753): Avisos programados: 71; próximo DUE: toma de 2026-11-21T21:58 (hora de México), disparo 2026-11-22T03:58:00Z
+11-21 21:57:25.101 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{91792d5 type 0 origWhen 1795319760071 whenElapsed 22500000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 22500000 ms
+11-21 21:57:25.110 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{1a571db type 0 origWhen 1795319640082 whenElapsed 22500000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 22500000 ms
+11-21 21:57:25.136 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=143227830, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:57:25.164 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=103390530, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:57:25.367 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=143227830 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:57:25.385 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=103390530 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:57:25.694 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1312|null|10133
+11-21 21:57:25.703 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1314|null|10133
+11-21 21:58:00.006 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{a11395e type 0 origWhen 1795319880000 whenElapsed 22534900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22534901 ms
+11-21 21:58:00.067 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=248511020, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:58:00.303 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=248511020 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:58:00.578 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1318|null|10133
+11-21 21:58:00.808 I/CuidaDosis(12753): Avisos programados: 70; próximo BEFORE: toma de 2026-11-21T22:04 (hora de México), disparo 2026-11-22T03:59:00Z
+11-21 21:59:00.009 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{bd239d5 type 0 origWhen 1795319940000 whenElapsed 22594900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22594900 ms
+11-21 21:59:00.069 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=226779005, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 21:59:00.315 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=226779005 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 21:59:00.615 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1324|null|10133
+11-21 21:59:00.824 I/CuidaDosis(12753): Avisos programados: 69; próximo DUE: toma de 2026-11-21T22:00 (hora de México), disparo 2026-11-22T04:00:00Z
+11-21 22:00:00.006 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{547b321 type 0 origWhen 1795320000000 whenElapsed 22654900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22654900 ms
+11-21 22:00:00.067 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=131278311, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:00:00.316 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=131278311 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:00:00.580 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1320|null|10133
+11-21 22:00:00.797 I/CuidaDosis(12753): Avisos programados: 68; próximo BEFORE: toma de 2026-11-21T22:06 (hora de México), disparo 2026-11-22T04:01:00Z
+11-21 22:01:00.001 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{53755fb type 0 origWhen 1795320060000 whenElapsed 22714900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22714900 ms
+11-21 22:01:00.055 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=224000593, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:01:00.296 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=224000593 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:01:00.604 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1326|null|10133
+11-21 22:01:00.912 I/CuidaDosis(12753): Avisos programados: 67; próximo DUE: toma de 2026-11-21T22:02 (hora de México), disparo 2026-11-22T04:02:00Z
+11-21 22:02:00.007 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{fc72aaf type 0 origWhen 1795320120000 whenElapsed 22774900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22774900 ms
+11-21 22:02:00.071 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=189476570, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:02:00.302 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=189476570 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:02:00.578 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1322|null|10133
+11-21 22:02:00.748 I/CuidaDosis(12753): Avisos programados: 66; próximo BEFORE: toma de 2026-11-21T22:08 (hora de México), disparo 2026-11-22T04:03:00Z
+11-21 22:02:25.111 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{6b9b329 type 0 origWhen 1795319880073 whenElapsed 22800000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 22800001 ms
+11-21 22:02:25.119 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{dbf3c4f type 0 origWhen 1795320120092 whenElapsed 22800000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 22800001 ms
+11-21 22:02:25.128 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{add4e6b type 0 origWhen 1795320000081 whenElapsed 22800000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 22800001 ms
+11-21 22:02:25.165 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=68015935, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:02:25.263 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=220174584, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:02:25.304 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=137448612, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:02:25.407 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=68015935 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:02:25.486 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=220174584 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:02:25.527 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=137448612 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:02:25.890 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1318|null|10133
+11-21 22:02:25.899 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1320|null|10133
+11-21 22:02:25.938 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1316|null|10133
+11-21 22:03:00.004 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{7d0bf32 type 0 origWhen 1795320180000 whenElapsed 22834900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22834900 ms
+11-21 22:03:00.049 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=116913505, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:03:00.298 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=116913505 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:03:00.617 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1328|null|10133
+11-21 22:03:00.911 I/CuidaDosis(12753): Avisos programados: 65; próximo DUE: toma de 2026-11-21T22:04 (hora de México), disparo 2026-11-22T04:04:00Z
+11-21 22:04:00.008 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{426eb0c type 0 origWhen 1795320240000 whenElapsed 22894901 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22894901 ms
+11-21 22:04:00.079 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=146261063, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:04:00.337 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=146261063 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:04:00.615 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1324|null|10133
+11-21 22:04:00.880 I/CuidaDosis(12753): Avisos programados: 64; próximo BEFORE: toma de 2026-11-21T22:10 (hora de México), disparo 2026-11-22T04:05:00Z
+11-21 22:05:00.006 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{c35d2a4 type 0 origWhen 1795320300000 whenElapsed 22954900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 22954900 ms
+11-21 22:05:00.047 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=163815959, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:05:00.291 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=163815959 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:05:00.608 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1330|null|10133
+11-21 22:05:00.803 I/CuidaDosis(12753): Avisos programados: 63; próximo DUE: toma de 2026-11-21T22:06 (hora de México), disparo 2026-11-22T04:06:00Z
+11-21 22:06:00.007 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{5ccdb88 type 0 origWhen 1795320360000 whenElapsed 23014900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 23014901 ms
+11-21 22:06:00.071 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=247251554, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:06:00.305 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=247251554 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:06:00.571 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1326|null|10133
+11-21 22:06:00.774 I/CuidaDosis(12753): Avisos programados: 62; próximo DUE: toma de 2026-11-21T22:08 (hora de México), disparo 2026-11-22T04:08:00Z
+11-21 22:07:25.101 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{4af97e7 type 0 origWhen 1795320360101 whenElapsed 23100000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 23100000 ms
+11-21 22:07:25.110 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{f705a3d type 0 origWhen 1795320240080 whenElapsed 23100000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 23100000 ms
+11-21 22:07:25.153 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=58835200, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:07:25.197 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=267048330, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:07:25.397 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=58835200 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:07:25.421 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=267048330 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:07:26.049 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1322|null|10133
+11-21 22:07:26.068 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1324|null|10133
+11-21 22:08:00.007 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{a1f100e type 0 origWhen 1795320480000 whenElapsed 23134900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 23134901 ms
+11-21 22:08:00.060 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=53041530, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:08:00.290 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=53041530 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:08:00.595 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1328|null|10133
+11-21 22:08:00.841 I/CuidaDosis(12753): Avisos programados: 61; próximo DUE: toma de 2026-11-21T22:10 (hora de México), disparo 2026-11-22T04:10:00Z
+11-21 22:10:00.006 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{cde8e15 type 0 origWhen 1795320600000 whenElapsed 23254900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 23254900 ms
+11-21 22:10:00.057 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=260884912, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:10:00.304 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=260884912 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:10:00.590 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1330|null|10133
+11-21 22:10:00.854 I/CuidaDosis(12753): Avisos programados: 60; próximo BEFORE: toma de 2026-11-21T22:20 (hora de México), disparo 2026-11-22T04:15:00Z
+11-21 22:12:25.119 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{1caef5f type 0 origWhen 1795320600077 whenElapsed 23400000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 23400000 ms
+11-21 22:12:25.127 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{6eadcd6 type 0 origWhen 1795320720071 whenElapsed 23400000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 23400000 ms
+11-21 22:12:25.135 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{e756644 type 0 origWhen 1795320480079 whenElapsed 23400000 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 23400000 ms
+11-21 22:12:25.169 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=109097134, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:12:25.247 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=57909355, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:12:25.296 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=170514503, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:12:25.410 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=109097134 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:12:25.483 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=57909355 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:12:25.518 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=170514503 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:12:25.889 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1326|null|10133
+11-21 22:12:25.897 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1330|null|10133
+11-21 22:12:25.931 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1328|null|10133
+11-21 22:15:00.367 I/CuidaDosis(12753): Avisos programados: 59; próximo BEFORE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:16:00Z
+11-21 22:15:00.524 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1340|null|10133
+11-21 22:16:00.384 I/CuidaDosis(12753): Avisos programados: 58; próximo BEFORE: toma de 2026-11-21T22:22 (hora de México), disparo 2026-11-22T04:17:00Z
+11-21 22:16:00.519 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1341|null|10133
+11-21 22:17:00.363 I/CuidaDosis(12753): Avisos programados: 57; próximo BEFORE: toma de 2026-11-21T22:23 (hora de México), disparo 2026-11-22T04:18:00Z
+11-21 22:17:00.500 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1342|null|10133
+11-21 22:18:00.311 I/CuidaDosis(12753): Avisos programados: 56; próximo BEFORE: toma de 2026-11-21T22:24 (hora de México), disparo 2026-11-22T04:19:00Z
+11-21 22:18:00.495 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1343|null|10133
+11-21 22:19:00.364 I/CuidaDosis(12753): Avisos programados: 55; próximo DUE: toma de 2026-11-21T22:20 (hora de México), disparo 2026-11-22T04:20:00Z
+11-21 22:19:00.519 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1344|null|10133
+11-21 22:20:00.354 I/CuidaDosis(12753): Avisos programados: 54; próximo BEFORE: toma de 2026-11-21T22:25 (hora de México), disparo 2026-11-22T04:20:00.053581Z
+11-21 22:20:00.499 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1340|null|10133
+11-21 22:20:00.682 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:00.843 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1345|null|10133
+11-21 22:20:24.234 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:24.546 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:24.682 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:24.865 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:25.022 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:25.176 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:25.337 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:25.481 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:25.639 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:25.784 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:25.922 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:26.077 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:26.246 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:26.397 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:26.568 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:26.724 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:26.882 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:27.161 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:27.345 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:27.505 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:27.670 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:27.825 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:27.973 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:20:28.155 I/CuidaDosis(12753): Avisos programados: 53; próximo DUE: toma de 2026-11-21T22:21 (hora de México), disparo 2026-11-22T04:21:00Z
+11-21 22:21:00.365 I/CuidaDosis(12753): Avisos programados: 52; próximo BEFORE: toma de 2026-11-21T22:26 (hora de México), disparo 2026-11-22T04:21:00.075029Z
+11-21 22:21:00.517 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1341|null|10133
+11-21 22:21:00.681 I/CuidaDosis(12753): Avisos programados: 51; próximo DUE: toma de 2026-11-21T22:22 (hora de México), disparo 2026-11-22T04:22:00Z
+11-21 22:21:00.882 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1346|null|10133
+11-21 22:22:00.314 I/CuidaDosis(12753): Avisos programados: 50; próximo DUE: toma de 2026-11-21T22:22 (hora de México), disparo 2026-11-22T04:22:00.035895Z
+11-21 22:22:00.519 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1347|null|10133
+11-21 22:22:00.670 I/CuidaDosis(12753): Avisos programados: 49; próximo DUE: toma de 2026-11-21T22:23 (hora de México), disparo 2026-11-22T04:23:00Z
+11-21 22:22:00.936 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1342|null|10133
+11-21 22:22:01.264 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1340|null|10133
+11-21 22:23:01.017 I/CuidaDosis(12753): Avisos programados: 48; próximo DUE: toma de 2026-11-21T22:23 (hora de México), disparo 2026-11-22T04:23:00.698550Z
+11-21 22:23:01.137 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1348|null|10133
+11-21 22:23:01.448 I/CuidaDosis(12753): Avisos programados: 47; próximo DUE: toma de 2026-11-21T22:24 (hora de México), disparo 2026-11-22T04:24:00Z
+11-21 22:23:01.607 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1343|null|10133
+11-21 22:23:01.944 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1341|null|10133
+11-21 22:24:00.009 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{2b87c3c type 0 origWhen 1795321440000 whenElapsed 24094900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 24094900 ms
+11-21 22:24:00.020 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{7fc0e4b type 0 origWhen 1795321440000 whenElapsed 24094900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 24094900 ms
+11-21 22:24:00.074 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=228408120, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:24:00.303 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=228408120 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:24:00.342 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{8f0a965 type 0 origWhen 1795321440340 whenElapsed 24095240 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 24095240 ms
+11-21 22:24:00.819 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1344|null|10133
+11-21 22:24:01.229 I/CuidaDosis(12753): Avisos programados: 46; próximo BEFORE: toma de 2026-11-21T22:29 (hora de México), disparo 2026-11-22T04:24:00.145129Z
+11-21 22:24:01.919 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1349|null|10133
+11-21 22:24:02.008 I/CuidaDosis(12753): Avisos programados: 45; próximo DUE: toma de 2026-11-21T22:25 (hora de México), disparo 2026-11-22T04:25:00Z
+11-21 22:24:02.473 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1342|null|10133
+11-21 22:25:00.009 D/AlarmManager( 1448): [xiaomi_power]sending alarm Alarm{4850064 type 0 origWhen 1795321500000 whenElapsed 24154900 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 24154900 ms
+11-21 22:25:00.064 D/PowerManagerService( 1448): [xiaomi_power]acquireWakeLockInternal: lock=36358278, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1448
+11-21 22:25:00.299 D/PowerManagerService( 1448): [xiaomi_power]releaseWakeLockInternal: lock=36358278 [NotificationManagerService:post:mx.cuidadosis.app], flags=0x0
+11-21 22:25:00.832 I/CuidaDosis(12753): Avisos programados: 44; próximo DUE: toma de 2026-11-21T22:26 (hora de México), disparo 2026-11-22T04:26:00Z
+11-21 22:25:01.697 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1345|null|10133
+11-21 22:25:01.735 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|0|0|mx.cuidadosis.app|g:Aggregate_AlertingSection|10133|0|mx.cuidadosis.app|g:Aggregate_AlertingSection
+11-21 22:25:02.072 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1343|null|10133
+11-21 22:26:00.163 I/CuidaDosis(12753): Avisos programados: 43; próximo DUE: toma de 2026-11-21T22:27 (hora de México), disparo 2026-11-22T04:27:00Z
+11-21 22:26:00.999 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1346|null|10133
+11-21 22:27:00.166 I/CuidaDosis(12753): Avisos programados: 42; próximo DUE: toma de 2026-11-21T22:28 (hora de México), disparo 2026-11-22T04:28:00Z
+11-21 22:27:00.639 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1347|null|10133
+11-21 22:27:25.621 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1344|null|10133
+11-21 22:27:25.625 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1345|null|10133
+11-21 22:28:00.145 I/CuidaDosis(12753): Avisos programados: 41; próximo DUE: toma de 2026-11-21T22:29 (hora de México), disparo 2026-11-22T04:29:00Z
+11-21 22:28:00.658 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1346|null|10133
+11-21 22:28:00.671 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1348|null|10133
+11-21 22:29:00.151 I/CuidaDosis(12753): Avisos programados: 40; próximo BEFORE: toma de 2026-11-22T21:52 (hora de México), disparo 2026-11-23T03:47:00Z
+11-21 22:29:00.664 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1347|null|10133
+11-21 22:29:00.686 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1349|null|10133
+11-21 22:30:00.500 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1348|null|10133
+11-21 22:31:00.510 D/AlertCoordinator( 2665): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1349|null|10133

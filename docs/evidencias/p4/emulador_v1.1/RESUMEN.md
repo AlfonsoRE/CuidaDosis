@@ -32,6 +32,9 @@
 | Regresión: alarma del cuidador a T+30 | OK | Toma de 20:35 de otro paciente; notificación "Toma sin confirmar" a las 21:05:00.570 (+0.57 s), canal `caregiver_alerts_v2`, `AUTO_CANCEL` (sin repetir) | captura 21 |
 | Pruebas unitarias | 79 de 79 OK | 71 anteriores y 8 nuevas en `AlarmSchedulingTest` | |
 
+## Observación del usuario (Fase 10)
+- El usuario reportó que, durante el retest en el emulador, **el sonido de la alarma se oyó en las bocinas de la laptop**. Se anota como observación del emulador: confirma que el canal emite el sonido de alarma, pero no sustituye la prueba en el teléfono físico (volumen de alarma, vibración, modo silencio y No molestar).
+
 ## No se pudo probar y por qué
 - **Que la alarma se escuche y vibre:** el emulador no permite oír ni sentir la alarma desde la automatización. Solo se verificó la configuración (canal con sonido de alarma y vibración, bandera `INSISTENT`) y que la repetición se corta a los 2 minutos. Pendiente en el teléfono físico, con una persona.
 - **Modo silencio, vibración y No molestar:** no se probaron.

@@ -1,0 +1,41 @@
+escenario,evento,toma_T,hora_esperada,hora_real,diferencia_s,cumple_60s,fuente,fecha,dispositivo,version,commit_apk
+B pantalla apagada,T-5 (aviso previo),21:52,21:47:00,21:47:00.385,0.385,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),21:54,21:49:00,21:49:00.361,0.361,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),21:56,21:51:00,21:51:00.306,0.306,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),21:52,21:52:00,21:52:00.299,0.299,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),21:58,21:53:00,21:53:00.307,0.307,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),21:54,21:54:00,21:54:00.297,0.297,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),22:00,21:55:00,21:55:00.244,0.244,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),21:56,21:56:00,21:56:00.303,0.303,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),22:02,21:57:00,21:57:00.309,0.309,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),21:58,21:58:00,21:58:00.310,0.310,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),22:04,21:59:00,21:59:00.324,0.324,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),22:00,22:00:00,22:00:00.320,0.320,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),22:06,22:01:00,22:01:00.305,0.305,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),22:02,22:02:00,22:02:00.307,0.307,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),22:08,22:03:00,22:03:00.298,0.298,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),22:04,22:04:00,22:04:00.342,0.342,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T-5 (aviso previo),22:10,22:05:00,22:05:00.288,0.288,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),22:06,22:06:00,22:06:00.316,0.316,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),22:08,22:08:00,22:08:00.294,0.294,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+B pantalla apagada,T (alarma),22:10,22:10:00,22:10:00.304,0.304,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:20,22:15:00,22:15:00.253,0.253,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:21,22:16:00,22:16:00.265,0.265,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:22,22:17:00,22:17:00.254,0.254,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:23,22:18:00,22:18:00.246,0.246,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:24,22:19:00,22:19:00.270,0.270,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:20,22:20:00,22:20:00.262,0.262,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:25,22:20:00,22:20:00.606,0.606,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:21,22:21:00,22:21:00.263,0.263,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:26,22:21:00,22:21:00.615,0.615,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:22,22:22:00,22:22:00.693,0.693,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:27,22:22:00,22:22:00.257,0.257,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:23,22:23:00,22:23:01.370,1.370,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:28,22:23:00,22:23:00.877,0.877,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:24,22:24:00,22:24:00.326,0.326,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T-5 (aviso previo),22:29,22:24:00,22:24:01.656,1.656,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:25,22:25:00,22:25:00.302,0.302,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:26,22:26:00,22:26:00.276,0.276,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:27,22:27:00,22:27:00.283,0.283,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:28,22:28:00,22:28:00.254,0.254,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
+A pantalla encendida,T (alarma),22:29,22:29:00,22:29:00.256,0.256,sí,SystemUI (id de notificación),2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.0 (versionCode 2),198fe64
