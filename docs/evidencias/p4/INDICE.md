@@ -87,4 +87,19 @@ Emulador `Medium_Phone_API_37.0` (API 37), APK 1.1.0. Los tiempos del emulador n
 | `emulador_v1.1/funcionales_notificaciones.csv` | Canal, banderas y hora de publicación de cada notificación de las pruebas funcionales |
 | `emulador_v1.1/puntualidad_v1.1.csv` | 10 tomas con pantalla encendida y 10 con pantalla apagada (aviso previo y alarma) |
 | `emulador_v1.1/reinicio_v1.1.csv` | Reprogramación tras reiniciar y puntualidad de 2 tomas |
-| `fisico/PENDIENTE_v1.1_fisico.md` | Lo que falta ejecutar con la v1.1 en el teléfono físico |
+| `fisico/PENDIENTE_v1.1_fisico.md` | Lo que falta de la v1.1 en el teléfono (PR-12 preparado con comandos, sonido y vibración) |
+
+## Teléfono físico, versión 1.1 (`fisico/`, Fase 10)
+POCO M6 Pro (Android 16, HyperOS), APK 1.1.0 y 1.1.1. Resumen y comparación con la v1.0: `fisico/RESUMEN.md` (segunda parte).
+
+| Archivo | Contenido |
+|---|---|
+| `fisico/00_instalacion_v1.1.md` | Instalación, SHA-256, permisos de alarma y ajustes de HyperOS, limpieza de datos |
+| `fisico/01_puntualidad_v1.1.md` | Puntualidad con pantalla apagada y encendida, hora de inicio de la alarma |
+| `fisico/puntualidad_v1.1.csv` | 40 avisos con hora esperada, real y diferencia (SystemUI) |
+| `fisico/puntualidad_B_v1.1_wakelock.csv` | Pantalla apagada medida con la publicación (mismo método que la v1.0) |
+| `fisico/puntualidad_v1.1_log_sistema.log` | Extracto del log del sistema de la puntualidad |
+| `fisico/limite_2min_v1.1.0.csv`, `fisico/limite_2min_v1.1.1.csv` | Corte de 2 minutos antes y después de la 1.1.1 |
+| `fisico/02_reinicio_v1.1.md`, `fisico/reinicio_v1.1.csv`, `fisico/reinicio_v1.1_log.txt` | Reinicio con 2 tomas |
+| `fisico/03_alarma_pr03_pr04_pr11_v1.1.md`, `fisico/alarma_v1.1_log.txt` | PR-03, PR-04, PR-11, límite de 2 minutos y salir con pendientes |
+| `api/tests/puntualidad_v11_sysui.php`, `api/tests/puntualidad_v11_csv.php` | Scripts que calculan la puntualidad a partir del log |

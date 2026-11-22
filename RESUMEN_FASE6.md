@@ -89,12 +89,29 @@ Ajuste de requisito por decisión del equipo y corrección del hallazgo de la ve
 | Alarmas atrasadas | Una alarma de reloj (`setAlarmClock`) por aviso, en lugar de una sola encadenada | D42 |
 | Pruebas unitarias | 79 de 79 OK (8 nuevas en `AlarmSchedulingTest`) | |
 | Retest en emulador (API 37) | PR-03, PR-04, PR-11, toma confirmada, límite de 2 min, reinicio y regresión: OK. Puntualidad: 20 de 20 con pantalla encendida y 20 de 20 con pantalla apagada (máximo +1.19 s). **Tiempos del emulador no representativos del teléfono** | `docs/evidencias/p4/emulador_v1.1/RESUMEN.md` |
-| Teléfono físico | Pendiente: puntualidad con pantalla apagada, reinicio, PR-03/04/11, sonido y vibración reales, PR-12 y comparación con la v1.0 | `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md` |
+| Teléfono físico | Hecho en la Fase 10 (ver abajo), salvo PR-12, sonido y vibración | `docs/evidencias/p4/fisico/RESUMEN.md` |
 
 No se pudo probar en esta fase: que la alarma se oiga y vibre, el modo silencio y No molestar, la pantalla completa con el teléfono bloqueado, y los avisos antes del primer desbloqueo tras reiniciar (sigue haciendo falta desbloquear; D42).
+
+## Fase 10 (v1.1 en el teléfono físico)
+POCO M6 Pro (Android 16, HyperOS), mismas condiciones que la v1.0 (batería sin restricciones, inicio automático, USB y cargando). Solo automatización por adb; nadie oyó la alarma.
+
+| Caso | Resultado | Evidencia |
+|---|---|---|
+| Instalación, permisos de alarma y HyperOS | OK (pantalla completa, bloqueo, ventanas en segundo plano, batería, inicio automático) | `fisico/00_instalacion_v1.1.md` |
+| Puntualidad pantalla apagada | **20 de 20** (v1.0: 6 de 10); máximo +0.30 s (v1.0: +187 s) | `fisico/01_puntualidad_v1.1.md` |
+| Puntualidad pantalla encendida | 20 de 20 | `fisico/puntualidad_v1.1.csv` |
+| Reinicio | 3 de 4 (v1.0: 2 de 4); sin desbloquear no se reprograma; el aviso vencido antes del desbloqueo sale al reprogramar | `fisico/02_reinicio_v1.1.md` |
+| PR-03, PR-04, PR-11, salir con pendientes | OK | `fisico/03_alarma_pr03_pr04_pr11_v1.1.md` |
+| Límite de 2 minutos | 1.1.0 falló con la pantalla apagada (hasta 385 s); corregido en **1.1.1** (corte como alarma de reloj, +0.1 s) | D44 |
+| Pantalla de alarma sobre el bloqueo | Parcial: sola con la pantalla encendida y bloqueada; con la pantalla apagada, solo luz de bordes y notificación | D45 |
+| PR-12 | Preparado, no ejecutado (lo observa el usuario) | `fisico/PENDIENTE_v1.1_fisico.md` |
+| Capturas para manuales | 13 del teléfono y 6 de ajustes de HyperOS, sin datos personales ni IP | `docs/capturas/LISTA.md` |
+
+Versión actual: **1.1.1** (`versionCode` 3).
 
 ## Bloqueos y pendientes
 Ver [docs/PENDIENTES_FASE6.md](docs/PENDIENTES_FASE6.md). En resumen: pruebas en teléfono físico (puntualidad, reinicio real, ahorro de batería y alarma del cuidador), pantalla para autorizar la dosis (G-07), sin WorkManager, pérdida de la cola solo si el token vence (401) con pendientes, y subir el paquete a un hosting real (pendiente de verificar).
 
 ## Commits
-Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. Fase 8 Parte A y verificación física (Parte B y C): de `24917b7` en adelante. La Fase 8 se subió (`827eef4`). Fase 9: de `f71b212` en adelante, sin push.
+Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. Fase 8 Parte A y verificación física (Parte B y C): de `24917b7` en adelante. La Fase 8 se subió (`827eef4`). Fase 9: de `f71b212` en adelante. Fase 10: de `5d98cfa` en adelante, sin push.

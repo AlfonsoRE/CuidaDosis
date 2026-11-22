@@ -207,7 +207,10 @@ Pruebas unitarias de la app (dentro de `android/`): `gradlew.bat testDebugUnitTe
 | 3 | App Android base: registro, login por rol y gestión de medicamentos | Hecho |
 | 4 | App: tomas de hoy con "Tomado", vinculación y vista del cuidador | Hecho |
 | 5 | Alarmas locales: aviso 5 minutos antes de cada toma | Hecho |
-| 6 | Alineación con P2 v1.1 y P3: BD v2, vínculo con aceptación, sincronización sin red, avisos T menos L y T, alarma del cuidador | Hecho (pruebas en teléfono físico pendientes) |
+| 6 | Alineación con P2 v1.1 y P3: BD v2, vínculo con aceptación, sincronización sin red, avisos T menos L y T, alarma del cuidador | Hecho |
+| 7 y 8 | Verificación en emulador, cierre de sesión con pendientes, paquete de hosting y pruebas en teléfono físico (v1.0) | Hecho |
+| 9 | Versión 1.1.0: alarma del paciente a T repetida hasta Tomado o Posponer (máx. 2 min) y una alarma de reloj por aviso | Hecho (emulador) |
+| 10 | Pruebas de la v1.1 en el teléfono físico; versión 1.1.1 (corte de 2 min como alarma de reloj) | Hecho, salvo PR-12 y la comprobación de sonido y vibración por una persona |
 
 Las funciones de las fases 0 a 5 funcionan de punta a punta. El detalle por requisito de la Fase 6 está en `RESUMEN_FASE6.md`.
 

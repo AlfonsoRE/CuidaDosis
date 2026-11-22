@@ -27,3 +27,11 @@ Lo que no se pudo hacer o probar, con lo que se intentó. Lo que quedó fuera de
 - **PR-12 rama "Toma sin confirmar" en teléfono físico:** pendiente de ejecución manual con la red estable (en el emulador sí se observó).
 - **Escenario C de puntualidad (reposo prolongado sin cable):** pendiente; requiere desconectar el cable y emparejar la depuración inalámbrica (`adb pair`), además de la red estable.
 - **Avisos antes del primer desbloqueo tras reiniciar:** siguen sin programarse hasta desbloquear (ver D42). Requiere soporte de arranque directo.
+
+## Fase 10 (v1.1 en el teléfono físico)
+- **PR-12 (alarma del cuidador a T + 30):** preparado y no ejecutado por instrucción del usuario, que lo observará con el teléfono en mano. Pasos y comandos en `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md`, sección 1.
+- **Sonido y vibración reales:** que la alarma suene con el volumen de alarma, vibre repetida y se corte con Tomado, Posponer o a los 2 min; modo vibración y No molestar. Solo una persona puede comprobarlo.
+- **Pantalla de alarma sobre el bloqueo con la pantalla apagada:** HyperOS no la abrió (solo luz de bordes y notificación); con la pantalla encendida y bloqueada sí. Confirmar a mano y capturarla si aparece.
+- **Avisos antes del primer desbloqueo tras reiniciar:** siguen sin salir (D42); el aviso vencido sale en cuanto la app reprograma, unos 2.5 min después de desbloquear.
+- **Escenario C (reposo prolongado sin cable):** sigue sin medirse; todas las mediciones fueron con el cable conectado.
+- **La 1.1.1 no tiene retest en el emulador:** el cambio es de una línea (corte de 2 minutos con `setAlarmClock`); se probó en el teléfono y pasan las 79 pruebas unitarias.
