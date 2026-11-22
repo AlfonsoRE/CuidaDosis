@@ -110,8 +110,40 @@ POCO M6 Pro (Android 16, HyperOS), mismas condiciones que la v1.0 (batería sin 
 
 Versión actual: **1.1.1** (`versionCode` 3).
 
+## Estado al cierre del 22 de noviembre
+Punto de partida para continuar. Resumen corto en [docs/CONTINUAR.md](docs/CONTINUAR.md).
+
+- **Último commit de trabajo:** `2afe9c1` (Fase 10); después va el commit de este cierre, que se subió a `origin/main` junto con los de la Fase 10.
+- **Versión actual:** 1.1.1 (`versionCode` 3). Es la que se entrega al grupo beta.
+- **APK debug final:** `android/app/build/outputs/apk/debug/app-debug.apk` (no se versiona), 1.1.1, SHA-256 `157fcf454f381fa2daaadd7712a0cd0b86ee1cbe1d080062e9dd6ccd0f3d2938`.
+- **Etiqueta local:** `v1.0-evaluada` (no subida).
+
+| Fase | Qué se hizo | Dónde se probó |
+|---|---|---|
+| 3 | App base: registro, inicio de sesión por rol y medicamentos | Emulador |
+| 4 | Tomas de hoy con "Tomado", vínculo y vista del cuidador | Emulador |
+| 5 | Primeras alarmas locales (aviso 5 min antes) | Emulador |
+| 6 | Alineación con P2 v1.1 y P3: BD v2, vínculo con aceptación, sin red, avisos T menos L y T, alarma del cuidador | API (27 casos) y emulador |
+| 7 | Verificación de la Fase 6 (PR-01 a PR-15) | Emulador |
+| 8 | Salir sin perder confirmaciones, paquete de hosting, historial de 7 días; verificación de la v1.0 | Emulador y teléfono físico (POCO M6 Pro, HyperOS) |
+| 9 | 1.1.0: alarma del paciente a T repetida (máx. 2 min), una alarma de reloj por aviso | Emulador |
+| 10 | v1.1 en el teléfono; 1.1.1 corrige el corte de 2 min | Teléfono físico |
+
+**Resultados reales, v1.0 contra v1.1 (teléfono físico, con cable y batería sin restricciones):**
+
+| Caso | v1.0 | v1.1 |
+|---|---|---|
+| Puntualidad, pantalla apagada | 6 de 10, máximo +187 s | 20 de 20, máximo +0.30 s (mediana +0.07 s) |
+| Puntualidad, pantalla encendida | 10 de 10 | 20 de 20 |
+| Reinicio | 2 de 4 | 3 de 4 (el aviso vencido antes de desbloquear sale +254 s) |
+| Corte de la alarma a los 2 min | No aplica | 1.1.0: de 145 a 385 s con pantalla apagada (FALLO); 1.1.1: +0.1 s |
+| PR-03, PR-04, PR-11, salir con pendientes | OK | OK |
+| PR-12 alarma del cuidador | Parcial (solo rama "sin conexión") | Preparado, no ejecutado |
+
+La 1.1.1 no tiene retest en el emulador (cambio de una línea, probado en el teléfono, 79 de 79 pruebas unitarias). Lo que se escucha o se siente (sonido, vibración, No molestar) no lo comprobó ninguna persona. Pendientes en orden de prioridad: [docs/PENDIENTES_FASE6.md](docs/PENDIENTES_FASE6.md).
+
 ## Bloqueos y pendientes
 Ver [docs/PENDIENTES_FASE6.md](docs/PENDIENTES_FASE6.md). En resumen: pruebas en teléfono físico (puntualidad, reinicio real, ahorro de batería y alarma del cuidador), pantalla para autorizar la dosis (G-07), sin WorkManager, pérdida de la cola solo si el token vence (401) con pendientes, y subir el paquete a un hosting real (pendiente de verificar).
 
 ## Commits
-Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. Fase 8 Parte A y verificación física (Parte B y C): de `24917b7` en adelante. La Fase 8 se subió (`827eef4`). Fase 9: de `f71b212` en adelante. Fase 10: de `5d98cfa` en adelante, sin push.
+Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. Fase 8 Parte A y verificación física (Parte B y C): de `24917b7` en adelante. La Fase 8 se subió (`827eef4`). Fase 9: de `f71b212` en adelante. Fase 10: de `5d98cfa` a `2afe9c1`, subidos con el commit del cierre del 22 de noviembre.

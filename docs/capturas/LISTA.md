@@ -82,7 +82,7 @@ En la guía de uso se citan como `[CAPTURA: nombre]`.
 | `hyperos_pantalla_completa.png` | "Permitir notificaciones a pantalla completa" activado |
 | `hyperos_otros_permisos.png` | Otros permisos: Mostrar en pantalla de bloqueo y Abrir ventanas en segundo plano |
 
-No se conservan capturas que muestren la IP privada de la PC (pantalla Servidor) ni el diálogo del administrador de contraseñas del teléfono.
+No se conservan capturas que muestren la IP privada de la PC (pantalla Servidor) ni el diálogo del administrador de contraseñas del teléfono. En las capturas `*_v11.png` y `hyperos_*.png` se taparon los íconos de otras apps de la barra de estado (cierre del 22/11/2026); ninguna muestra el contenido de notificaciones ajenas.
 
 ## Notas
 - La toma de las 08:00 del "Medicamento SINTETICO Demo B" que aparece en 06, 12, 17 y 19 se agregó por error durante las capturas de la Fase 8. El horario ya se quitó (el medicamento queda con 12:40 y 14:00), pero la toma de ese día se conserva porque estaba confirmada: así funciona el historial (las tomas confirmadas no se borran). No cambia lo que muestra cada captura.

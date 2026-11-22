@@ -1,4 +1,4 @@
-# Índice de evidencias P4 (Fase 6 y Fase 7)
+# Índice de evidencias P4 (Fases 6 a 10)
 
 Todas las evidencias usan solo datos sintéticos (nombres con "SINTETICO" y correos `@ejemplo.test`). Fecha de ejecución: 21/11/2026, hora de México.
 
@@ -87,7 +87,6 @@ Emulador `Medium_Phone_API_37.0` (API 37), APK 1.1.0. Los tiempos del emulador n
 | `emulador_v1.1/funcionales_notificaciones.csv` | Canal, banderas y hora de publicación de cada notificación de las pruebas funcionales |
 | `emulador_v1.1/puntualidad_v1.1.csv` | 10 tomas con pantalla encendida y 10 con pantalla apagada (aviso previo y alarma) |
 | `emulador_v1.1/reinicio_v1.1.csv` | Reprogramación tras reiniciar y puntualidad de 2 tomas |
-| `fisico/PENDIENTE_v1.1_fisico.md` | Lo que falta de la v1.1 en el teléfono (PR-12 preparado con comandos, sonido y vibración) |
 
 ## Teléfono físico, versión 1.1 (`fisico/`, Fase 10)
 POCO M6 Pro (Android 16, HyperOS), APK 1.1.0 y 1.1.1. Resumen y comparación con la v1.0: `fisico/RESUMEN.md` (segunda parte).
@@ -103,3 +102,12 @@ POCO M6 Pro (Android 16, HyperOS), APK 1.1.0 y 1.1.1. Resumen y comparación con
 | `fisico/02_reinicio_v1.1.md`, `fisico/reinicio_v1.1.csv`, `fisico/reinicio_v1.1_log.txt` | Reinicio con 2 tomas |
 | `fisico/03_alarma_pr03_pr04_pr11_v1.1.md`, `fisico/alarma_v1.1_log.txt` | PR-03, PR-04, PR-11, límite de 2 minutos y salir con pendientes |
 | `api/tests/puntualidad_v11_sysui.php`, `api/tests/puntualidad_v11_csv.php` | Scripts que calculan la puntualidad a partir del log |
+| `fisico/PENDIENTE_v1.1_fisico.md` | PR-12 preparado (pasos y comandos) y comprobaciones que solo puede hacer una persona |
+
+### Capturas de la v1.1
+Lista completa con su uso en los manuales: `docs/capturas/LISTA.md`.
+- Emulador (Fase 9): `20_alarma_pantalla.png`, `20b_alarma_notificacion.png`, `20c_alarma_sin_sonido.png`, `21_cuidador_notificacion.png`, `22_salir_bloqueado_v11.png`.
+- Teléfono físico (Fase 10): `fisico/14_medicamentos_v11.png` a `fisico/26_cuidador_detalle_estados_v11.png` (13 capturas).
+- Ajustes de HyperOS (Fase 10): `hyperos_*.png` (6 capturas).
+
+Todas con datos sintéticos; sin correos personales, sin la IP de la PC y sin notificaciones de otras apps (en las de la Fase 10 se taparon los íconos de otras apps de la barra de estado).

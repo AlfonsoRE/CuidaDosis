@@ -83,6 +83,8 @@ CuidaDosis/
     adr/            Decisiones arquitectónicas ADR-001 a ADR-010
     diagramas/      Diagramas PlantUML y SVG
     evidencias/     Evidencias; los logs de pruebas de la API van en evidencias/p4/
+    CONTINUAR.md    Estado actual, pendientes y comandos para retomar el trabajo
+    PENDIENTES_FASE6.md  Pendientes por prioridad
 ```
 
 ## 5. Stack y versiones
@@ -139,7 +141,9 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
    - Por defecto al compilar: `api.baseUrl` en `android/local.properties`. En la app: enlace "Servidor" del login.
 4. El tráfico HTTP sin cifrar solo se permite en debug (network security config en `src/debug`).
 5. Android 17 (API 37) exige el permiso de ejecución `ACCESS_LOCAL_NETWORK` para llegar a IPs privadas; sin él la conexión a XAMPP da timeout. La app lo pide al arrancar.
-6. Emulador disponible en esta máquina: AVD `Medium_Phone_API_37.0`.
+6. Emulador disponible en esta máquina: AVD `Medium_Phone_API_37.0`. Consume mucha memoria y puede cerrarse solo; enciéndelo solo cuando la tarea lo pida y ciérralo al terminar.
+7. Con dos dispositivos conectados (emulador y teléfono físico) usa siempre `adb -s <ID>` (por ejemplo `adb -s emulator-5554`); nunca `adb` sin `-s`, porque falla o actúa sobre el dispositivo equivocado. El ID del teléfono se ve con `adb devices`.
+8. Versión actual: **1.1.1** (`versionCode` 3). Es el APK debug que se entrega al grupo beta (`android/app/build/outputs/apk/debug/app-debug.apk`, que no se versiona). Estado y comandos para continuar: `docs/CONTINUAR.md`.
 
 ## 7. Convenciones de código
 
