@@ -58,7 +58,6 @@ En la guía de uso se citan como `[CAPTURA: nombre]`.
 | `fisico/12_historial_paciente.png` | Historial de 7 días con dosis | Paciente |
 | `fisico/12b_emulador_historial_cuidador_sin_dosis.png` | (Emulador) Historial del paciente sin dosis | Cuidador |
 | `fisico/13_desvinculado.png` | Tras desvincular al cuidador | Paciente |
-
 | `fisico/14_medicamentos_v11.png` | Pestaña Medicamentos con horario, Editar y Desactivar (v1.1) | Paciente |
 | `fisico/15_alta_medicamento_v11.png` | Nuevo medicamento (sin guardar) | Paciente |
 | `fisico/16_ajustes_v11.png` | Ajustes: anticipación 5 o 10 min y permisos en orden | Paciente |
