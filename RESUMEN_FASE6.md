@@ -25,7 +25,7 @@ Alineación de CuidaDosis con el diseño P2 v1.1 y P3 v1.0, del 21/11/2026. Todo
 | RF-01, RF-02 registro y sesión | Sí | `AuthController.php`, `ui/auth`, `SessionStore` | API-01 a API-06 | PR-01 OK | No |
 | RF-03, RF-04 medicamentos | Sí | `MedicationController.php` (ahora con `schedules`), `ui/medications` | API-19 (alta) | PR-02 OK | No |
 | RF-05 aviso a T menos L (5 o 10) | Sí | `reminders/ReminderSchedule.kt`, `ReminderScheduler.kt`, `ui/settings/ReminderSettingsScreen.kt` | `ReminderEventTest` (L=5, L=10, reglas de L) | PR-03 OK | Puntualidad (RNF-01) con pantalla bloqueada y ahorro de batería |
-| RF-06 segundo aviso a T | Sí | `ReminderSchedule.kt`, `ReminderReceiver.kt` | `ReminderEventTest` (una sola vez, no si está confirmada) | PR-03 OK | Puntualidad |
+| RF-06 alarma a T (v1.1: repetida hasta Tomado o Posponer, máx. 2 min) | Sí | `ReminderSchedule.kt`, `ReminderReceiver.kt`, `ReminderNotifier.kt`, `AlarmActivity.kt` | `ReminderEventTest`, `AlarmSchedulingTest` (alarma a T, límite de 2 min, no si está confirmada) | PR-03 OK | Puntualidad |
 | RF-07 un toque, "Confirmada por el paciente" | Sí | `ui/patient/TodayTab.kt`, `IntakeRepository.kt`, `data/IntakeStatus.kt` | `IntakeStateTest` (etiquetas, nunca "Tomada") | PR-04 OK | No |
 | RF-08 código de 10 min y aceptación | Sí | `LinkController.php`, `schema.sql` (`awaiting_acceptance`, `link_attempts`), `ui/patient/CaregiverLinkTab.kt`, `ui/caregiver` | API-07 a API-18, `LinkMessagesTest` | PR-05 OK | No |
 | RF-09 revocar | Sí | `LinkController.php`, pantallas de paciente y cuidador | API-27 | PR-05 OK | No |
@@ -79,8 +79,22 @@ POCO M6 Pro, Android 16, HyperOS, con batería "Sin restricciones" e Inicio auto
 
 **Casos que quedan para el formato manual de complemento:** RNF-01 escenario C (sin cable, reposo prolongado); repetir RNF-01 B y RNF-03 tras una mejora de alarmas; PR-12 rama "Toma sin confirmar" con red estable; RNF-07 desde el teléfono por Wi-Fi; token vencido con pendientes (limitación); legibilidad con personas mayores; otros fabricantes.
 
+## Fase 9 (versión 1.1.0)
+Ajuste de requisito por decisión del equipo y corrección del hallazgo de la verificación física. La v1.0 evaluada quedó etiquetada `v1.0-evaluada` (local).
+
+| Cambio | Detalle | Evidencia |
+|---|---|---|
+| RF-06 alarma del paciente | A la hora T, alarma con sonido de alarma y vibración que se repite (`FLAG_INSISTENT`) hasta Tomado o Posponer; máximo 2 min, luego notificación fija sin sonido; pantalla de alarma sobre el bloqueo | D41 |
+| RF-05 y RF-18 | Sin cambios de comportamiento; canales nuevos con vibración (`_v2`); los de la v1.0 se eliminan | D41 |
+| Alarmas atrasadas | Una alarma de reloj (`setAlarmClock`) por aviso, en lugar de una sola encadenada | D42 |
+| Pruebas unitarias | 79 de 79 OK (8 nuevas en `AlarmSchedulingTest`) | |
+| Retest en emulador (API 37) | PR-03, PR-04, PR-11, toma confirmada, límite de 2 min, reinicio y regresión: OK. Puntualidad: 20 de 20 con pantalla encendida y 20 de 20 con pantalla apagada (máximo +1.19 s). **Tiempos del emulador no representativos del teléfono** | `docs/evidencias/p4/emulador_v1.1/RESUMEN.md` |
+| Teléfono físico | Pendiente: puntualidad con pantalla apagada, reinicio, PR-03/04/11, sonido y vibración reales, PR-12 y comparación con la v1.0 | `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md` |
+
+No se pudo probar en esta fase: que la alarma se oiga y vibre, el modo silencio y No molestar, la pantalla completa con el teléfono bloqueado, y los avisos antes del primer desbloqueo tras reiniciar (sigue haciendo falta desbloquear; D42).
+
 ## Bloqueos y pendientes
 Ver [docs/PENDIENTES_FASE6.md](docs/PENDIENTES_FASE6.md). En resumen: pruebas en teléfono físico (puntualidad, reinicio real, ahorro de batería y alarma del cuidador), pantalla para autorizar la dosis (G-07), sin WorkManager, pérdida de la cola solo si el token vence (401) con pendientes, y subir el paquete a un hosting real (pendiente de verificar).
 
 ## Commits
-Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. Fase 8 Parte A y verificación física (Parte B y C): de `24917b7` en adelante. La Fase 8 no se ha subido.
+Fase 6: `534772d` (AGENTS.md), `7a28090` (BD v2), `632b7d8` (vínculo), `34c5215` (tomas), `dec7bd6` (pruebas API), `f5d0ef2` (avisos), `276b994` (sin red), `223501a` (vínculo en app), `10de222` (cuidador), `e71e6ef` (accesibilidad), `e36b13c` (cierre). Correcciones de la verificación: `c9ea6df`. Fase 7: `40117d3`, `4a34e4e` (subidos a origin). Fase 8: `24917b7` (cierre de sesión), `c1f73db` (paquete de hosting), `0539a35` (capturas), `3fbba32` (historial) y el commit de este resumen. Fase 8 Parte A y verificación física (Parte B y C): de `24917b7` en adelante. La Fase 8 se subió (`827eef4`). Fase 9: de `f71b212` en adelante, sin push.

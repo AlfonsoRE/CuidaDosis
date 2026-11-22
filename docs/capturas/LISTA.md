@@ -21,7 +21,10 @@ En la guía de uso se citan como `[CAPTURA: nombre]`.
 | 12. Aceptar al cuidador | `09_solicitud_pendiente.png` | Solicitud de vínculo con Aceptar y Rechazar |
 | 13. Vínculo activo | `10_vinculo_activo.png` | "Tu cuidador", con Desvincular cuidador |
 | 14. Historial | `19_historial_paciente.png` | Pestaña Historial (últimos 7 días) |
-| 15. Cierre de sesión con pendientes | `18_salir_con_pendientes.png` | "Confirmaciones sin enviar": Reintentar envío o Quedarme |
+| 15. Cierre de sesión con pendientes | `18_salir_con_pendientes.png` | "Confirmaciones sin enviar": Reintentar envío o Quedarme (también `22_salir_bloqueado_v11.png`, v1.1) |
+| 16. Alarma (v1.1) | `20_alarma_pantalla.png` | Pantalla de alarma: hora, medicamento, Tomado, Posponer 5 min y Posponer 10 min |
+| 17. Alarma en notificaciones (v1.1) | `20b_alarma_notificacion.png` | Notificación de alarma con Tomado y Posponer |
+| 18. Alarma tras 2 minutos (v1.1) | `20c_alarma_sin_sonido.png` | Notificación fija sin sonido cuando nadie atendió la alarma |
 
 ## Cuidador
 | Paso | Archivo | Pantalla |
@@ -35,7 +38,8 @@ En la guía de uso se citan como `[CAPTURA: nombre]`.
 | 7. Estado: pendiente | `13_cuidador_pendiente.png` | Detalle con una toma "Pendiente" |
 | 8. Estado: confirmada | `14_cuidador_confirmada.png` | Detalle con "Confirmada por el paciente" y la dosis oculta |
 | 9. Estado: sin confirmar | `15_cuidador_sin_confirmar.png` | Detalle con una toma "Sin confirmar" |
-| 10. Alarma a T + 30 | `15c_alarma_cuidador.png` | Notificación "Toma sin confirmar" con la última sincronización |
+| 10. Alarma a T + 30 | `15c_alarma_cuidador.png` | Notificación "Revisa a..." de la v1.0 |
+| 10b. Aviso a T + 30 (v1.1) | `21_cuidador_notificacion.png` | Notificación "Toma sin confirmar" del cuidador (canal con vibración, sin repetir) |
 | 11. Historial | `19b_historial_cuidador.png` | Historial de 7 días del paciente, sin dosis |
 | 12. Letra grande | `15b_letra_grande_cuidador.png` | Detalle con la letra del sistema al 130 % |
 | 13. Cierre de sesión | `16_ultima_sincronizacion.png` | El botón "Cerrar sesión" está arriba a la derecha de esa pantalla |

@@ -1,0 +1,6 @@
+caso,evento,toma_T,hora_esperada,hora_real_publicacion,diferencia_s,cumple_60s,observacion,fecha,dispositivo,version,commit
+RNF-03,reprogramación tras reinicio,20:52 y 20:54,tras arrancar,20:46:00.695,103 (desde boot_completed 20:44:17),sí,"adb reboot a las 20:43:29 sin abrir la app; 53 alarmas antes; BootReceiver arrancó la app a las 20:46:00 (lanzador en primer plano) y programó 52 avisos (dumpsys alarm); el emulador no tiene bloqueo de pantalla",2026-11-21,Emulador Medium_Phone_API_37.0 (API 37),1.1.0 (2),198fe64
+RNF-03,T-5 (aviso previo),20:52,20:47:00,20:47:00.200,0.200,sí,canal intake_before_v2,2026-11-21,Emulador API 37,1.1.0 (2),198fe64
+RNF-03,T-5 (aviso previo),20:54,20:49:00,20:49:00.112,0.112,sí,canal intake_before_v2,2026-11-21,Emulador API 37,1.1.0 (2),198fe64
+RNF-03,T (alarma),20:52,20:52:00,20:52:00.256,0.256,sí,canal intake_alarm_v2,2026-11-21,Emulador API 37,1.1.0 (2),198fe64
+RNF-03,T (alarma),20:54,20:54:00,20:54:00.331,0.331,sí,"canal intake_alarm_v2; esta toma se confirmó después por un toque no intencional de la automatización sobre la notificación emergente (20:55:51)",2026-11-21,Emulador API 37,1.1.0 (2),198fe64

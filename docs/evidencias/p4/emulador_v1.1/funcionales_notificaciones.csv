@@ -1,0 +1,10 @@
+hora_publicacion,canal,banderas,titulo
+19:37:04.063,intake_before_v2,AUTO_CANCEL,Toma de las 19:42
+19:40:00.008,intake_before_v2,AUTO_CANCEL,Toma de las 19:45
+19:42:00.013,intake_alarm_v2,ONGOING_EVENT|INSISTENT|HIGH_PRIORITY,Es la hora de tu toma de las 19:42
+19:45:00.010,intake_alarm_v2,ONGOING_EVENT|INSISTENT|HIGH_PRIORITY,Es la hora de tu toma de las 19:45
+19:46:00.013,intake_before_v2,AUTO_CANCEL,Toma de las 19:51
+19:50:13.033,intake_alarm_v2,ONGOING_EVENT|INSISTENT|HIGH_PRIORITY,Recordatorio: toma de las 19:45
+19:51:00.013,intake_alarm_v2,ONGOING_EVENT|INSISTENT|HIGH_PRIORITY,Es la hora de tu toma de las 19:51
+19:53:00.043,intake_alarm_silent_v2,ONGOING_EVENT|ONLY_ALERT_ONCE|SILENT,Es la hora de tu toma de las 19:51
+20:00:23.010,intake_alarm_v2,ONGOING_EVENT|INSISTENT|HIGH_PRIORITY,Recordatorio: toma de las 19:45

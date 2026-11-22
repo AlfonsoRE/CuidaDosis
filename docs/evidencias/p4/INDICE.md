@@ -75,3 +75,16 @@ POCO M6 Pro (Xiaomi, 2312FPCA6G), Android 16 (SDK 36), HyperOS OS3.0.307.0. Cond
 | `fisico/paso11_pr12_alarma_cuidador.md` | Paso 11 (PR-12): alarma del cuidador a T + 30 en el teléfono |
 | `fisico/pr12_observacion.txt`, `fisico/pr12_log_sistema.log` | Notificación y log del sistema de PR-12 |
 | `fisico/RESUMEN.md` | Tabla de resultados, lo no medido y las limitaciones |
+
+## Emulador, versión 1.1 (`emulador_v1.1/`), Fase 9
+Emulador `Medium_Phone_API_37.0` (API 37), APK 1.1.0. Los tiempos del emulador no son representativos del teléfono. Resumen: `emulador_v1.1/RESUMEN.md`.
+
+| Archivo | Qué es |
+|---|---|
+| `emulador_v1.1/RESUMEN.md` | Resultados del retest (PR-03, PR-04, PR-11, toma confirmada, límite de 2 min, puntualidad, reinicio, regresión) |
+| `emulador_v1.1/canales.txt` | Configuración de los canales v1.1 según el sistema |
+| `emulador_v1.1/alarmas_programadas.txt` | `dumpsys alarm`: una alarma de reloj por aviso |
+| `emulador_v1.1/funcionales_notificaciones.csv` | Canal, banderas y hora de publicación de cada notificación de las pruebas funcionales |
+| `emulador_v1.1/puntualidad_v1.1.csv` | 10 tomas con pantalla encendida y 10 con pantalla apagada (aviso previo y alarma) |
+| `emulador_v1.1/reinicio_v1.1.csv` | Reprogramación tras reiniciar y puntualidad de 2 tomas |
+| `fisico/PENDIENTE_v1.1_fisico.md` | Lo que falta ejecutar con la v1.1 en el teléfono físico |

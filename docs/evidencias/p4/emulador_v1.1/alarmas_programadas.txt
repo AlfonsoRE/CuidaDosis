@@ -1,0 +1,200 @@
+      User 0
+        mx.cuidadosis.app
+    
+    Restricted packages:
+    Stats:
+      UID_FG_STATE_CHANGED: count=0, total=0.0ms, avg=0.000ms, max calls/s=0 max dur/s=0.0ms max time=0.0ms
+      operation=PendingIntent{885f934: PendingIntentRecord{3d17fb0 com.google.android.gms/com.google.android.gms.scheduler broadcastIntent}}
+    RTC_WAKEUP #4: Alarm{1a6c86 type 0 origWhen 1795311420000 whenElapsed 661984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:37:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+2m27s485ms app_standby=-11s418ms device_idle=-- battery_saver=--
+      whenElapsed=+2m27s485ms maxWhenElapsed=+2m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:37:00.000
+        showIntent=PendingIntent{df53947: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{ed34a9d: PendingIntentRecord{320cb12 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    ELAPSED_WAKEUP #5: Alarm{4c222e3 type 2 origWhen 821395 whenElapsed 821395 com.google.android.gms}
+      tag=*walarm*:GCM_HB_ALARM
+      type=ELAPSED_WAKEUP origWhen=+5m6s896ms window=0 exactAllowReason=prioritized repeatInterval=0 count=0 flags=0x41
+      listener=android.os.BinderProxy@bdc34e0
+    RTC_WAKEUP #6: Alarm{a1ef399 type 0 origWhen 1795311600000 whenElapsed 841984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:40:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+5m27s485ms app_standby=-11s373ms device_idle=-- battery_saver=--
+      whenElapsed=+5m27s485ms maxWhenElapsed=+5m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:40:00.000
+        showIntent=PendingIntent{ebc865e: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{1ea0a3f: PendingIntentRecord{b7fbf0c mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #7: Alarm{e23055 type 0 origWhen 1795311720000 whenElapsed 961983 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:42:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+7m27s484ms app_standby=-11s341ms device_idle=-- battery_saver=--
+      whenElapsed=+7m27s484ms maxWhenElapsed=+7m27s484ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:42:00.000
+        showIntent=PendingIntent{1c6aa6a: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{17f0b5b: PendingIntentRecord{befbff8 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #8: Alarm{3627cd1 type 0 origWhen 1795311780000 whenElapsed 1021983 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:43:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+8m27s484ms app_standby=-11s305ms device_idle=-- battery_saver=--
+      whenElapsed=+8m27s484ms maxWhenElapsed=+8m27s484ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:43:00.000
+        showIntent=PendingIntent{d9d0336: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{4990237: PendingIntentRecord{15ce3a4 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #9: Alarm{6c1150d type 0 origWhen 1795311900000 whenElapsed 1141984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:45:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+10m27s485ms app_standby=-11s293ms device_idle=-- battery_saver=--
+      whenElapsed=+10m27s485ms maxWhenElapsed=+10m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:45:00.000
+        showIntent=PendingIntent{9ae1cc2: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{bf18ad3: PendingIntentRecord{569610 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC #10: Alarm{6f6f509 type 1 origWhen 1795311907905 whenElapsed 1149889 com.google.android.googlequicksearchbox}
+      tag=*alarm*:TIME TRIGGER ALLOW IDLE ACTION
+      type=RTC origWhen=2026-11-22 01:45:07.905 window=0 exactAllowReason=permission repeatInterval=0 count=0 flags=0x5
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=302, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #11: Alarm{4f7033c type 0 origWhen 1795311960000 whenElapsed 1201984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:46:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+11m27s485ms app_standby=-11s284ms device_idle=-- battery_saver=--
+      whenElapsed=+11m27s485ms maxWhenElapsed=+11m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:46:00.000
+        showIntent=PendingIntent{c90d8c5: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{916821a: PendingIntentRecord{455814b mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    ELAPSED #12: Alarm{531235d type 3 origWhen 1238863 whenElapsed 1238863 android}
+      tag=*alarm*:*job.delay*
+      type=ELAPSED origWhen=+12m4s364ms window=+9m9s643ms repeatInterval=0 count=0 flags=0x0
+      listener=android.app.AlarmManager$ListenerWrapper@8f955ae
+    RTC_WAKEUP #13: Alarm{cf1728 type 0 origWhen 1795312080000 whenElapsed 1321984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:48:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+13m27s485ms app_standby=-11s268ms device_idle=-- battery_saver=--
+      whenElapsed=+13m27s485ms maxWhenElapsed=+13m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:48:00.000
+        showIntent=PendingIntent{22b3c41: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{40aa5e6: PendingIntentRecord{cf8e727 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #14: Alarm{b927dd4 type 0 origWhen 1795312260000 whenElapsed 1501984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-22 01:51:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+16m27s485ms app_standby=-11s247ms device_idle=-- battery_saver=--
+      whenElapsed=+16m27s485ms maxWhenElapsed=+16m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-22 01:51:00.000
+        showIntent=PendingIntent{5ae5b7d: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{acb3a72: PendingIntentRecord{a82cec3 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    ELAPSED #15: Alarm{283a340 type 3 origWhen 1842071 whenElapsed 1842071 android}
+      tag=*alarm*:com.android.server.action.NETWORK_STATS_POLL
+      type=ELAPSED origWhen=+22m7s572ms window=+22m30s0ms repeatInterval=1800000 count=0 flags=0x8
+      operation=PendingIntent{f4ba8a6: PendingIntentRecord{6fd92e7 com.google.android.apps.wallpaper broadcastIntent}}
+    RTC_WAKEUP #42: Alarm{2641e94 type 0 origWhen 1795397820000 whenElapsed 87061984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:37:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h2m27s485ms app_standby=-11s239ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h2m27s485ms maxWhenElapsed=+1d0h2m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:37:00.000
+        showIntent=PendingIntent{6a4d3d: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{af9a932: PendingIntentRecord{c867683 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #43: Alarm{9ae9000 type 0 origWhen 1795398000000 whenElapsed 87241984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:40:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h5m27s485ms app_standby=-11s233ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h5m27s485ms maxWhenElapsed=+1d0h5m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:40:00.000
+        showIntent=PendingIntent{f338039: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{f15267e: PendingIntentRecord{12ff7df mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #44: Alarm{46cac2c type 0 origWhen 1795398120000 whenElapsed 87361984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:42:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h7m27s485ms app_standby=-11s226ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h7m27s485ms maxWhenElapsed=+1d0h7m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:42:00.000
+        showIntent=PendingIntent{4c2e6f5: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{fd92c8a: PendingIntentRecord{7c632fb mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #45: Alarm{c0e5f18 type 0 origWhen 1795398180000 whenElapsed 87421983 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:43:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h8m27s484ms app_standby=-11s208ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h8m27s484ms maxWhenElapsed=+1d0h8m27s484ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:43:00.000
+        showIntent=PendingIntent{7a7fd71: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{8258756: PendingIntentRecord{9bb03d7 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #46: Alarm{f1654c4 type 0 origWhen 1795398300000 whenElapsed 87541984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:45:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h10m27s485ms app_standby=-11s191ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h10m27s485ms maxWhenElapsed=+1d0h10m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:45:00.000
+        showIntent=PendingIntent{dedffad: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{f0ac2e2: PendingIntentRecord{bc20673 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #47: Alarm{f85f930 type 0 origWhen 1795398360000 whenElapsed 87601984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:46:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h11m27s485ms app_standby=-11s177ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h11m27s485ms maxWhenElapsed=+1d0h11m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:46:00.000
+        showIntent=PendingIntent{917e9a9: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{a162b2e: PendingIntentRecord{2c96cf mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #48: Alarm{c09785c type 0 origWhen 1795398480000 whenElapsed 87721984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:48:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h13m27s485ms app_standby=-11s150ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h13m27s485ms maxWhenElapsed=+1d0h13m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:48:00.000
+        showIntent=PendingIntent{5dc7765: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{85dcc3a: PendingIntentRecord{305d0eb mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #49: Alarm{fe3be48 type 0 origWhen 1795398660000 whenElapsed 87901984 mx.cuidadosis.app}
+      tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+      type=RTC_WAKEUP origWhen=2026-11-23 01:51:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+      policyWhenElapsed: requester=+1d0h16m27s485ms app_standby=-11s116ms device_idle=-- battery_saver=--
+      whenElapsed=+1d0h16m27s485ms maxWhenElapsed=+1d0h16m27s485ms
+      Alarm clock:
+        triggerTime=2026-11-23 01:51:00.000
+        showIntent=PendingIntent{ba224e1: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+      operation=PendingIntent{24c7206: PendingIntentRecord{bee90c7 mx.cuidadosis.app broadcastIntent}}
+      idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+    RTC_WAKEUP #50: Alarm{59a76f4 type 0 origWhen 1795434459011 whenElapsed 123700994 com.google.android.apps.messaging}
+      tag=*walarm*:android.intent.action.VIEW
+      type=RTC_WAKEUP origWhen=2026-11-23 11:47:39.011 window=+18h0m0s0ms repeatInterval=86400000 count=0 flags=0x0
+  
+  Next wake from idle: Alarm{1a6c86 type 0 origWhen 1795311420000 whenElapsed 661984 mx.cuidadosis.app}
+    tag=*walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER
+    type=RTC_WAKEUP origWhen=2026-11-22 01:37:00.000 window=0 exactAllowReason=policy_permission repeatInterval=0 count=0 flags=0x3
+    policyWhenElapsed: requester=+2m27s485ms app_standby=-11s418ms device_idle=-- battery_saver=--
+    whenElapsed=+2m27s485ms maxWhenElapsed=+2m27s485ms
+    Alarm clock:
+      triggerTime=2026-11-22 01:37:00.000
+      showIntent=PendingIntent{df53947: PendingIntentRecord{cc73574 mx.cuidadosis.app startActivity}}
+    operation=PendingIntent{ed34a9d: PendingIntentRecord{320cb12 mx.cuidadosis.app broadcastIntent}}
+    idle-options=Bundle[{android.pendingIntent.backgroundActivityAllowed=2, android:broadcast.temporaryAppAllowlistReasonCode=301, android:broadcast.temporaryAppAllowlistDuration=10000, android:broadcast.temporaryAppAllowlistReason=, android:broadcast.temporaryAppAllowlistType=0, android:broadcast.flags=8}]
+  
+  Past-due non-wakeup alarms: (none)
+    Number of delayed alarms: 0, total delay time: 0
