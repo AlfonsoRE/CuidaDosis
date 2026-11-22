@@ -1,0 +1,130 @@
+toque Tomado (notificación): 23:03:42
+toque Posponer 10 (pantalla de alarma): 23:11:29
+toque Posponer 5 (notificación, toma 23:16): 23:16:39
+toque Tomado (pantalla de alarma, toma 23:16): 23:23:48
+Tomado en Hoy sin red (toma 23:06): 23:24:45
+Salir sin pendientes: 23:26:47
+--- BD (intake_logs del medicamento 27)
+2026-11-21 23:02:00 | taken | 2026-11-21 23:03:42 | 2026-11-21 23:03:42 | 3a3aa971
+2026-11-21 23:06:00 | taken | 2026-11-21 23:24:45 | 2026-11-21 23:25:48 | 3f3ab810
+2026-11-21 23:10:00 | taken | 2026-11-21 23:22:03 | 2026-11-21 23:22:03 | 384ad48c
+2026-11-21 23:16:00 | taken | 2026-11-21 23:23:51 | 2026-11-21 23:23:51 | 5ed2f716
+--- log del sistema (extracto)
+11-21 23:01:00.005 D/AlarmManager( 1744): [xiaomi_power]sending alarm Alarm{3bd7b51 type 0 origWhen 1795323660000 whenElapsed 1568201 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 1568201 ms
+11-21 23:01:00.202 D/PowerManagerService( 1744): [xiaomi_power]acquireWakeLockInternal: lock=46997140, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1744
+11-21 23:01:00.553 I/CuidaDosis(20662): Avisos programados: 14; próximo DUE: toma de 2026-11-21T23:02 (hora de México), disparo 2026-11-22T05:02:00Z
+11-21 23:01:00.967 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|0|0|mx.cuidadosis.app|g:Aggregate_AlertingSection|10133|0|mx.cuidadosis.app|g:Aggregate_AlertingSection
+11-21 23:01:01.031 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1386|null|10133
+11-21 23:02:00.005 D/AlarmManager( 1744): [xiaomi_power]sending alarm Alarm{81eb66d type 0 origWhen 1795323720000 whenElapsed 1628201 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 1628201 ms
+11-21 23:02:00.081 D/PowerManagerService( 1744): [xiaomi_power]acquireWakeLockInternal: lock=56268514, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1744
+11-21 23:02:00.334 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:00.643 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1382|null|10133
+11-21 23:02:33.629 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:33.799 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:33.852 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:33.893 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:33.950 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:34.022 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:34.104 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:02:34.148 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:03:42.323 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:03:42.409 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:03:42.659 I/CuidaDosis(20662): Avisos programados: 13; próximo BEFORE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:05:00Z
+11-21 23:05:00.159 I/CuidaDosis(20662): Avisos programados: 12; próximo DUE: toma de 2026-11-21T23:06 (hora de México), disparo 2026-11-22T05:06:00Z
+11-21 23:05:00.490 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|0|0|mx.cuidadosis.app|g:Aggregate_AlertingSection|10133|0|mx.cuidadosis.app|g:Aggregate_AlertingSection
+11-21 23:05:00.525 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1390|null|10133
+11-21 23:06:00.133 I/CuidaDosis(20662): Avisos programados: 11; próximo DUE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:10:00Z
+11-21 23:06:00.521 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1386|null|10133
+11-21 23:08:00.053 D/AlarmManager( 1744): [xiaomi_power]sending alarm Alarm{f034787 type 0 origWhen 1795324080048 whenElapsed 1988249 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.RING_LIMIT package name mx.cuidadosis.app at 1988249 ms
+11-21 23:08:00.125 D/PowerManagerService( 1744): [xiaomi_power]acquireWakeLockInternal: lock=201362504, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1744
+11-21 23:08:00.722 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1386|null|10133
+11-21 23:10:00.135 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:00.538 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1390|null|10133
+11-21 23:10:52.935 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:53.101 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:53.148 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:53.211 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:53.274 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:53.323 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:53.389 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:10:53.498 I/CuidaDosis(20662): Avisos programados: 10; próximo BEFORE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:11:00Z
+11-21 23:11:00.063 I/CuidaDosis(20662): Avisos programados: 9; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:00.494 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1396|null|10133
+11-21 23:11:32.427 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:32.744 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:32.929 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:32.995 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:33.066 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:33.128 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:33.190 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:33.258 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:11:33.319 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.210 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.357 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.406 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.452 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.566 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.639 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.702 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:15:48.739 I/CuidaDosis(20662): Avisos programados: 10; próximo DUE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:16:00Z
+11-21 23:16:00.077 I/CuidaDosis(20662): Avisos programados: 9; próximo SNOOZE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:21:32Z
+11-21 23:16:00.535 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1396|null|10133
+11-21 23:16:39.670 I/CuidaDosis(20662): Avisos programados: 10; próximo SNOOZE: toma de 2026-11-21T23:10 (hora de México), disparo 2026-11-22T05:21:32Z
+11-21 23:21:32.000 D/AlarmManager( 1744): [xiaomi_power]sending alarm Alarm{76ac3d4 type 0 origWhen 1795324892000 whenElapsed 2800200 mx.cuidadosis.app} with listener tag null stats tag *walarm*:mx.cuidadosis.app.action.INTAKE_REMINDER package name mx.cuidadosis.app at 2800200 ms
+11-21 23:21:32.056 D/PowerManagerService( 1744): [xiaomi_power]acquireWakeLockInternal: lock=131839486, flags=0x1, tag="NotificationManagerService:post:mx.cuidadosis.app", ws=WorkSource{10133 mx.cuidadosis.app}, uid=1000, pid=1744
+11-21 23:21:32.282 I/CuidaDosis(20662): Avisos programados: 9; próximo SNOOZE: toma de 2026-11-21T23:16 (hora de México), disparo 2026-11-22T05:21:39Z
+11-21 23:21:33.618 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1390|null|10133
+11-21 23:21:33.623 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|0|0|mx.cuidadosis.app|g:Aggregate_AlertingSection|10133|0|mx.cuidadosis.app|g:Aggregate_AlertingSection
+11-21 23:21:39.067 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:21:39.566 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1396|null|10133
+11-21 23:22:03.618 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:22:03.651 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:22:03.954 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:22:04.192 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.635 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.770 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.795 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.833 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.863 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.888 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.911 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:19.938 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:39.543 D/AlertCoordinator( 3002): onViewBound, buzzBeep for 0|mx.cuidadosis.app|1396|null|10133
+11-21 23:23:51.328 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:51.354 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:51.524 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:51.696 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:51.809 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:51.952 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:51.988 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:52.022 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:52.052 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:52.085 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:52.116 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:23:52.147 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.166 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.291 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.315 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.338 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.360 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.380 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.404 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:15.425 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:24:45.936 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:48.169 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.622 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.728 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.750 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.774 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.804 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.828 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.851 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:25:59.872 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.569 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.662 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.686 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.708 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.731 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.753 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.776 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z
+11-21 23:26:26.797 I/CuidaDosis(20662): Avisos programados: 8; próximo BEFORE: toma de 2026-11-22T23:02 (hora de México), disparo 2026-11-23T04:57:00Z

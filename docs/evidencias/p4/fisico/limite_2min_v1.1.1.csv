@@ -1,0 +1,3 @@
+toma_T,inicio_alarma,corte_esperado,corte_real,retraso_s,pantalla,version
+22:46,22:46:00.146,22:48:00.146,22:48:00.180,0.0,encendida y desbloqueada,1.1.1 (versionCode 3)
+23:06,23:06:00.048,23:08:00.048,23:08:00.125,0.1,apagada desde 23:06:48,1.1.1 (versionCode 3)

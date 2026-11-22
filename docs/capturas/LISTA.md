@@ -59,6 +59,30 @@ En la guía de uso se citan como `[CAPTURA: nombre]`.
 | `fisico/12b_emulador_historial_cuidador_sin_dosis.png` | (Emulador) Historial del paciente sin dosis | Cuidador |
 | `fisico/13_desvinculado.png` | Tras desvincular al cuidador | Paciente |
 
+| `fisico/14_medicamentos_v11.png` | Pestaña Medicamentos con horario, Editar y Desactivar (v1.1) | Paciente |
+| `fisico/15_alta_medicamento_v11.png` | Nuevo medicamento (sin guardar) | Paciente |
+| `fisico/16_ajustes_v11.png` | Ajustes: anticipación 5 o 10 min y permisos en orden | Paciente |
+| `fisico/17_aviso_previo_v11.png` | Aviso a T-5 en el panel (recortada a la notificación) | Paciente |
+| `fisico/18_alarma_notificacion_v11.png` | Alarma a T en el panel con Tomado y Posponer (recortada) | Paciente |
+| `fisico/19_alarma_pantalla_v11.png` | Pantalla de alarma (abierta desde la notificación, sin bloqueo) | Paciente |
+| `fisico/20_alarma_sin_sonido_v11.png` | Notificación fija "Sigue pendiente" tras 2 min (recortada) | Paciente |
+| `fisico/21_hoy_v11.png` | Hoy con tomas confirmadas | Paciente |
+| `fisico/22_salir_con_pendientes_v11.png` | "Confirmaciones sin enviar" con Quedarme y Reintentar envío (modo avión) | Paciente |
+| `fisico/23_inicio_sesion_v11.png` | Inicio de sesión (recortada: sin la línea del servidor) | Ambos |
+| `fisico/24_servidor_url_generica_v11.png` | Pantalla Servidor con la URL genérica `http://IP-DE-TU-PC/CuidaDosis/api/public/` (no se guardó) | Ambos |
+| `fisico/25_cuidador_mis_pacientes_v11.png` | Mis pacientes con resumen, última sincronización y Cerrar sesión | Cuidador |
+| `fisico/26_cuidador_detalle_estados_v11.png` | Detalle con Sin confirmar, Confirmada por el paciente y Pendiente, dosis oculta | Cuidador |
+
+## Ajustes de HyperOS (teléfono físico, para el manual de instalación)
+| Archivo | Pantalla |
+|---|---|
+| `hyperos_bateria_sin_restricciones.png` | Ahorro de batería de la app: "Sin restricciones" |
+| `hyperos_inicio_automatico.png` | Inicio automático activado (búsqueda filtrada a CuidaDosis) |
+| `hyperos_notificaciones_categorias.png` | Notificaciones de la app: flotantes, pantalla de bloqueo, sonido, vibración |
+| `hyperos_notificaciones_categorias_2.png` | Las 4 categorías de la v1.1 (aviso previo, alarma, toma pendiente sin sonido, tomas sin confirmar) |
+| `hyperos_pantalla_completa.png` | "Permitir notificaciones a pantalla completa" activado |
+| `hyperos_otros_permisos.png` | Otros permisos: Mostrar en pantalla de bloqueo y Abrir ventanas en segundo plano |
+
 No se conservan capturas que muestren la IP privada de la PC (pantalla Servidor) ni el diálogo del administrador de contraseñas del teléfono.
 
 ## Notas
