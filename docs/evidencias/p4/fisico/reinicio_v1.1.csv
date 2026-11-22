@@ -1,0 +1,5 @@
+evento,toma_T,hora_esperada,hora_real_publicacion,diferencia_s,cumple_60s,nota,fecha,dispositivo,version
+T-5 (aviso previo),22:46,22:41:00,22:45:14.476,254.476,no,"Pasó antes de desbloquear; la app lo programó al reprogramar (22:45:03) y salió de inmediato",2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.1 (versionCode 3)
+T-5 (aviso previo),22:50,22:45:00,22:45:16.436,16.436,sí,"Vencía justo al reprogramar; salió de inmediato",2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.1 (versionCode 3)
+T (alarma),22:46,22:46:00,22:46:00.146,0.146,sí,,2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.1 (versionCode 3)
+T (alarma),22:50,22:50:00,22:50:00.076,0.076,sí,,2026-11-21,POCO M6 Pro (HyperOS OS3.0.307.0; Android 16),1.1.1 (versionCode 3)
