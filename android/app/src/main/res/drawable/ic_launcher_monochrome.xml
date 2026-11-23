@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Capa monocroma para los íconos temáticos de Android 13+: la misma forma en un solo color,
+     con la palomita como hueco (el sistema solo usa la transparencia de esta capa). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:pivotX="49"
+        android:pivotY="49"
+        android:rotation="-40">
+        <path
+            android:fillColor="#FF000000"
+            android:pathData="M38,38H60A11,11 0,0 1,60,60H38A11,11 0,0 1,38,38Z" />
+    </group>
+    <!-- Insignia: círculo de radio 11.2 (con el borde) y la palomita (trazo de 2.8 expandido) como hueco -->
+    <path
+        android:fillColor="#FF000000"
+        android:fillType="evenOdd"
+        android:pathData="M56.8,68A11.2,11.2 0,1 0,79.2,68A11.2,11.2 0,1 0,56.8,68Z M62.41,69.29L66.76,73.63L73.54,66.03L71.46,64.17L66.65,69.57L64.39,67.31Z" />
+</vector>
