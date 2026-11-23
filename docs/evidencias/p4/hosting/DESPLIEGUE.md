@@ -77,7 +77,7 @@ Archivo: `seg05_hosting.csv`. Las 22 rutas sensibles de la estructura del hostin
 | Tamaño | 8 865 914 bytes |
 | **SHA-256 del APK** | `1a8e4e39e6389d4996bdea59ef5b760125a0f45b5b0dc35f0c9827207563022d` |
 | Pruebas unitarias | 79 de 79, 0 fallos, 0 omitidas (forzadas con `--rerun`, después del último cambio) |
-| Descarga pública | `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.2-beta.apk` |
+| Descarga pública | `CuidaDosis-1.1.2-beta.apk` (reemplazado por la 1.1.3; ver abajo) |
 
 Revisión de la descarga por HTTPS (15:33):
 - 200, `Content-Type: application/vnd.android.package-archive`, `Content-Disposition: attachment`.
@@ -109,3 +109,26 @@ Revisión de la descarga por HTTPS (15:33):
 - RNF-07 desde el teléfono por datos móviles o Wi-Fi.
 - Comportamiento de la protección anti-bots con varios teléfonos de la beta detrás de la misma IP.
 - R8 completo en release.
+
+## Versión 1.1.3: ícono propio (23/11/2026, D50)
+Solo cambian los gráficos y la versión; la lógica es la misma de la 1.1.2.
+
+| Concepto | Valor |
+|---|---|
+| Versión | `versionName` 1.1.3, `versionCode` 5, no debuggable |
+| URL incluida | `https://areproyectos.com.mx/cuidadosis/api/` |
+| Tráfico sin cifrar | `cleartextTrafficPermitted=false` |
+| Firma | v2, un firmante, el mismo certificado que la 1.1.2 (huella SHA-256 `6d03a106a1ec6cf59661b86ff111ff8bd6b1e0824eb2b1883045473eaffb29fb`) |
+| Tamaño | 8 830 820 bytes |
+| **SHA-256 del APK** | `08c66b382cc6c88b4c56f646fc86b100f4bc8eb97686eaa149e1b68fc8af71b5` |
+| Pruebas unitarias | 79 de 79, 0 fallos, 0 omitidas (`--rerun`) |
+| Descarga pública | `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk` |
+
+- **Subida:** una sola conexión FTP con TLS. Subió la 1.1.3 y borró `CuidaDosis-1.1.2-beta.apk` en la misma sesión.
+- **Descarga por HTTPS (una vez):** 200, `application/vnd.android.package-archive`, `Content-Disposition: attachment`, 8 830 820 bytes en 3.8 s, con el mismo SHA-256 que el archivo local.
+- **La 1.1.2 en el servidor:** la URL anterior siguió dando 200 desde la caché de nginx. Con un parámetro que evita la caché dio 404, así que el archivo ya no existe.
+- **Teléfono físico (POCO M6 Pro):**
+  - `adb install -r` instaló la 1.1.3 encima de la 1.1.2 sin desinstalar (misma firma) y sin avisos.
+  - El cajón de apps de HyperOS muestra el ícono nuevo (`docs/assets/icono/telefono_cajon_1.1.3.png`).
+  - La app abre sin cerrarse y el login muestra el servidor fijo; al tocarlo no pasa nada.
+- **No probado:** el ícono pequeño en una notificación real (requiere una toma programada) y el ícono temático de Android 13 o superior en el teléfono. La capa monocroma solo se revisó en el render (`docs/assets/icono/render_verificacion.png`).

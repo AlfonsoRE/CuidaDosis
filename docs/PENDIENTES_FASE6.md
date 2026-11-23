@@ -1,6 +1,6 @@
 # Pendientes y bloqueos
 
-Estado al 23/11/2026 (versión 1.1.2, desplegada en areproyectos.com.mx; D49). Ordenado por prioridad: primero lo que bloquea la evaluación con el grupo beta, al final lo que queda fuera de alcance. Lo que no se pudo hacer o probar dice por qué.
+Estado al 23/11/2026 (versión 1.1.3, desplegada en areproyectos.com.mx; D49 y D50). Ordenado por prioridad: primero lo que bloquea la evaluación con el grupo beta, al final lo que queda fuera de alcance. Lo que no se pudo hacer o probar dice por qué.
 
 ## Prioridad alta (teléfono físico, con una persona)
 1. **PR-12, alarma del cuidador a T + 30 con el teléfono en mano.** Preparado y no ejecutado por instrucción del usuario. Pasos y comandos en `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md`, sección 1. En la v1.0 solo se observó la rama "sin conexión"; falta la rama "Toma sin confirmar" con la red estable.

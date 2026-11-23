@@ -162,7 +162,7 @@ erDiagram
 4. En Android 17 o superior la app pide el permiso de **dispositivos cercanos / red local** (`ACCESS_LOCAL_NETWORK`). Hay que aceptarlo: sin él Android bloquea la conexión a la PC con XAMPP (10.0.2.2 o la IP local).
 5. Para los avisos, paciente y cuidador deben aceptar el permiso de **notificaciones** (Android 13 o superior). La alarma exacta usa `USE_EXACT_ALARM`, que Android concede al instalar. Si falta algún permiso o el ahorro de batería puede afectar los avisos, la app lo indica con una tarjeta.
 6. El tráfico HTTP sin cifrar solo se permite en la versión debug. La versión release exige HTTPS.
-7. **Beta 1.1.2 (release):** apunta fijo a `https://areproyectos.com.mx/cuidadosis/api/`, solo usa HTTPS y no muestra la opción de cambiar el servidor. Descarga: `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.2-beta.apk`. Compilación y firma: `docs/instalacion.md` 2.4.
+7. **Beta 1.1.3 (release, con ícono propio):** apunta fijo a `https://areproyectos.com.mx/cuidadosis/api/`, solo usa HTTPS y no muestra la opción de cambiar el servidor. Descarga: `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk`. Compilación y firma: `docs/instalacion.md` 2.4.
 
 > Si `gradlew.bat` falla con `jlink executable ... does not exist`, Gradle eligió una JRE incompleta (por ejemplo, la de una extensión de VS Code). Usa el JDK de Android Studio:
 > ```
@@ -217,7 +217,7 @@ Pruebas unitarias de la app (dentro de `android/`): `gradlew.bat testDebugUnitTe
 | 9 | Versión 1.1.0: alarma del paciente a T repetida hasta Tomado o Posponer (máx. 2 min) y una alarma de reloj por aviso | Hecho (emulador) |
 | 10 | Pruebas de la v1.1 en el teléfono físico; versión 1.1.1 (corte de 2 min como alarma de reloj) | Hecho, salvo PR-12 y la comprobación de sonido y vibración por una persona |
 | 11 | Prefijo `cd_` en todas las tablas y API servible en una subcarpeta (`APP_BASE_PATH`, paquete con `--subdir`) para el hosting compartido | Hecho |
-| 12 | Despliegue en areproyectos.com.mx/cuidadosis/ y versión 1.1.2 release firmada con servidor fijo (D49) | Hecho; pruebas de la beta con la app contra el hosting |
+| 12 | Despliegue en areproyectos.com.mx/cuidadosis/ y versión 1.1.2 release firmada con servidor fijo (D49); 1.1.3 con ícono propio (D50) | Hecho; pruebas de la beta con la app contra el hosting |
 
 Las funciones de las fases 0 a 5 funcionan de punta a punta. El detalle por requisito de la Fase 6 está en `RESUMEN_FASE6.md`.
 

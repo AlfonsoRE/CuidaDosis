@@ -144,7 +144,7 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 5. Android 17 (API 37) exige el permiso de ejecución `ACCESS_LOCAL_NETWORK` para llegar a IPs privadas; sin él la conexión a XAMPP da timeout. La app lo pide al arrancar.
 6. Emulador disponible en esta máquina: AVD `Medium_Phone_API_37.0`. Consume mucha memoria y puede cerrarse solo; enciéndelo solo cuando la tarea lo pida y ciérralo al terminar.
 7. Con dos dispositivos conectados (emulador y teléfono físico) usa siempre `adb -s <ID>` (por ejemplo `adb -s emulator-5554`); nunca `adb` sin `-s`, porque falla o actúa sobre el dispositivo equivocado. El ID del teléfono se ve con `adb devices`.
-8. Versión actual: **1.1.2** (`versionCode` 4). El grupo beta recibe el APK **release** firmado, con servidor fijo `https://areproyectos.com.mx/cuidadosis/api/` y sin opción de cambiarlo (`BuildConfig.ALLOW_SERVER_CHANGE`). El keystore y sus datos viven en `.secrets/`, que nunca se versiona. El APK debug sigue sirviendo para pruebas locales con XAMPP. Ningún APK se versiona. Estado y comandos para continuar: `docs/CONTINUAR.md`.
+8. Versión actual: **1.1.3** (`versionCode` 5; ícono propio, D50). El grupo beta recibe el APK **release** firmado, con servidor fijo `https://areproyectos.com.mx/cuidadosis/api/` y sin opción de cambiarlo (`BuildConfig.ALLOW_SERVER_CHANGE`). El keystore y sus datos viven en `.secrets/`, que nunca se versiona. El APK debug sigue sirviendo para pruebas locales con XAMPP. Ningún APK se versiona. Estado y comandos para continuar: `docs/CONTINUAR.md`.
 
 ## 7. Convenciones de código
 

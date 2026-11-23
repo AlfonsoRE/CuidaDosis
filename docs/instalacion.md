@@ -136,7 +136,7 @@ HyperOS cierra o retrasa las apps en segundo plano. En la verificación se usó 
 
 Los resultados medidos en el teléfono físico están en `docs/evidencias/p4/fisico/RESUMEN.md`.
 
-### 2.4 APK release de la beta (versión 1.1.2, servidor fijo)
+### 2.4 APK release de la beta (versión 1.1.3, servidor fijo)
 El release apunta siempre a `https://areproyectos.com.mx/cuidadosis/api/`, solo usa HTTPS y no tiene la opción de cambiar el servidor (D49). Necesita el keystore en `.secrets/` (ignorada por git):
 - `.secrets/cuidadosis-release.jks`
 - `.secrets/release-signing.properties` con `storeFile=cuidadosis-release.jks`, `storePassword`, `keyAlias` y `keyPassword`.
@@ -150,9 +150,9 @@ sha256sum app/build/outputs/apk/release/app-release.apk
 ```
 - `--rerun` obliga a ejecutar las 79 pruebas aunque Gradle las marque como `UP-TO-DATE`.
 - APK: `android/app/build/outputs/apk/release/app-release.apk`, firmado con el esquema v2. Comprobación: `apksigner verify --print-certs` (huella SHA-256 del certificado `6d03a106a1ec6cf59661b86ff111ff8bd6b1e0824eb2b1883045473eaffb29fb`).
-- Para pasar de la 1.1.1 debug a la 1.1.2 release primero desinstala la anterior, porque las firmas son distintas. Después repite en HyperOS "Batería sin restricciones" (2.3).
+- La 1.1.3 (ícono propio, D50) usa el mismo keystore que la 1.1.2 y se instala encima sin desinstalar (comprobado en el teléfono). Para pasar de la 1.1.1 debug a una versión release, primero desinstala la anterior, porque las firmas son distintas. Después repite en HyperOS "Batería sin restricciones" (2.3).
 - Instalar por USB en un Xiaomi: aparecen dos avisos. Play Protect pregunta si enviar la app a revisión ("No enviar" también instala) y después "Instalar vía USB" tiene 10 s para tocar **Instalar**.
-- Descarga pública: `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.2-beta.apk`. En el teléfono hay que permitir "instalar apps desconocidas" para el navegador.
+- Descarga pública: `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk` (la 1.1.2 se borró del servidor). Al publicar una versión nueva, sube el APK y borra el anterior en la misma conexión FTP; la URL vieja puede seguir un rato en la caché de nginx. En el teléfono hay que permitir "instalar apps desconocidas" para el navegador.
 
 ## 3. Despliegue en un hosting
 

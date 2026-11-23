@@ -355,3 +355,20 @@ Nota: desde este paso el equipo pidió trabajo autónomo. Las decisiones se toma
   - La protección anti-bots del hosting (Imunify360) marcó temporalmente la IP de la PC después del barrido SEG-05 de rutas sensibles seguidas: durante unos 15 minutos HTTPS devolvió una página "One moment, please..." (200, HTML) y FTP y MySQL remoto no conectaron. Se liberó sola. Un barrido así contra el hosting debe hacerse despacio (varios segundos entre rutas). Si un teléfono de la beta llegara a recibir esa página, la app mostraría un error de conexión.
   - nginx guarda en caché respuestas que no traen `Cache-Control`. La API siempre envía `Cache-Control: no-store`; se comprobó que dos cuentas distintas reciben su propio `/me` en la misma URL.
 - **Pruebas:** ver `docs/evidencias/p4/hosting/DESPLIEGUE.md`.
+
+### D50. Ícono de la app y versión 1.1.3 (solo cambio gráfico)
+- **Motivo:** la beta mostraba el ícono genérico de Android y la campana como ícono de las notificaciones. Para que los usuarios de la beta reconozcan la app en el cajón y en las notificaciones, se usa un ícono propio: la propuesta A del equipo, una cápsula con una insignia de confirmación en verde azulado. Es un diseño original, sin marcas ni logos de terceros.
+- **Fuentes:** `docs/assets/icono/icon_bg.svg`, `icon_fg.svg` e `icon_full.svg` (viewBox 108×108). Se convirtieron a mano a VectorDrawable; la rotación de la cápsula quedó como `<group android:rotation="-40" android:pivotX="49" android:pivotY="49">`.
+- **Ícono adaptable:** `mipmap-anydpi/ic_launcher.xml` e `ic_launcher_round.xml` usan tres capas:
+  - fondo (`drawable/ic_launcher_background.xml`, degradado lineal de `#0F766E` a `#2DD4BF`)
+  - primer plano (`ic_launcher_foreground.xml`)
+  - capa monocroma (`ic_launcher_monochrome.xml`), para los íconos temáticos de Android 13 o superior. Es la misma silueta en un solo color, con la palomita como hueco: el trazo se expandió a un polígono, se combinó con el círculo y se usó `evenOdd`.
+- **Zona segura:** todo queda dentro del círculo central de 66 dp. La insignia llega a 31 dp del centro y la cápsula a unos 25 dp.
+- **Decisión propia:** se usó `mipmap-anydpi` y no `mipmap-anydpi-v26`. Con `minSdk` 26 son equivalentes, y AGP marca el calificador `-v26` como redundante.
+- **Decisión propia:** se borraron los webp del ícono genérico (`mipmap-*dpi`). Con `minSdk` 26 el ícono adaptable siempre tiene prioridad, así que no hacen falta PNG legacy.
+- **Ícono pequeño de las notificaciones:** `drawable/ic_notification.xml` ahora es la silueta de la cápsula, blanca sobre transparente, sin degradados, con una línea vacía al centro. Lo usan las tres notificaciones de la app: aviso previo y alarma en `ReminderNotifier`, y alarma del cuidador en `CaregiverAlarmScheduler`. No hay otro `setSmallIcon`. La app no tiene una notificación aparte de "respaldo sin red": la cola sin red se envía sin notificar.
+- **Versión:** 1.1.3 (`versionCode` 5), firmada con el mismo keystore que la 1.1.2, así que se actualiza encima sin desinstalar. La lógica no cambió: las 79 pruebas unitarias pasan.
+- **Verificación:**
+  - Render en recorte circular, cuadrado y monocromo: `docs/assets/icono/render_verificacion.png`.
+  - En el teléfono físico, la 1.1.3 se instaló encima de la 1.1.2 y el cajón de apps de HyperOS muestra el ícono nuevo (`docs/assets/icono/telefono_cajon_1.1.3.png`). La app abre y el servidor sigue fijo.
+- **Publicación:** `public_html/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk`. El APK de la 1.1.2 se borró del servidor en la misma conexión FTP. Su URL anterior puede seguir saliendo un tiempo desde la caché de nginx; con un parámetro que evita la caché ya da 404.
