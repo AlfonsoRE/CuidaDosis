@@ -1,17 +1,19 @@
 # Cómo continuar
 
-Estado al 22/11/2026. Detalle completo en `RESUMEN_FASE6.md` (sección "Estado al cierre del 22 de noviembre").
+Estado al 23/11/2026. Detalle completo en `RESUMEN_FASE6.md` (sección "Estado al cierre del 22 de noviembre"), D46 a D49 y `docs/evidencias/p4/hosting/DESPLIEGUE.md`.
 
 ## Dónde estamos
-- Fases 0 a 10 hechas. Versión **1.1.1** (`versionCode` 3), la del grupo beta.
+- Fases 0 a 12 hechas. Versión **1.1.2** (`versionCode` 4), release firmado para la beta, con servidor fijo `https://areproyectos.com.mx/cuidadosis/api/` (D49). Descarga: `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.2-beta.apk`. Las pruebas pendientes se hacen con la app apuntando al hosting.
+- Keystore de firma en `.secrets/` (ignorada por git). Respáldalo fuera de la PC.
+- Antes (1.1.1, debug, XAMPP):
 - APK debug: `android/app/build/outputs/apk/debug/app-debug.apk` (no se versiona). SHA-256 `157fcf454f381fa2daaadd7712a0cd0b86ee1cbe1d080062e9dd6ccd0f3d2938`.
 - La v1.1 cumple la puntualidad en el teléfono físico (20 de 20 con pantalla apagada; la v1.0 dio 6 de 10).
 - El teléfono quedó sin sesión y sin medicamentos de prueba activos.
 - 23/11/2026 (Fase 11): todas las tablas llevan el prefijo `cd_` y la API se puede servir en `/cuidadosis/api/` (`APP_BASE_PATH`, paquete con `--subdir=cuidadosis`). Ver D46 a D48. La BD local se regeneró con el esquema nuevo y el seed. Si una copia local aún tiene las tablas sin prefijo, ver `docs/instalacion.md` 1.6.
 
 ## Qué falta
-Lista por prioridad en `docs/PENDIENTES_FASE6.md`. Lo primero:
-1. PR-12 con el teléfono en mano: `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md`, sección 1.
+Lista por prioridad en `docs/PENDIENTES_FASE6.md`. Lo primero (ahora con la 1.1.2 contra el hosting):
+1. PR-12 con el teléfono en mano: `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md`, sección 1. Con el hosting no hacen falta la IP de la PC ni la misma Wi-Fi; las cuentas se crean desde la app.
 2. Sonido, vibración, modo silencio y No molestar (sección 2 del mismo archivo).
 3. Pantalla de alarma sobre el bloqueo con la pantalla apagada.
 
@@ -25,7 +27,11 @@ sha256sum android/app/build/outputs/apk/debug/app-debug.apk
 /c/xampp/php/php.exe api/tests/run_api_tests.php
 /c/xampp/php/php.exe api/tests/route_path_test.php
 
-# Paquete para areproyectos.com.mx/cuidadosis/ (docs/instalacion.md 3.1.1)
+# APK release 1.1.2 firmado (docs/instalacion.md 2.4; necesita .secrets/release-signing.properties)
+cd android && ./gradlew.bat testDebugUnitTest --rerun assembleRelease && cd ..
+sha256sum android/app/build/outputs/apk/release/app-release.apk
+
+# Paquete para areproyectos.com.mx/cuidadosis/ (docs/instalacion.md 3.1.1 y 3.3)
 /c/xampp/php/php.exe deploy/build_hosting_package.php --subdir=cuidadosis
 
 # Datos opcionales para la prueba física sin cable (docs/instalacion.md 1.6; no se ejecuta solo)

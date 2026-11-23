@@ -32,7 +32,8 @@ import mx.cuidadosis.app.ui.common.FormField
 fun LoginScreen(
     serverUrl: String,
     onRegister: () -> Unit,
-    onServer: () -> Unit,
+    // null en release: el servidor es fijo y solo se muestra
+    onServer: (() -> Unit)?,
     viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -88,7 +89,11 @@ fun LoginScreen(
         }
 
         Spacer(Modifier.height(24.dp))
-        TextButton(onClick = onServer, enabled = !state.loading) {
+        if (onServer != null) {
+            TextButton(onClick = onServer, enabled = !state.loading) {
+                Text("Servidor: $serverUrl", style = MaterialTheme.typography.bodySmall)
+            }
+        } else {
             Text("Servidor: $serverUrl", style = MaterialTheme.typography.bodySmall)
         }
     }

@@ -111,3 +111,12 @@ Lista completa con su uso en los manuales: `docs/capturas/LISTA.md`.
 - Ajustes de HyperOS (Fase 10): `hyperos_*.png` (6 capturas).
 
 Todas con datos sintéticos; sin correos personales, sin la IP de la PC y sin notificaciones de otras apps (en las de la Fase 10 se taparon los íconos de otras apps de la barra de estado).
+
+## Despliegue en el hosting y versión 1.1.2 (Fase 12, 23/11/2026)
+| Archivo | Contenido |
+|---|---|
+| `hosting/DESPLIEGUE.md` | Diagnóstico, base de datos, subida, prueba externa con curl, prueba en el teléfono, APK y hallazgos (D49) |
+| `hosting/seg05_hosting.csv` | SEG-05 en areproyectos.com.mx: 22 de 22 rutas sensibles con 403, 404 o 400 |
+| `hosting/rnf07_hosting.csv` | RNF-07: 5 mediciones de `GET /intakes/today` por HTTPS (0.32 a 0.34 s) |
+
+Sin credenciales, tokens, IPs ni capturas.

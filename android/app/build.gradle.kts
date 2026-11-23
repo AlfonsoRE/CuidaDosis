@@ -17,6 +17,18 @@ val apiBaseUrl: String = (localProps.getProperty("api.baseUrl")
     ?: "http://10.0.2.2/CuidaDosis/api/public/")
     .let { if (it.endsWith("/")) it else "$it/" }
 
+// Release (beta): servidor fijo en el hosting, solo HTTPS y sin opción de cambiarlo en la app
+val releaseApiBaseUrl = "https://areproyectos.com.mx/cuidadosis/api/"
+
+// Firma del release: .secrets/release-signing.properties (no se versiona). Sin ese archivo
+// el release se compila sin firmar.
+val signingProps = Properties().apply {
+    val file = rootProject.file("../.secrets/release-signing.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+val hasReleaseSigning = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+    .all { !signingProps.getProperty(it).isNullOrBlank() }
+
 android {
     namespace = "mx.cuidadosis.app"
     compileSdk {
@@ -27,18 +39,39 @@ android {
         applicationId = "mx.cuidadosis.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 3
-        versionName = "1.1.1"
+        versionCode = 4
+        versionName = "1.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "DEFAULT_API_BASE_URL", "\"$apiBaseUrl\"")
+    }
+
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = rootProject.file("../.secrets/" + signingProps.getProperty("storeFile"))
+                storePassword = signingProps.getProperty("storePassword")
+                keyAlias = signingProps.getProperty("keyAlias")
+                keyPassword = signingProps.getProperty("keyPassword")
+            }
+        }
     }
 
     buildTypes {
+        debug {
+            // Pruebas locales: XAMPP (emulador o PC en la red) y enlace "Servidor" para cambiarla
+            buildConfigField("String", "DEFAULT_API_BASE_URL", "\"$apiBaseUrl\"")
+            buildConfigField("boolean", "ALLOW_SERVER_CHANGE", "true")
+        }
         release {
+            buildConfigField("String", "DEFAULT_API_BASE_URL", "\"$releaseApiBaseUrl\"")
+            buildConfigField("boolean", "ALLOW_SERVER_CHANGE", "false")
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+            // R8 desactivado (D49): con packageScope parcial, la 1.1.2 se cerraba al abrir
+            // (IllegalAccessError en kotlin.sequences). El release usa el mismo código que debug.
             optimization {
-                enable = true
-                packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
+                enable = false
             }
         }
     }

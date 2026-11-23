@@ -1,0 +1,16 @@
+# Carpeta pública de descargas de CuidaDosis (solo el APK de la beta).
+# Se sube a public_html/cuidadosis/descargas/ junto al APK; no contiene código ni datos.
+Options -Indexes
+AddType application/vnd.android.package-archive .apk
+
+# Archivos ocultos (incluido este .htaccess): nunca se sirven
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.apk$">
+        Header set Content-Disposition "attachment"
+        Header set X-Content-Type-Options "nosniff"
+    </FilesMatch>
+</IfModule>

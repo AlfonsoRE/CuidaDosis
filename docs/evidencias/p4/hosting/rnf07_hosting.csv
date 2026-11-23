@@ -1,0 +1,6 @@
+caso,medicion,endpoint,http,tiempo_total_s,meta_s,resultado,fecha,entorno
+RNF-07,1,GET /cuidadosis/api/intakes/today,200,0.343,2,OK,2026-11-23 14:49,curl HTTPS desde la PC (red domestica) a areproyectos.com.mx; paciente sintetico con 1 medicamento y 2 horas
+RNF-07,2,GET /cuidadosis/api/intakes/today,200,0.324,2,OK,2026-11-23 14:49,curl HTTPS desde la PC (red domestica) a areproyectos.com.mx; paciente sintetico con 1 medicamento y 2 horas
+RNF-07,3,GET /cuidadosis/api/intakes/today,200,0.339,2,OK,2026-11-23 14:49,curl HTTPS desde la PC (red domestica) a areproyectos.com.mx; paciente sintetico con 1 medicamento y 2 horas
+RNF-07,4,GET /cuidadosis/api/intakes/today,200,0.322,2,OK,2026-11-23 14:49,curl HTTPS desde la PC (red domestica) a areproyectos.com.mx; paciente sintetico con 1 medicamento y 2 horas
+RNF-07,5,GET /cuidadosis/api/intakes/today,200,0.337,2,OK,2026-11-23 14:49,curl HTTPS desde la PC (red domestica) a areproyectos.com.mx; paciente sintetico con 1 medicamento y 2 horas

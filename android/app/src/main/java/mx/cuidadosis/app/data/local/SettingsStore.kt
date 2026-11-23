@@ -8,14 +8,22 @@ import kotlinx.coroutines.flow.asStateFlow
 import mx.cuidadosis.app.reminders.normalizeLead
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
-// Ajustes locales del teléfono (no son datos secretos): URL base de la API y anticipación L del aviso
-class SettingsStore(context: Context, val defaultBaseUrl: String) {
+// Ajustes locales del teléfono (no son datos secretos): URL base de la API y anticipación L del aviso.
+// Con allowServerChange = false (release) la URL es siempre la de fábrica y se ignora la guardada.
+class SettingsStore(
+    context: Context,
+    val defaultBaseUrl: String,
+    val allowServerChange: Boolean = true,
+) {
     private val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
-    private val _baseUrl = MutableStateFlow(prefs.getString(KEY_BASE_URL, null) ?: defaultBaseUrl)
+    private val _baseUrl = MutableStateFlow(
+        (if (allowServerChange) prefs.getString(KEY_BASE_URL, null) else null) ?: defaultBaseUrl
+    )
     val baseUrl: StateFlow<String> = _baseUrl.asStateFlow()
 
     fun setBaseUrl(url: String) {
+        if (!allowServerChange) return
         prefs.edit { putString(KEY_BASE_URL, url) }
         _baseUrl.value = url
     }

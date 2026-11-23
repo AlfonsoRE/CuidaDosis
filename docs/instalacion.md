@@ -136,9 +136,27 @@ HyperOS cierra o retrasa las apps en segundo plano. En la verificación se usó 
 
 Los resultados medidos en el teléfono físico están en `docs/evidencias/p4/fisico/RESUMEN.md`.
 
+### 2.4 APK release de la beta (versión 1.1.2, servidor fijo)
+El release apunta siempre a `https://areproyectos.com.mx/cuidadosis/api/`, solo usa HTTPS y no tiene la opción de cambiar el servidor (D49). Necesita el keystore en `.secrets/` (ignorada por git):
+- `.secrets/cuidadosis-release.jks`
+- `.secrets/release-signing.properties` con `storeFile=cuidadosis-release.jks`, `storePassword`, `keyAlias` y `keyPassword`.
+
+Sin ese archivo, Gradle compila el release sin firmar. Respalda el keystore fuera de la PC: sin él no se pueden publicar actualizaciones que se instalen encima.
+```bash
+cd android
+export JAVA_HOME="C:/Program Files/Android/Android Studio/jbr"
+./gradlew.bat testDebugUnitTest --rerun assembleRelease
+sha256sum app/build/outputs/apk/release/app-release.apk
+```
+- `--rerun` obliga a ejecutar las 79 pruebas aunque Gradle las marque como `UP-TO-DATE`.
+- APK: `android/app/build/outputs/apk/release/app-release.apk`, firmado con el esquema v2. Comprobación: `apksigner verify --print-certs` (huella SHA-256 del certificado `6d03a106a1ec6cf59661b86ff111ff8bd6b1e0824eb2b1883045473eaffb29fb`).
+- Para pasar de la 1.1.1 debug a la 1.1.2 release primero desinstala la anterior, porque las firmas son distintas. Después repite en HyperOS "Batería sin restricciones" (2.3).
+- Instalar por USB en un Xiaomi: aparecen dos avisos. Play Protect pregunta si enviar la app a revisión ("No enviar" también instala) y después "Instalar vía USB" tiene 10 s para tocar **Instalar**.
+- Descarga pública: `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.2-beta.apk`. En el teléfono hay que permitir "instalar apps desconocidas" para el navegador.
+
 ## 3. Despliegue en un hosting
 
-El paquete se arma y se prueba en la PC. **No se ha ejecutado nada contra un servidor externo**: los pasos 3.3 a 3.5 (subir al hosting) están pendientes de verificar en un hosting real.
+El paquete se arma y se prueba en la PC. **Desplegado el 23/11/2026 en `https://areproyectos.com.mx/cuidadosis/api/`** con `--subdir=cuidadosis`: pasos en 3.3, verificación en 3.4 y resultados en `docs/evidencias/p4/hosting/DESPLIEGUE.md` (D49).
 
 ### 3.1 Armar el paquete (ejecutado)
 ```bash
@@ -197,7 +215,17 @@ Resultado: 7 tablas con 0 filas; `GET /` respondió `ok` con la hora de México;
 - Al terminar se borraron la base temporal y el `.env` temporal, y se rearmó el paquete.
 - No probado: Apache o LiteSpeed reales sirviendo `/cuidadosis/api/` (en XAMPP el mismo `.htaccess` funciona en `/CuidaDosis/api/public/`, que también es una subcarpeta).
 
-### 3.3 Subir al hosting (pendiente de verificar)
+### 3.3 Subir al hosting (ejecutado el 23/11/2026 en areproyectos.com.mx)
+Cómo se hizo en areproyectos.com.mx (cPanel, nginx con LiteSpeed y PHP 8.2.36):
+- **Credenciales:** van en `.secrets/hosting.env` (`FTP_*` y `DB_*`), carpeta ignorada por git. Se leen línea por línea, sin `source`: si una contraseña trae `;`, `(` o `{`, `source` falla y el error muestra el valor.
+- **FTP con TLS explícito:** usa el nombre del servidor que viene en el certificado (`svgil1.cloud-mx-ns.net`, misma IP que `ftp.areproyectos.com.mx`). Con `ftp.areproyectos.com.mx` la verificación del certificado falla y no se debe desactivar. Ejemplo con curl, pasando el usuario por `-K -` para que no aparezca en la línea de comandos: `printf 'user = "%s:%s"\n' "$FTP_USER" "$FTP_PASS" | curl --ssl-reqd -K - -T archivo ftp://svgil1.cloud-mx-ns.net/ruta`.
+- **Rutas:** la raíz FTP es la carpeta de la cuenta y la raíz web es `public_html/`. Se suben `public_html/cuidadosis/api/` y `cuidadosis_app/` del paquete. El `.env` de producción va en `cuidadosis_app/.env` con permisos 600 (`SITE CHMOD 600`), y la carpeta con 700.
+- **`.env`:** `DB_HOST=localhost` (desde el propio servidor), `DB_NAME` y `DB_USER` de la cuenta, `APP_DEBUG=false`, `APP_BASE_PATH=/cuidadosis/api`.
+- **Base:** `schema_hosting.sql` y `seed_hosting.sql` se importaron con el cliente `mysql` desde la PC. Antes hay que autorizar la IP en "Remote MySQL" de cPanel; phpMyAdmin también sirve.
+- **Integridad:** se descargó cada archivo subido y se comparó su SHA-256 con el local.
+- **Cuidado con los barridos de seguridad:** pedir muchas rutas sensibles seguidas (`.env`, `.git`, `..`) activa la protección anti-bots del hosting, que bloquea la IP unos minutos (HTTPS con la página "One moment, please...", y FTP y MySQL sin conexión). Deja varios segundos entre rutas.
+
+Pasos generales para cualquier hosting:
 1. Crea en el panel una base MySQL o MariaDB y un usuario con permisos sobre ella.
 2. En phpMyAdmin del hosting, selecciona esa base e importa `bd/schema_hosting.sql` y luego `bd/seed_hosting.sql` (debe mostrar 0 en todas las columnas). Si la base es compartida, solo se crean o reemplazan tablas `cd_*`; las de otros proyectos no se tocan.
 3. Sube por el administrador de archivos o SFTP: el contenido de `public_html/` a la raíz web, y `src/`, `config/` y `.env.example` a la carpeta de la cuenta (un nivel arriba). Con `--subdir=cuidadosis`: `public_html/cuidadosis/api/` a la misma ruta del hosting y `cuidadosis_app/` a la carpeta de la cuenta (ver 3.1.1); el `.env` va dentro de `cuidadosis_app/`.
@@ -205,7 +233,9 @@ Resultado: 7 tablas con 0 filas; `GET /` respondió `ok` con la hora de México;
 5. Activa HTTPS (certificado del panel, por ejemplo Let's Encrypt) y la redirección de HTTP a HTTPS.
 6. En la app, compila con `api.baseUrl=https://<dominio>/` (con subcarpeta: `https://areproyectos.com.mx/cuidadosis/api/`) en `android/local.properties` o escríbelo en **Servidor**. La versión release solo acepta HTTPS.
 
-### 3.4 Lista de verificación después de subir (pendiente de verificar)
+### 3.4 Lista de verificación después de subir (ejecutada el 23/11/2026 en areproyectos.com.mx)
+En areproyectos.com.mx se cumplieron todas las filas de la tabla, con una excepción: `http://` no redirige a `https://` y responde 200 por HTTP sin cifrar. La app release no se ve afectada porque solo usa HTTPS. Resultados detallados: `docs/evidencias/p4/hosting/DESPLIEGUE.md`.
+
 | Revisión | Cómo | Esperado |
 |---|---|---|
 | HTTPS | abrir `https://<dominio>/` | `{"status":"ok"...}` con candado válido |

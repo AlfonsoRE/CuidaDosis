@@ -117,7 +117,11 @@ fun AppNavHost(container: AppContainer) {
             LoginScreen(
                 serverUrl = serverUrl,
                 onRegister = { navController.navigate(RegisterRoute) },
-                onServer = { navController.navigate(ServerRoute) },
+                onServer = if (container.settingsStore.allowServerChange) {
+                    { navController.navigate(ServerRoute) }
+                } else {
+                    null
+                },
             )
         }
         composable<RegisterRoute> {

@@ -1,6 +1,6 @@
 # Pendientes y bloqueos
 
-Estado al 22/11/2026 (versión 1.1.1). Ordenado por prioridad: primero lo que bloquea la evaluación con el grupo beta, al final lo que queda fuera de alcance. Lo que no se pudo hacer o probar dice por qué.
+Estado al 23/11/2026 (versión 1.1.2, desplegada en areproyectos.com.mx; D49). Ordenado por prioridad: primero lo que bloquea la evaluación con el grupo beta, al final lo que queda fuera de alcance. Lo que no se pudo hacer o probar dice por qué.
 
 ## Prioridad alta (teléfono físico, con una persona)
 1. **PR-12, alarma del cuidador a T + 30 con el teléfono en mano.** Preparado y no ejecutado por instrucción del usuario. Pasos y comandos en `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md`, sección 1. En la v1.0 solo se observó la rama "sin conexión"; falta la rama "Toma sin confirmar" con la red estable.
@@ -18,7 +18,10 @@ Estado al 22/11/2026 (versión 1.1.1). Ordenado por prioridad: primero lo que bl
 9. **Interfaz para que el paciente comparta la dosis con el cuidador (G-07).** No hay pantalla; `cd_links.share_dose` queda en 0 y la dosis oculta al cuidador. Solo se activa en la BD (D32).
 10. **Sin WorkManager:** si el sistema cierra la app sin red, la cola se envía la próxima vez que la app arranque (D29).
 11. **La pestaña "Medicamentos" y el historial de 7 días requieren conexión.**
-12. **Despliegue en hosting real:** el paquete y el procedimiento están probados solo en la PC (D38). Desde el 23/11/2026 el paquete admite la subcarpeta `/cuidadosis/api/` y las tablas llevan el prefijo `cd_` para la base compartida (D46, D47), también probado solo en la PC. Falta subirlo a areproyectos.com.mx y la lista de `docs/instalacion.md` 3.4.
+12. **Hosting (desplegado el 23/11/2026, D49):**
+   - **HTTP sin redirección.** `http://areproyectos.com.mx/cuidadosis/api/` responde por HTTP sin cifrar. La app solo usa HTTPS. Se corrige en cPanel con "Force HTTPS Redirect" del dominio.
+   - **R8 desactivado en el release** porque la optimización parcial cerraba la app. Activarlo completo requiere reglas de keep y una nueva prueba en el teléfono (opcional).
+   - **Protección anti-bots del hosting.** Bloquea la IP unos minutos ante ráfagas de peticiones sospechosas. Con uso normal de la app no se ha visto.
 13. **RNF-07 desde el teléfono por Wi-Fi, legibilidad con personas mayores y otros fabricantes:** no medidos.
 
 ## Fuera de alcance (no se implementa)

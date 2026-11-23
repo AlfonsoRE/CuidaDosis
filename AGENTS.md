@@ -77,7 +77,8 @@ CuidaDosis/
     config/         Configuración y carga del .env (Fase 2)
     tests/          Pruebas automáticas de la API contra el servidor local (Fase 6)
   bd/               Scripts SQL: schema.sql y seed.sql (Fase 1, v2 en Fase 6); seed_hosting.sql sin cuentas de demo
-  deploy/           Script que arma el paquete para hosting en build/hosting/ (Fase 8)
+  deploy/           Script que arma el paquete para hosting en build/hosting/ (Fase 8) y descargas/.htaccess del APK
+  .secrets/         Credenciales del hosting y keystore de firma (git la ignora; nunca se versiona ni se imprime)
   docs/             Documentación técnica: api.md, decisiones-fase-4.md, -5.md y -6.md
     p2/, p3/        Documentos de diseño P2 v1.1 y P3 v1.0 (p3/schema_v2.sql es el esquema objetivo)
     adr/            Decisiones arquitectónicas ADR-001 a ADR-010
@@ -143,7 +144,7 @@ En esta máquina `php` y `mysql` no están en el PATH. Rutas:
 5. Android 17 (API 37) exige el permiso de ejecución `ACCESS_LOCAL_NETWORK` para llegar a IPs privadas; sin él la conexión a XAMPP da timeout. La app lo pide al arrancar.
 6. Emulador disponible en esta máquina: AVD `Medium_Phone_API_37.0`. Consume mucha memoria y puede cerrarse solo; enciéndelo solo cuando la tarea lo pida y ciérralo al terminar.
 7. Con dos dispositivos conectados (emulador y teléfono físico) usa siempre `adb -s <ID>` (por ejemplo `adb -s emulator-5554`); nunca `adb` sin `-s`, porque falla o actúa sobre el dispositivo equivocado. El ID del teléfono se ve con `adb devices`.
-8. Versión actual: **1.1.1** (`versionCode` 3). Es el APK debug que se entrega al grupo beta (`android/app/build/outputs/apk/debug/app-debug.apk`, que no se versiona). Estado y comandos para continuar: `docs/CONTINUAR.md`.
+8. Versión actual: **1.1.2** (`versionCode` 4). El grupo beta recibe el APK **release** firmado, con servidor fijo `https://areproyectos.com.mx/cuidadosis/api/` y sin opción de cambiarlo (`BuildConfig.ALLOW_SERVER_CHANGE`). El keystore y sus datos viven en `.secrets/`, que nunca se versiona. El APK debug sigue sirviendo para pruebas locales con XAMPP. Ningún APK se versiona. Estado y comandos para continuar: `docs/CONTINUAR.md`.
 
 ## 7. Convenciones de código
 
