@@ -7,6 +7,7 @@ Estado al 22/11/2026. Detalle completo en `RESUMEN_FASE6.md` (sección "Estado a
 - APK debug: `android/app/build/outputs/apk/debug/app-debug.apk` (no se versiona). SHA-256 `157fcf454f381fa2daaadd7712a0cd0b86ee1cbe1d080062e9dd6ccd0f3d2938`.
 - La v1.1 cumple la puntualidad en el teléfono físico (20 de 20 con pantalla apagada; la v1.0 dio 6 de 10).
 - El teléfono quedó sin sesión y sin medicamentos de prueba activos.
+- 23/11/2026 (Fase 11): todas las tablas llevan el prefijo `cd_` y la API se puede servir en `/cuidadosis/api/` (`APP_BASE_PATH`, paquete con `--subdir=cuidadosis`). Ver D46 a D48. La BD local se regeneró con el esquema nuevo y el seed. Si una copia local aún tiene las tablas sin prefijo, ver `docs/instalacion.md` 1.6.
 
 ## Qué falta
 Lista por prioridad en `docs/PENDIENTES_FASE6.md`. Lo primero:
@@ -22,6 +23,13 @@ sha256sum android/app/build/outputs/apk/debug/app-debug.apk
 
 # Pruebas de la API (XAMPP con Apache y MySQL encendidos)
 /c/xampp/php/php.exe api/tests/run_api_tests.php
+/c/xampp/php/php.exe api/tests/route_path_test.php
+
+# Paquete para areproyectos.com.mx/cuidadosis/ (docs/instalacion.md 3.1.1)
+/c/xampp/php/php.exe deploy/build_hosting_package.php --subdir=cuidadosis
+
+# Datos opcionales para la prueba física sin cable (docs/instalacion.md 1.6; no se ejecuta solo)
+# mysql ... "$DB_NAME" < bd/preparar_prueba_fisica.sql
 
 # Instalar en el teléfono (siempre con -s; el ID sale en "adb devices")
 A="$LOCALAPPDATA/Android/Sdk/platform-tools/adb.exe"

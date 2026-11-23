@@ -35,7 +35,7 @@ final class LinkController
         $this->pdo->beginTransaction();
         try {
             // Bloquea las filas del paciente para evitar dos códigos simultáneos
-            $stmt = $this->pdo->prepare('SELECT id, status FROM links WHERE patient_id = ? FOR UPDATE');
+            $stmt = $this->pdo->prepare('SELECT id, status FROM cd_links WHERE patient_id = ? FOR UPDATE');
             $stmt->execute([$patient['id']]);
             foreach ($stmt->fetchAll() as $row) {
                 if ($row['status'] === 'active') {
@@ -45,7 +45,7 @@ final class LinkController
 
             // Un código nuevo invalida los anteriores y las solicitudes sin aceptar
             $this->pdo->prepare(
-                "UPDATE links SET status = 'revoked', revoked_at = NOW()
+                "UPDATE cd_links SET status = 'revoked', revoked_at = NOW()
                   WHERE patient_id = ? AND status IN ('pending', 'awaiting_acceptance')"
             )->execute([$patient['id']]);
 
@@ -53,7 +53,7 @@ final class LinkController
             for ($attempt = 0; $attempt < 5 && $id === null; $attempt++) {
                 try {
                     $this->pdo->prepare(
-                        'INSERT INTO links (patient_id, invite_code, expires_at)
+                        'INSERT INTO cd_links (patient_id, invite_code, expires_at)
                          VALUES (?, ?, NOW() + INTERVAL ' . self::CODE_TTL_MINUTES . ' MINUTE)'
                     )->execute([$patient['id'], $this->randomCode()]);
                     $id = (int) $this->pdo->lastInsertId();
@@ -67,7 +67,7 @@ final class LinkController
                 throw new \RuntimeException('No se pudo generar un código único.');
             }
 
-            $stmt = $this->pdo->prepare('SELECT invite_code, expires_at FROM links WHERE id = ?');
+            $stmt = $this->pdo->prepare('SELECT invite_code, expires_at FROM cd_links WHERE id = ?');
             $stmt->execute([$id]);
             $link = $stmt->fetch();
             $this->pdo->commit();
@@ -97,7 +97,7 @@ final class LinkController
         $this->pdo->beginTransaction();
         try {
             $stmt = $this->pdo->prepare(
-                'SELECT id, patient_id, status, expires_at > NOW() AS vigente FROM links WHERE invite_code = ? FOR UPDATE'
+                'SELECT id, patient_id, status, expires_at > NOW() AS vigente FROM cd_links WHERE invite_code = ? FOR UPDATE'
             );
             $stmt->execute([$code]);
             $link = $stmt->fetch();
@@ -115,14 +115,14 @@ final class LinkController
             }
 
             $this->pdo->prepare(
-                "UPDATE links SET caregiver_id = ?, status = 'awaiting_acceptance', requested_at = NOW() WHERE id = ?"
+                "UPDATE cd_links SET caregiver_id = ?, status = 'awaiting_acceptance', requested_at = NOW() WHERE id = ?"
             )->execute([$caregiver['id'], $link['id']]);
-            $this->pdo->prepare('INSERT INTO link_attempts (user_id, success) VALUES (?, 1)')
+            $this->pdo->prepare('INSERT INTO cd_link_attempts (user_id, success) VALUES (?, 1)')
                 ->execute([$caregiver['id']]);
 
             $stmt = $this->pdo->prepare(
                 'SELECT l.id, l.status, l.requested_at, u.id AS patient_id, u.full_name
-                   FROM links l JOIN users u ON u.id = l.patient_id WHERE l.id = ?'
+                   FROM cd_links l JOIN cd_users u ON u.id = l.patient_id WHERE l.id = ?'
             );
             $stmt->execute([$link['id']]);
             $row = $stmt->fetch();
@@ -163,7 +163,7 @@ final class LinkController
         try {
             $this->lockAwaiting((int) $params['id'], (int) $patient['id']);
             try {
-                $this->pdo->prepare("UPDATE links SET status = 'active', linked_at = NOW() WHERE id = ?")
+                $this->pdo->prepare("UPDATE cd_links SET status = 'active', linked_at = NOW() WHERE id = ?")
                     ->execute([$params['id']]);
             } catch (\PDOException $e) {
                 if (($e->errorInfo[1] ?? null) === 1062) {
@@ -173,7 +173,7 @@ final class LinkController
             }
             $stmt = $this->pdo->prepare(
                 'SELECT l.id, l.linked_at, u.id AS caregiver_id, u.full_name
-                   FROM links l JOIN users u ON u.id = l.caregiver_id WHERE l.id = ?'
+                   FROM cd_links l JOIN cd_users u ON u.id = l.caregiver_id WHERE l.id = ?'
             );
             $stmt->execute([$params['id']]);
             $row = $stmt->fetch();
@@ -197,7 +197,7 @@ final class LinkController
         $this->pdo->beginTransaction();
         try {
             $this->lockAwaiting((int) $params['id'], (int) $patient['id']);
-            $this->pdo->prepare("UPDATE links SET status = 'revoked', revoked_at = NOW() WHERE id = ?")
+            $this->pdo->prepare("UPDATE cd_links SET status = 'revoked', revoked_at = NOW() WHERE id = ?")
                 ->execute([$params['id']]);
             $this->pdo->commit();
         } catch (\Throwable $e) {
@@ -213,7 +213,7 @@ final class LinkController
     {
         $patient = $this->auth->requireRole($request, 'patient');
         $stmt = $this->pdo->prepare(
-            "UPDATE links SET status = 'revoked', revoked_at = NOW() WHERE patient_id = ? AND status = 'active'"
+            "UPDATE cd_links SET status = 'revoked', revoked_at = NOW() WHERE patient_id = ? AND status = 'active'"
         );
         $stmt->execute([$patient['id']]);
         if ($stmt->rowCount() === 0) {
@@ -227,7 +227,7 @@ final class LinkController
     {
         $caregiver = $this->auth->requireRole($request, 'caregiver');
         $stmt = $this->pdo->prepare(
-            "UPDATE links SET status = 'revoked', revoked_at = NOW()
+            "UPDATE cd_links SET status = 'revoked', revoked_at = NOW()
               WHERE patient_id = ? AND caregiver_id = ? AND status IN ('active', 'awaiting_acceptance')"
         );
         $stmt->execute([$params['id'], $caregiver['id']]);
@@ -246,7 +246,7 @@ final class LinkController
     {
         $stmt = $this->pdo->prepare(
             "SELECT l.id, l.requested_at, u.id AS caregiver_id, u.full_name
-               FROM links l JOIN users u ON u.id = l.caregiver_id
+               FROM cd_links l JOIN cd_users u ON u.id = l.caregiver_id
               WHERE l.patient_id = ? AND l.status = 'awaiting_acceptance'
               ORDER BY l.id DESC LIMIT 1"
         );
@@ -267,7 +267,7 @@ final class LinkController
     private function lockAwaiting(int $linkId, int $patientId): void
     {
         $stmt = $this->pdo->prepare(
-            "SELECT id FROM links WHERE id = ? AND patient_id = ? AND status = 'awaiting_acceptance' FOR UPDATE"
+            "SELECT id FROM cd_links WHERE id = ? AND patient_id = ? AND status = 'awaiting_acceptance' FOR UPDATE"
         );
         $stmt->execute([$linkId, $patientId]);
         if ($stmt->fetch() === false) {
@@ -279,7 +279,7 @@ final class LinkController
     private function guardAttempts(int $userId): void
     {
         $stmt = $this->pdo->prepare(
-            'SELECT COUNT(*) AS n, MIN(attempted_at) AS first_at FROM link_attempts
+            'SELECT COUNT(*) AS n, MIN(attempted_at) AS first_at FROM cd_link_attempts
               WHERE user_id = ? AND success = 0
                 AND attempted_at > NOW() - INTERVAL ' . self::ATTEMPT_WINDOW_MINUTES . ' MINUTE'
         );
@@ -304,7 +304,7 @@ final class LinkController
 
     private function recordAttempt(int $userId, bool $success): void
     {
-        $this->pdo->prepare('INSERT INTO link_attempts (user_id, success) VALUES (?, ?)')
+        $this->pdo->prepare('INSERT INTO cd_link_attempts (user_id, success) VALUES (?, ?)')
             ->execute([$userId, $success ? 1 : 0]);
     }
 

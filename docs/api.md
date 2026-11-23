@@ -4,6 +4,8 @@ API REST JSON en PHP 8.2 (sin framework). El único punto de entrada es `api/pub
 
 - **URL base local:** `http://localhost/CuidaDosis/api/public`
 - **Desde el emulador de Android:** `http://10.0.2.2/CuidaDosis/api/public`
+- **Hosting (subcarpeta):** `https://areproyectos.com.mx/cuidadosis/api` (pendiente de subir). Las rutas son las mismas; el prefijo se toma de `APP_BASE_PATH` o de la ubicación de `index.php`.
+- **Tablas:** todas con prefijo `cd_` (por ejemplo `cd_users`); ver `bd/schema.sql`.
 - **Formato:** peticiones y respuestas en JSON (`Content-Type: application/json`), UTF-8.
 - **Fechas:** hora local `America/Mexico_City`, formato `YYYY-MM-DD HH:MM:SS`. Las horas de los medicamentos van en formato `HH:MM` (24 h).
 
@@ -156,7 +158,7 @@ curl -s -X POST $B/links/accept -H "Authorization: Bearer $TC" -H 'Content-Type:
 ```json
 {"link":{"id":4,"status":"awaiting_acceptance","requested_at":"2026-11-21 12:08:09"},"patient":{"id":2,"full_name":"Paciente SINTETICO Dos"},"message":"Solicitud enviada. Espera a que el paciente la acepte."}
 ```
-Cada uso se registra en `link_attempts`. Un cuidador puede usar códigos de varios pacientes. Errores:
+Cada uso se registra en `cd_link_attempts`. Un cuidador puede usar códigos de varios pacientes. Errores:
 - `404` si el código no existe, ya se usó o se revocó.
 - `410` si el código existe pero venció: `"El código venció. Pide al paciente que genere uno nuevo."`
 - `422` si no tiene 8 letras o números.
@@ -251,7 +253,7 @@ curl -s $B/intakes/today -H "Authorization: Bearer $TP"
 ```
 
 ### POST /intakes/sync (paciente)
-Envía en lote las confirmaciones hechas en el teléfono, incluso sin red al momento del toque (RF-13; ADR-003). Cada una lleva un `client_uuid` generado en el teléfono. Es **idempotente**: reenviar el mismo lote no duplica nada ni da error. Actualiza `users.last_sync_at` (RF-12) aunque el lote venga vacío, así que también sirve para avisar que el teléfono tiene conexión.
+Envía en lote las confirmaciones hechas en el teléfono, incluso sin red al momento del toque (RF-13; ADR-003). Cada una lleva un `client_uuid` generado en el teléfono. Es **idempotente**: reenviar el mismo lote no duplica nada ni da error. Actualiza `cd_users.last_sync_at` (RF-12) aunque el lote venga vacío, así que también sirve para avisar que el teléfono tiene conexión.
 
 Cada confirmación: `client_uuid` (UUID), `schedule_id` (entero), `scheduled_for` y `confirmed_at` (`YYYY-MM-DD HH:MM:SS`, hora de México). Máximo 100 por envío.
 ```bash

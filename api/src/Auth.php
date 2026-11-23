@@ -22,9 +22,9 @@ final class Auth
         $expires = (new \DateTimeImmutable("+{$this->ttlHours} hours"))->format('Y-m-d H:i:s');
 
         // Limpieza oportunista de tokens vencidos del mismo usuario
-        $this->pdo->prepare('DELETE FROM api_tokens WHERE user_id = ? AND expires_at <= NOW()')
+        $this->pdo->prepare('DELETE FROM cd_api_tokens WHERE user_id = ? AND expires_at <= NOW()')
             ->execute([$userId]);
-        $this->pdo->prepare('INSERT INTO api_tokens (user_id, token_hash, expires_at) VALUES (?, ?, ?)')
+        $this->pdo->prepare('INSERT INTO cd_api_tokens (user_id, token_hash, expires_at) VALUES (?, ?, ?)')
             ->execute([$userId, hash('sha256', $token), $expires]);
 
         return ['token' => $token, 'expires_at' => $expires];
@@ -32,7 +32,7 @@ final class Auth
 
     public function revokeToken(string $token): void
     {
-        $this->pdo->prepare('DELETE FROM api_tokens WHERE token_hash = ?')
+        $this->pdo->prepare('DELETE FROM cd_api_tokens WHERE token_hash = ?')
             ->execute([hash('sha256', $token)]);
     }
 
@@ -49,8 +49,8 @@ final class Auth
         }
         $stmt = $this->pdo->prepare(
             'SELECT u.id, u.full_name, u.email, u.role
-               FROM api_tokens t
-               JOIN users u ON u.id = t.user_id
+               FROM cd_api_tokens t
+               JOIN cd_users u ON u.id = t.user_id
               WHERE t.token_hash = ? AND t.expires_at > NOW()'
         );
         $stmt->execute([hash('sha256', $token)]);

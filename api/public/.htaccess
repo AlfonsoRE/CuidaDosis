@@ -8,6 +8,9 @@ Options -Indexes
 </FilesMatch>
 
 RewriteEngine On
+# Las reglas son relativas a esta carpeta: funcionan igual en /CuidaDosis/api/public/ (XAMPP)
+# y en una subcarpeta del hosting como /cuidadosis/api/. Solo si el hosting usa alias
+# y las rutas dan 404, agrega: RewriteBase /cuidadosis/api/
 
 # Pasa el encabezado Authorization a PHP
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

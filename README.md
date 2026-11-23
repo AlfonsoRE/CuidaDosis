@@ -110,6 +110,10 @@ También puedes importar ambos archivos desde phpMyAdmin (primero `schema.sql`, 
 
 > Volver a ejecutar `schema.sql` borra y recrea las tablas.
 
+Todas las tablas llevan el prefijo `cd_` (por ejemplo `cd_users`), porque en el hosting la base se comparte con otros proyectos (D46 en `docs/decisiones-fase-6.md`). `schema.sql` solo borra tablas `cd_*`.
+
+Para la prueba física sin cable hay un script **opcional** que crea 5 medicamentos sintéticos de prueba para paciente1, vinculado con cuidador1, con horas a partir de ahora: `bd/preparar_prueba_fisica.sql` (ver `docs/instalacion.md` 1.6). No se ejecuta solo.
+
 **Usuarios sintéticos del seed** (contraseña de prueba para todos: `Sintetico2026`):
 
 | Correo | Rol | Situación |
@@ -124,12 +128,12 @@ También puedes importar ambos archivos desde phpMyAdmin (primero `schema.sql`, 
 
 ```mermaid
 erDiagram
-    users ||--o{ links : "paciente o cuidador"
-    users ||--o{ medications : "tiene"
-    medications ||--o{ schedules : "horas diarias"
-    schedules ||--o{ intake_logs : "tomas"
-    users ||--o{ api_tokens : "sesiones"
-    users ||--o{ link_attempts : "intentos de código"
+    cd_users ||--o{ cd_links : "paciente o cuidador"
+    cd_users ||--o{ cd_medications : "tiene"
+    cd_medications ||--o{ cd_schedules : "horas diarias"
+    cd_schedules ||--o{ cd_intake_logs : "tomas"
+    cd_users ||--o{ cd_api_tokens : "sesiones"
+    cd_users ||--o{ cd_link_attempts : "intentos de código"
 ```
 
 - Un paciente tiene como máximo un cuidador activo; un cuidador puede tener varios pacientes.
@@ -137,7 +141,7 @@ erDiagram
 - El código de invitación caduca a los 10 minutos y es de un solo uso. Al usarlo, el vínculo queda en `awaiting_acceptance` hasta que el paciente lo acepta.
 - Cada confirmación lleva un `client_uuid` único generado en el teléfono; reenviarla no la duplica.
 - "Sin confirmar" se calcula (pendiente y más de 30 min después de la hora); no se guarda.
-- La dosis solo se envía al cuidador si `links.share_dose = 1` (por defecto 0).
+- La dosis solo se envía al cuidador si `cd_links.share_dose = 1` (por defecto 0).
 - Un medicamento puede tener varias horas diarias.
 - Las tomas del día se crean como pendientes cuando se consulta el día.
 - Medicamentos y horarios se desactivan en lugar de borrarse, para conservar el historial.
@@ -211,6 +215,7 @@ Pruebas unitarias de la app (dentro de `android/`): `gradlew.bat testDebugUnitTe
 | 7 y 8 | Verificación en emulador, cierre de sesión con pendientes, paquete de hosting y pruebas en teléfono físico (v1.0) | Hecho |
 | 9 | Versión 1.1.0: alarma del paciente a T repetida hasta Tomado o Posponer (máx. 2 min) y una alarma de reloj por aviso | Hecho (emulador) |
 | 10 | Pruebas de la v1.1 en el teléfono físico; versión 1.1.1 (corte de 2 min como alarma de reloj) | Hecho, salvo PR-12 y la comprobación de sonido y vibración por una persona |
+| 11 | Prefijo `cd_` en todas las tablas y API servible en una subcarpeta (`APP_BASE_PATH`, paquete con `--subdir`) para el hosting compartido | Hecho en local; subir al hosting real pendiente |
 
 Las funciones de las fases 0 a 5 funcionan de punta a punta. El detalle por requisito de la Fase 6 está en `RESUMEN_FASE6.md`.
 

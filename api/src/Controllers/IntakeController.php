@@ -43,9 +43,9 @@ final class IntakeController
         try {
             // Solo tomas propias, de hoy y de horarios y medicamentos activos
             $stmt = $this->pdo->prepare(
-                'SELECT l.status FROM intake_logs l
-                   JOIN schedules s ON s.id = l.schedule_id
-                   JOIN medications m ON m.id = s.medication_id
+                'SELECT l.status FROM cd_intake_logs l
+                   JOIN cd_schedules s ON s.id = l.schedule_id
+                   JOIN cd_medications m ON m.id = s.medication_id
                   WHERE l.id = ? AND m.patient_id = ?
                     AND l.scheduled_for >= CURDATE() AND l.scheduled_for < CURDATE() + INTERVAL 1 DAY
                     AND s.active = 1 AND m.active = 1
@@ -60,7 +60,7 @@ final class IntakeController
                 throw new ApiException(409, 'Esta toma ya estaba confirmada por el paciente.');
             }
             $this->pdo->prepare(
-                "UPDATE intake_logs SET status = 'taken', confirmed_at = NOW(), received_at = NOW() WHERE id = ?"
+                "UPDATE cd_intake_logs SET status = 'taken', confirmed_at = NOW(), received_at = NOW() WHERE id = ?"
             )->execute([$id]);
             $this->touchSync((int) $patient['id']);
             $this->pdo->commit();
@@ -99,7 +99,7 @@ final class IntakeController
 
         // RF-12: el teléfono se comunicó, aunque el lote venga vacío
         $this->touchSync($patientId);
-        $stmt = $this->pdo->prepare('SELECT last_sync_at FROM users WHERE id = ?');
+        $stmt = $this->pdo->prepare('SELECT last_sync_at FROM cd_users WHERE id = ?');
         $stmt->execute([$patientId]);
 
         Response::json(200, ['results' => $results, 'last_sync_at' => $stmt->fetchColumn()]);
@@ -118,7 +118,7 @@ final class IntakeController
         $caregiver = $this->auth->requireRole($request, 'caregiver');
 
         $stmt = $this->pdo->prepare(
-            "SELECT u.id, u.full_name, u.last_sync_at, l.linked_at FROM links l JOIN users u ON u.id = l.patient_id
+            "SELECT u.id, u.full_name, u.last_sync_at, l.linked_at FROM cd_links l JOIN cd_users u ON u.id = l.patient_id
               WHERE l.caregiver_id = ? AND l.status = 'active'
               ORDER BY u.full_name, u.id"
         );
@@ -165,7 +165,7 @@ final class IntakeController
     {
         $caregiver = $this->auth->requireRole($request, 'caregiver');
         $stmt = $this->pdo->prepare(
-            "SELECT u.id, u.full_name, u.last_sync_at, l.share_dose FROM links l JOIN users u ON u.id = l.patient_id
+            "SELECT u.id, u.full_name, u.last_sync_at, l.share_dose FROM cd_links l JOIN cd_users u ON u.id = l.patient_id
               WHERE l.caregiver_id = ? AND l.patient_id = ? AND l.status = 'active'"
         );
         $stmt->execute([$caregiver['id'], $patientId]);
@@ -229,9 +229,9 @@ final class IntakeController
         try {
             // UUID ya recibido: idempotente
             $stmt = $this->pdo->prepare(
-                'SELECT l.id, m.patient_id FROM intake_logs l
-                   JOIN schedules s ON s.id = l.schedule_id
-                   JOIN medications m ON m.id = s.medication_id
+                'SELECT l.id, m.patient_id FROM cd_intake_logs l
+                   JOIN cd_schedules s ON s.id = l.schedule_id
+                   JOIN cd_medications m ON m.id = s.medication_id
                   WHERE l.client_uuid = ?'
             );
             $stmt->execute([$uuid]);
@@ -247,7 +247,7 @@ final class IntakeController
 
             // El horario debe ser del paciente, la hora debe coincidir y la fecha estar en los últimos 7 días
             $stmt = $this->pdo->prepare(
-                'SELECT s.id FROM schedules s JOIN medications m ON m.id = s.medication_id
+                'SELECT s.id FROM cd_schedules s JOIN cd_medications m ON m.id = s.medication_id
                   WHERE s.id = ? AND m.patient_id = ?
                     AND TIME(?) = s.time_of_day
                     AND DATE(?) BETWEEN CURDATE() - INTERVAL ' . (self::HISTORY_DAYS - 1) . ' DAY AND CURDATE()
@@ -261,7 +261,7 @@ final class IntakeController
             }
 
             $stmt = $this->pdo->prepare(
-                'SELECT id, status FROM intake_logs WHERE schedule_id = ? AND scheduled_for = ? FOR UPDATE'
+                'SELECT id, status FROM cd_intake_logs WHERE schedule_id = ? AND scheduled_for = ? FOR UPDATE'
             );
             $stmt->execute([$scheduleId, $scheduledFor]);
             $row = $stmt->fetch();
@@ -274,13 +274,13 @@ final class IntakeController
 
             if ($row === false) {
                 $this->pdo->prepare(
-                    "INSERT INTO intake_logs (schedule_id, scheduled_for, status, confirmed_at, client_uuid, received_at)
+                    "INSERT INTO cd_intake_logs (schedule_id, scheduled_for, status, confirmed_at, client_uuid, received_at)
                      VALUES (?, ?, 'taken', ?, ?, NOW())"
                 )->execute([$scheduleId, $scheduledFor, $confirmedAt, $uuid]);
                 $intakeId = (int) $this->pdo->lastInsertId();
             } else {
                 $this->pdo->prepare(
-                    "UPDATE intake_logs SET status = 'taken', confirmed_at = ?, client_uuid = ?, received_at = NOW()
+                    "UPDATE cd_intake_logs SET status = 'taken', confirmed_at = ?, client_uuid = ?, received_at = NOW()
                       WHERE id = ?"
                 )->execute([$confirmedAt, $uuid, $row['id']]);
                 $intakeId = (int) $row['id'];
@@ -315,7 +315,7 @@ final class IntakeController
 
     private function touchSync(int $patientId): void
     {
-        $this->pdo->prepare('UPDATE users SET last_sync_at = NOW() WHERE id = ?')->execute([$patientId]);
+        $this->pdo->prepare('UPDATE cd_users SET last_sync_at = NOW() WHERE id = ?')->execute([$patientId]);
     }
 
     private function now(): string
@@ -331,9 +331,9 @@ final class IntakeController
     private function todayFor(int $patientId): array
     {
         $this->pdo->prepare(
-            'INSERT IGNORE INTO intake_logs (schedule_id, scheduled_for)
+            'INSERT IGNORE INTO cd_intake_logs (schedule_id, scheduled_for)
              SELECT s.id, TIMESTAMP(CURDATE(), s.time_of_day)
-               FROM schedules s JOIN medications m ON m.id = s.medication_id
+               FROM cd_schedules s JOIN cd_medications m ON m.id = s.medication_id
               WHERE m.patient_id = ? AND m.active = 1 AND s.active = 1'
         )->execute([$patientId]);
 
@@ -367,9 +367,9 @@ final class IntakeController
         $this->todayFor($patientId);
         $days = implode(' UNION ALL ', array_map(fn (int $n) => "SELECT $n AS n", range(1, self::HISTORY_DAYS - 1)));
         $this->pdo->prepare(
-            "INSERT IGNORE INTO intake_logs (schedule_id, scheduled_for)
+            "INSERT IGNORE INTO cd_intake_logs (schedule_id, scheduled_for)
              SELECT s.id, TIMESTAMP(CURDATE() - INTERVAL d.n DAY, s.time_of_day)
-               FROM schedules s JOIN medications m ON m.id = s.medication_id
+               FROM cd_schedules s JOIN cd_medications m ON m.id = s.medication_id
                CROSS JOIN ($days) d
               WHERE m.patient_id = ? AND m.active = 1 AND s.active = 1
                 AND TIMESTAMP(CURDATE() - INTERVAL d.n DAY, s.time_of_day) >= s.created_at"
@@ -442,9 +442,9 @@ final class IntakeController
                                THEN 'unconfirmed'
                            ELSE 'pending'
                        END AS state
-                  FROM intake_logs l
-                  JOIN schedules s ON s.id = l.schedule_id
-                  JOIN medications m ON m.id = s.medication_id";
+                  FROM cd_intake_logs l
+                  JOIN cd_schedules s ON s.id = l.schedule_id
+                  JOIN cd_medications m ON m.id = s.medication_id";
     }
 
     /**

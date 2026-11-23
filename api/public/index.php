@@ -15,7 +15,9 @@ use CuidaDosis\Request;
 use CuidaDosis\Response;
 use CuidaDosis\Router;
 
-$src = __DIR__ . '/../src';
+// Carpeta con src/, config/ y .env. El paquete de hosting puede cambiar esta línea (deploy/)
+$appRoot = __DIR__ . '/..';
+$src = $appRoot . '/src';
 require_once $src . '/Env.php';
 require_once $src . '/ApiException.php';
 require_once $src . '/Http.php';
@@ -32,7 +34,7 @@ ini_set('display_errors', '0');
 $debug = false;
 
 try {
-    $config = require __DIR__ . '/../config/config.php';
+    $config = require $appRoot . '/config/config.php';
     $debug = $config['debug'];
 
     $pdo = Database::connect($config['db']);
@@ -77,7 +79,7 @@ try {
     $router->add('GET', '/caregiver/patients/{id}/intakes/history', [$intakeCtl, 'caregiverPatientHistory']);
     $router->add('DELETE', '/caregiver/patients/{id}', [$linkCtl, 'unlinkPatient']);
 
-    $router->dispatch(Request::fromGlobals());
+    $router->dispatch(Request::fromGlobals($config['base_path']));
 } catch (ApiException $e) {
     Response::error($e->status, $e->getMessage(), $e->details);
 } catch (\Throwable $e) {

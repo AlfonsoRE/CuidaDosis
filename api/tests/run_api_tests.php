@@ -202,7 +202,7 @@ try {
     // ---------- Vínculo con aceptación ----------
     [$code, $body] = http('POST', '/links/invite', $p['token']);
     $codeStr = $body['invite_code'] ?? '';
-    $ttl = $pdo->prepare('SELECT TIMESTAMPDIFF(SECOND, NOW(), expires_at) FROM links WHERE invite_code = ?');
+    $ttl = $pdo->prepare('SELECT TIMESTAMPDIFF(SECOND, NOW(), expires_at) FROM cd_links WHERE invite_code = ?');
     $ttl->execute([$codeStr]);
     $ttlSec = (int) $ttl->fetchColumn();
     check('API-07 código de invitación', 'POST /links/invite (paciente)', '201, 8 caracteres, vence en 10 min (590 a 600 s)',
@@ -243,7 +243,7 @@ try {
     $p2 = register('Paciente dos', 'patient');
     [, $body] = http('POST', '/links/invite', $p2['token']);
     $expired = $body['invite_code'] ?? '';
-    $pdo->prepare('UPDATE links SET expires_at = NOW() - INTERVAL 1 SECOND WHERE invite_code = ?')->execute([$expired]);
+    $pdo->prepare('UPDATE cd_links SET expires_at = NOW() - INTERVAL 1 SECOND WHERE invite_code = ?')->execute([$expired]);
     [$code, $body] = http('POST', '/links/accept', $c2['token'], ['invite_code' => $expired]);
     check('API-15 código vencido', "POST /links/accept $expired con expires_at movido 1 s al pasado en BD",
         '410 con mensaje de código vencido', brief($code, $body), $code === 410);
@@ -266,11 +266,11 @@ try {
     [, $body] = http('POST', '/links/invite', $p2['token']);
     $valid = $body['invite_code'] ?? '';
     [$code, $body] = http('POST', '/links/accept', $c3['token'], ['invite_code' => $valid]);
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM link_attempts WHERE user_id = ? AND success = 0');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM cd_link_attempts WHERE user_id = ? AND success = 0');
     $stmt->execute([$c3['id']]);
     $fails = (int) $stmt->fetchColumn();
     check('API-18 bloqueo también para código válido', "POST /links/accept $valid (válido) durante el bloqueo",
-        '429 y siguen 5 fallos registrados en link_attempts', brief($code, $body) . " | fallos: $fails",
+        '429 y siguen 5 fallos registrados en cd_link_attempts', brief($code, $body) . " | fallos: $fails",
         $code === 429 && $fails === 5);
 
     // ---------- Medicamento para las pruebas de tomas ----------
@@ -301,10 +301,10 @@ try {
     ]]];
     [$code1, $b1] = http('POST', '/intakes/sync', $p['token'], $batch);
     [$code2, $b2] = http('POST', '/intakes/sync', $p['token'], $batch);
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM intake_logs WHERE client_uuid = ?');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM cd_intake_logs WHERE client_uuid = ?');
     $stmt->execute([$uuid]);
     $rowsUuid = (int) $stmt->fetchColumn();
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM intake_logs WHERE schedule_id = ? AND scheduled_for = ?');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM cd_intake_logs WHERE schedule_id = ? AND scheduled_for = ?');
     $stmt->execute([$first['schedule_id'] ?? 0, $first['scheduled_for'] ?? '']);
     $rowsIntake = (int) $stmt->fetchColumn();
     check('API-20 sincronización repetida con el mismo UUID', "POST /intakes/sync dos veces con client_uuid $uuid",
@@ -314,8 +314,8 @@ try {
         $code1 === 200 && $code2 === 200 && ($b1['results'][0]['status'] ?? '') === 'created'
             && ($b2['results'][0]['status'] ?? '') === 'duplicate' && $rowsUuid === 1 && $rowsIntake === 1);
 
-    $stmt = $pdo->prepare('SELECT last_sync_at IS NOT NULL AND received_at IS NOT NULL FROM users u
-        JOIN intake_logs l ON l.client_uuid = ? WHERE u.id = ?');
+    $stmt = $pdo->prepare('SELECT last_sync_at IS NOT NULL AND received_at IS NOT NULL FROM cd_users u
+        JOIN cd_intake_logs l ON l.client_uuid = ? WHERE u.id = ?');
     $stmt->execute([$uuid, $p['id']]);
     $stamped = (int) $stmt->fetchColumn() === 1;
     [$code, $body] = http('GET', '/caregiver/patients', $c['token']);
@@ -339,7 +339,7 @@ try {
 
     // ---------- Sin confirmar a T+30 (hora de la toma movida en BD) ----------
     $secondId = (int) ($second['id'] ?? 0);
-    $move = $pdo->prepare('UPDATE intake_logs SET scheduled_for = NOW() - INTERVAL ? SECOND WHERE id = ?');
+    $move = $pdo->prepare('UPDATE cd_intake_logs SET scheduled_for = NOW() - INTERVAL ? SECOND WHERE id = ?');
     $states = [];
     foreach ([29 * 60 => 'pending', 31 * 60 => 'unconfirmed'] as $ago => $expected) {
         $move->execute([$ago, $secondId]);
@@ -348,7 +348,7 @@ try {
     }
     [, $hist] = http('GET', '/caregiver/patients/' . $p['id'] . '/intakes/history', $c['token']);
     $confirmedState = findIntake($hist, (int) ($first['id'] ?? 0))['state'] ?? 'no encontrada';
-    $stored = $pdo->prepare('SELECT status FROM intake_logs WHERE id = ?');
+    $stored = $pdo->prepare('SELECT status FROM cd_intake_logs WHERE id = ?');
     $stored->execute([$secondId]);
     $storedStatus = (string) $stored->fetchColumn();
     check('API-23 estado calculado Pendiente / Sin confirmar / Confirmada',
@@ -380,7 +380,7 @@ try {
     [$code, $body] = http('DELETE', '/links/active', $p['token']);
     [$codeT, $bodyT] = http('GET', '/caregiver/patients/' . $p['id'] . '/intakes/today', $c['token']);
     [$codeH] = http('GET', '/caregiver/patients/' . $p['id'] . '/intakes/history', $c['token']);
-    $stmt = $pdo->prepare("SELECT status, revoked_at IS NOT NULL FROM links WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT status, revoked_at IS NOT NULL FROM cd_links WHERE id = ?");
     $stmt->execute([$linkId]);
     $linkRow = $stmt->fetch(PDO::FETCH_NUM);
     check('API-27 acceso perdido al revocar', 'DELETE /links/active (paciente) y luego el cuidador consulta hoy e historial',
@@ -396,7 +396,7 @@ out(str_repeat('-', 72));
 if (!$keep && $createdUsers !== []) {
     // Borra solo los usuarios creados por este script (las llaves foráneas borran en cascada)
     $in = implode(',', array_fill(0, count($createdUsers), '?'));
-    $pdo->prepare("DELETE FROM users WHERE id IN ($in) AND email LIKE '%@ejemplo.test'")->execute($createdUsers);
+    $pdo->prepare("DELETE FROM cd_users WHERE id IN ($in) AND email LIKE '%@ejemplo.test'")->execute($createdUsers);
     out('Limpieza: se borraron ' . count($createdUsers) . ' usuarios de prueba y sus datos.');
 } elseif ($keep) {
     out('Limpieza omitida (--keep): usuarios de prueba ' . implode(', ', $createdUsers));

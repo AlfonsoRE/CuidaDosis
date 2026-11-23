@@ -23,15 +23,15 @@ final class MedicationController
         $patient = $this->auth->requireRole($request, 'patient');
 
         $stmt = $this->pdo->prepare(
-            'SELECT id, name, dose, created_at, updated_at FROM medications
+            'SELECT id, name, dose, created_at, updated_at FROM cd_medications
               WHERE patient_id = ? AND active = 1 ORDER BY name, id'
         );
         $stmt->execute([$patient['id']]);
         $meds = $stmt->fetchAll();
 
         $stmt = $this->pdo->prepare(
-            'SELECT s.id, s.medication_id, s.time_of_day FROM schedules s
-               JOIN medications m ON m.id = s.medication_id
+            'SELECT s.id, s.medication_id, s.time_of_day FROM cd_schedules s
+               JOIN cd_medications m ON m.id = s.medication_id
               WHERE m.patient_id = ? AND m.active = 1 AND s.active = 1
               ORDER BY s.time_of_day'
         );
@@ -61,10 +61,10 @@ final class MedicationController
 
         $this->pdo->beginTransaction();
         try {
-            $this->pdo->prepare('INSERT INTO medications (patient_id, name, dose) VALUES (?, ?, ?)')
+            $this->pdo->prepare('INSERT INTO cd_medications (patient_id, name, dose) VALUES (?, ?, ?)')
                 ->execute([$patient['id'], $name, $dose]);
             $id = (int) $this->pdo->lastInsertId();
-            $insert = $this->pdo->prepare('INSERT INTO schedules (medication_id, time_of_day) VALUES (?, ?)');
+            $insert = $this->pdo->prepare('INSERT INTO cd_schedules (medication_id, time_of_day) VALUES (?, ?)');
             foreach ($times as $time) {
                 $insert->execute([$id, $time]);
             }
@@ -88,18 +88,18 @@ final class MedicationController
         try {
             $this->lockOwned($id, $patient['id']);
 
-            $this->pdo->prepare('UPDATE medications SET name = ?, dose = ?, updated_at = NOW() WHERE id = ?')
+            $this->pdo->prepare('UPDATE cd_medications SET name = ?, dose = ?, updated_at = NOW() WHERE id = ?')
                 ->execute([$name, $dose, $id]);
 
-            $stmt = $this->pdo->prepare('SELECT id, time_of_day FROM schedules WHERE medication_id = ?');
+            $stmt = $this->pdo->prepare('SELECT id, time_of_day FROM cd_schedules WHERE medication_id = ?');
             $stmt->execute([$id]);
             $existing = [];
             foreach ($stmt->fetchAll() as $row) {
                 $existing[$row['time_of_day']] = (int) $row['id'];
             }
 
-            $setActive = $this->pdo->prepare('UPDATE schedules SET active = ? WHERE id = ?');
-            $insert = $this->pdo->prepare('INSERT INTO schedules (medication_id, time_of_day) VALUES (?, ?)');
+            $setActive = $this->pdo->prepare('UPDATE cd_schedules SET active = ? WHERE id = ?');
+            $insert = $this->pdo->prepare('INSERT INTO cd_schedules (medication_id, time_of_day) VALUES (?, ?)');
             foreach ($times as $time) {
                 if (isset($existing[$time])) {
                     $setActive->execute([1, $existing[$time]]);
@@ -130,8 +130,8 @@ final class MedicationController
         $this->pdo->beginTransaction();
         try {
             $this->lockOwned($id, $patient['id']);
-            $this->pdo->prepare('UPDATE medications SET active = 0 WHERE id = ?')->execute([$id]);
-            $this->pdo->prepare('UPDATE schedules SET active = 0 WHERE medication_id = ?')->execute([$id]);
+            $this->pdo->prepare('UPDATE cd_medications SET active = 0 WHERE id = ?')->execute([$id]);
+            $this->pdo->prepare('UPDATE cd_schedules SET active = 0 WHERE medication_id = ?')->execute([$id]);
             $this->pdo->commit();
         } catch (\Throwable $e) {
             $this->pdo->rollBack();
@@ -158,7 +158,7 @@ final class MedicationController
     private function lockOwned(int $id, int $patientId): void
     {
         $stmt = $this->pdo->prepare(
-            'SELECT id FROM medications WHERE id = ? AND patient_id = ? AND active = 1 FOR UPDATE'
+            'SELECT id FROM cd_medications WHERE id = ? AND patient_id = ? AND active = 1 FOR UPDATE'
         );
         $stmt->execute([$id, $patientId]);
         if ($stmt->fetch() === false) {
@@ -174,7 +174,7 @@ final class MedicationController
     private function load(int $id, int $patientId): array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT id, name, dose, created_at, updated_at FROM medications
+            'SELECT id, name, dose, created_at, updated_at FROM cd_medications
               WHERE id = ? AND patient_id = ? AND active = 1'
         );
         $stmt->execute([$id, $patientId]);
@@ -184,7 +184,7 @@ final class MedicationController
         }
 
         $stmt = $this->pdo->prepare(
-            'SELECT id, time_of_day FROM schedules WHERE medication_id = ? AND active = 1 ORDER BY time_of_day'
+            'SELECT id, time_of_day FROM cd_schedules WHERE medication_id = ? AND active = 1 ORDER BY time_of_day'
         );
         $stmt->execute([$id]);
         $times = array_map(

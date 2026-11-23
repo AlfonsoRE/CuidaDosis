@@ -15,10 +15,10 @@ Estado al 22/11/2026 (versión 1.1.1). Ordenado por prioridad: primero lo que bl
 
 ## Prioridad baja (limitaciones conocidas del prototipo)
 8. **Token vencido con confirmaciones pendientes.** Si el token vence (401) con confirmaciones en la cola, la sesión se borra con la copia local y esas confirmaciones se pierden. "Salir" sí está protegido (D37), pero el 401 no pasa por "Salir". El token dura 30 días, así que es poco probable en el prototipo.
-9. **Interfaz para que el paciente comparta la dosis con el cuidador (G-07).** No hay pantalla; `links.share_dose` queda en 0 y la dosis oculta al cuidador. Solo se activa en la BD (D32).
+9. **Interfaz para que el paciente comparta la dosis con el cuidador (G-07).** No hay pantalla; `cd_links.share_dose` queda en 0 y la dosis oculta al cuidador. Solo se activa en la BD (D32).
 10. **Sin WorkManager:** si el sistema cierra la app sin red, la cola se envía la próxima vez que la app arranque (D29).
 11. **La pestaña "Medicamentos" y el historial de 7 días requieren conexión.**
-12. **Despliegue en hosting real:** el paquete y el procedimiento están probados solo en la PC (D38); falta subirlo y la lista de `docs/instalacion.md` 3.4.
+12. **Despliegue en hosting real:** el paquete y el procedimiento están probados solo en la PC (D38). Desde el 23/11/2026 el paquete admite la subcarpeta `/cuidadosis/api/` y las tablas llevan el prefijo `cd_` para la base compartida (D46, D47), también probado solo en la PC. Falta subirlo a areproyectos.com.mx y la lista de `docs/instalacion.md` 3.4.
 13. **RNF-07 desde el teléfono por Wi-Fi, legibilidad con personas mayores y otros fabricantes:** no medidos.
 
 ## Fuera de alcance (no se implementa)

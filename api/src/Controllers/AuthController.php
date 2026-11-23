@@ -31,7 +31,7 @@ final class AuthController
 
         try {
             $stmt = $this->pdo->prepare(
-                'INSERT INTO users (full_name, email, password_hash, role) VALUES (?, ?, ?, ?)'
+                'INSERT INTO cd_users (full_name, email, password_hash, role) VALUES (?, ?, ?, ?)'
             );
             $stmt->execute([$fullName, $email, password_hash($password, PASSWORD_DEFAULT), $role]);
         } catch (\PDOException $e) {
@@ -58,7 +58,7 @@ final class AuthController
             ]);
         }
 
-        $stmt = $this->pdo->prepare('SELECT id, password_hash FROM users WHERE email = ?');
+        $stmt = $this->pdo->prepare('SELECT id, password_hash FROM cd_users WHERE email = ?');
         $stmt->execute([$email]);
         $row = $stmt->fetch();
 
@@ -70,7 +70,7 @@ final class AuthController
 
         $userId = (int) $row['id'];
         if (password_needs_rehash($row['password_hash'], PASSWORD_DEFAULT)) {
-            $this->pdo->prepare('UPDATE users SET password_hash = ? WHERE id = ?')
+            $this->pdo->prepare('UPDATE cd_users SET password_hash = ? WHERE id = ?')
                 ->execute([password_hash($password, PASSWORD_DEFAULT), $userId]);
         }
 
@@ -93,7 +93,7 @@ final class AuthController
         if ($user['role'] === 'patient') {
             $stmt = $this->pdo->prepare(
                 "SELECT u.id, u.full_name, l.linked_at
-                   FROM links l JOIN users u ON u.id = l.caregiver_id
+                   FROM cd_links l JOIN cd_users u ON u.id = l.caregiver_id
                   WHERE l.patient_id = ? AND l.status = 'active'"
             );
             $stmt->execute([$user['id']]);
@@ -107,7 +107,7 @@ final class AuthController
 
             // Código de invitación pendiente y vigente, si existe
             $stmt = $this->pdo->prepare(
-                "SELECT invite_code, expires_at FROM links
+                "SELECT invite_code, expires_at FROM cd_links
                   WHERE patient_id = ? AND status = 'pending' AND expires_at > NOW()
                   ORDER BY id DESC LIMIT 1"
             );
@@ -118,7 +118,7 @@ final class AuthController
             // Solicitud de un cuidador que espera la aceptación del paciente (RF-08)
             $stmt = $this->pdo->prepare(
                 "SELECT l.id, l.requested_at, u.id AS caregiver_id, u.full_name
-                   FROM links l JOIN users u ON u.id = l.caregiver_id
+                   FROM cd_links l JOIN cd_users u ON u.id = l.caregiver_id
                   WHERE l.patient_id = ? AND l.status = 'awaiting_acceptance'
                   ORDER BY l.id DESC LIMIT 1"
             );
@@ -134,7 +134,7 @@ final class AuthController
             unset($result['link']);
             $stmt = $this->pdo->prepare(
                 "SELECT u.id, u.full_name, l.linked_at
-                   FROM links l JOIN users u ON u.id = l.patient_id
+                   FROM cd_links l JOIN cd_users u ON u.id = l.patient_id
                   WHERE l.caregiver_id = ? AND l.status = 'active'
                   ORDER BY u.full_name, u.id"
             );
@@ -148,7 +148,7 @@ final class AuthController
             // Solicitudes enviadas que el paciente aún no acepta
             $stmt = $this->pdo->prepare(
                 "SELECT l.id, l.requested_at, u.id AS patient_id, u.full_name
-                   FROM links l JOIN users u ON u.id = l.patient_id
+                   FROM cd_links l JOIN cd_users u ON u.id = l.patient_id
                   WHERE l.caregiver_id = ? AND l.status = 'awaiting_acceptance'
                   ORDER BY l.requested_at, l.id"
             );
@@ -168,7 +168,7 @@ final class AuthController
      */
     private function findUser(int $id): array
     {
-        $stmt = $this->pdo->prepare('SELECT id, full_name, email, role, created_at FROM users WHERE id = ?');
+        $stmt = $this->pdo->prepare('SELECT id, full_name, email, role, created_at FROM cd_users WHERE id = ?');
         $stmt->execute([$id]);
         $user = $stmt->fetch();
         $user['id'] = (int) $user['id'];

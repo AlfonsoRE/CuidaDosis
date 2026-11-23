@@ -13,6 +13,7 @@ Se crea copiando `api/.env.example`. **Nunca se sube al repositorio** (está en 
 | `DB_PASS` | (tu contraseña local) | Contraseña de MySQL |
 | `TOKEN_TTL_HOURS` | `720` | Vigencia del token de sesión, en horas (720 = 30 días) |
 | `APP_DEBUG` | `false` | `true` solo en desarrollo: agrega el detalle técnico a los errores 500 |
+| `APP_BASE_PATH` | vacío | Prefijo de la URL donde se sirve la API, por ejemplo `/cuidadosis/api` en el hosting. Vacío: se deduce de la ubicación de `index.php` (en XAMPP se deja vacío) |
 
 Valores fijos en el código (no se configuran):
 - Zona horaria `America/Mexico_City` en PHP y en la sesión de MySQL (ADR-008).
@@ -28,6 +29,7 @@ Valores fijos en el código (no se configuran):
 |---|---|
 | Emulador (por defecto) | `http://10.0.2.2/CuidaDosis/api/public/` |
 | Teléfono en la misma red | `http://<IP de la PC>/CuidaDosis/api/public/` |
+| Hosting (subcarpeta) | `https://areproyectos.com.mx/cuidadosis/api/` (pendiente de subir; ver `instalacion.md` 3.1.1) |
 | Al compilar | `api.baseUrl=<URL>` en `android/local.properties` (no se versiona) |
 | Sin recompilar | Inicio de sesión → **Servidor** → escribir URL → **Probar conexión** → **Guardar** |
 

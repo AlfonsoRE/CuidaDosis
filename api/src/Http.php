@@ -17,24 +17,53 @@ final class Request
     ) {
     }
 
-    public static function fromGlobals(): self
+    /**
+     * @param string $basePath APP_BASE_PATH del .env (por ejemplo "/cuidadosis/api"); vacío = se deduce
+     */
+    public static function fromGlobals(string $basePath = ''): self
     {
         $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
-
-        // Ruta relativa al directorio de index.php (api/public)
         $uriPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
-        $base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
-        if ($base !== '' && str_starts_with($uriPath, $base)) {
-            $uriPath = substr($uriPath, strlen($base));
-        }
-        if (str_starts_with($uriPath, '/index.php')) {
-            $uriPath = substr($uriPath, strlen('/index.php'));
-        }
-        $path = '/' . trim($uriPath, '/');
+        $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+        $path = self::routePath($uriPath, $basePath, $scriptDir);
 
         $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
 
         return new self($method, $path, (string) file_get_contents('php://input'), (string) $auth);
+    }
+
+    /**
+     * Ruta de la API sin el prefijo del sitio. Si APP_BASE_PATH está definido y la URL empieza
+     * con él, se quita ese prefijo; si no, se quita el directorio de index.php (SCRIPT_NAME),
+     * que funciona igual en XAMPP (/CuidaDosis/api/public) y en una subcarpeta del hosting.
+     */
+    public static function routePath(string $uriPath, string $basePath, string $scriptDir): string
+    {
+        $base = self::normalizeBase($basePath);
+        if ($base === '' || !self::hasPrefix($uriPath, $base)) {
+            $base = self::normalizeBase($scriptDir);
+        }
+        if ($base !== '' && self::hasPrefix($uriPath, $base)) {
+            $uriPath = substr($uriPath, strlen($base));
+        }
+        if ($uriPath === '/index.php' || str_starts_with($uriPath, '/index.php/')) {
+            $uriPath = substr($uriPath, strlen('/index.php'));
+        }
+
+        return '/' . trim($uriPath, '/');
+    }
+
+    private static function normalizeBase(string $base): string
+    {
+        $base = trim(str_replace('\\', '/', trim($base)), '/');
+
+        return $base === '' || $base === '.' ? '' : '/' . $base;
+    }
+
+    // Prefijo completo por segmentos: "/cuidadosis/api" no coincide con "/cuidadosis/apix"
+    private static function hasPrefix(string $path, string $base): bool
+    {
+        return $path === $base || str_starts_with($path, $base . '/');
     }
 
     /**

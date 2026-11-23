@@ -53,6 +53,34 @@ C:/xampp/php/php.exe api/tests/measure_today.php 50
 ```
 Escribe `docs/evidencias/p4/rendimiento.csv`.
 
+Rutas de la API dentro de una subcarpeta (sin red ni BD; comprueba XAMPP, `/cuidadosis/api` y `APP_BASE_PATH`):
+```bash
+C:/xampp/php/php.exe api/tests/route_path_test.php
+```
+Resultado del 23/11/2026: 13 OK, 0 FALLO.
+
+### 1.6 Tablas con prefijo `cd_` y datos opcionales para la prueba física
+Desde el 23/11/2026 todas las tablas llevan el prefijo `cd_` (`cd_users`, `cd_links`, `cd_medications`, `cd_schedules`, `cd_intake_logs`, `cd_api_tokens`, `cd_link_attempts`), igual que sus llaves foráneas, restricciones e índices (`fk_cd_links_patient`). Motivo: en el hosting la base se comparte con otros proyectos (D46).
+
+**Si tu base local es anterior** (tablas sin prefijo), `schema.sql` ya no las borra: crea las `cd_*` junto a ellas. Para quitarlas, primero respalda y luego bórralas a mano, solo si esa base es exclusiva de CuidaDosis:
+```bash
+set -a && . ./api/.env && set +a && export MYSQL_PWD="$DB_PASS"
+M="/c/xampp/mysql/bin/mysql.exe -h $DB_HOST -P $DB_PORT -u $DB_USER --default-character-set=utf8mb4"
+mkdir -p /c/xampp/backup_cuidadosis
+/c/xampp/mysql/bin/mysqldump.exe -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" --default-character-set=utf8mb4 --single-transaction --databases "$DB_NAME" > /c/xampp/backup_cuidadosis/cuidadosis_$(date +%Y%m%d-%H%M%S).sql
+$M "$DB_NAME" -e "SET FOREIGN_KEY_CHECKS=0; DROP TABLE IF EXISTS link_attempts, api_tokens, intake_logs, schedules, medications, links, users; SET FOREIGN_KEY_CHECKS=1;"
+$M < bd/schema.sql
+$M "$DB_NAME" < bd/seed.sql
+```
+El respaldo queda fuera del repo (`C:\xampp\backup_cuidadosis\`) y no se versiona. Comprueba que el archivo no está vacío y termina con `-- Dump completed` antes del `DROP`.
+
+**Datos para la prueba física sin cable (opcional, no se ejecuta solo).** `bd/preparar_prueba_fisica.sql` deja a paciente1 vinculado con cuidador1 y le crea cinco medicamentos "Medicamento de prueba A..E (SINTETICO)" con una toma cada uno, a ahora + 10, 50, 90, 130 y 170 minutos. Desactiva (no borra) los de una corrida anterior, así que se puede repetir. Al final muestra la hora de cada toma, de su aviso previo con L = 5 y de la alarma del cuidador (T + 30). El aviso previo no está en la BD: es el ajuste local del teléfono (5 min por defecto). Requiere el seed cargado:
+```bash
+set -a && . ./api/.env && set +a && export MYSQL_PWD="$DB_PASS"
+/c/xampp/mysql/bin/mysql.exe -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" --default-character-set=utf8mb4 -t "$DB_NAME" < bd/preparar_prueba_fisica.sql
+```
+Después inicia sesión en el teléfono como paciente1 (o actualiza "Hoy") para que la app descargue las horas y programe los avisos. Para volver al estado limpio, recarga `schema.sql` y `seed.sql`. Probado el 23/11/2026 solo en una base temporal (dos corridas seguidas y sin seed, donde se detiene con "FALTA paciente1 o cuidador1"); no se ejecutó en la base principal.
+
 ## 2. App Android
 
 ### 2.1 Compilar el APK debug
@@ -64,7 +92,7 @@ export JAVA_HOME="C:/Program Files/Android/Android Studio/jbr"
 ./gradlew.bat assembleDebug testDebugUnitTest -Dorg.gradle.java.installations.auto-detect=false "-Dorg.gradle.java.installations.paths=C:/Program Files/Android/Android Studio/jbr"
 ```
 - APK: `android/app/build/outputs/apk/debug/app-debug.apk`.
-- Pruebas unitarias: 65, todas en verde (`android/app/build/test-results/testDebugUnitTest/`).
+- Pruebas unitarias: 79, todas en verde (última corrida: 23/11/2026) (`android/app/build/test-results/testDebugUnitTest/`).
 - El APK no se versiona. Para comprobar que dos personas tienen el mismo archivo: `sha256sum android/app/build/outputs/apk/debug/app-debug.apk`.
 
 En Android Studio basta con abrir `android/` y usar Run.
@@ -132,6 +160,23 @@ Crea `build/hosting/` (git lo ignora) con esta estructura, pensada para un hosti
 
 Si el hosting permite elegir la raíz del dominio (VPS o panel con "document root"), se puede subir la carpeta `api/` completa sin `.env` y apuntar la raíz a `api/public/`.
 
+#### 3.1.1 API en una subcarpeta de un dominio compartido (areproyectos.com.mx/cuidadosis/)
+Cuando el dominio aloja varios proyectos y la base de datos también es compartida:
+```bash
+C:/xampp/php/php.exe deploy/build_hosting_package.php --subdir=cuidadosis
+```
+| Ruta en el paquete | Se sube a | ¿Accesible por web? |
+|---|---|---|
+| `public_html/cuidadosis/api/` | `public_html/cuidadosis/api/` del hosting: solo `index.php` y `.htaccess` | Sí: `https://areproyectos.com.mx/cuidadosis/api/` |
+| `cuidadosis_app/` | la carpeta de la cuenta, **junto a** `public_html` (no dentro): `src/`, `config/`, `.env.example` y un `.htaccess` que niega todo | No |
+| `bd/` | no se sube: se importa en phpMyAdmin | No |
+
+- El `index.php` del paquete se genera apuntando a `../../../cuidadosis_app` (en el repo sigue siendo `..`). Si la raíz web del hosting no se llama `public_html` o no se puede escribir fuera de ella, avisa antes de subir: la ruta cambia.
+- `APP_BASE_PATH=/cuidadosis/api` en el `.env` del servidor (ya viene en la plantilla). Si queda vacío, la API deduce el prefijo de la ubicación de `index.php`, que da lo mismo; en XAMPP se deja vacío.
+- El `.htaccess` usa reglas relativas a su carpeta, así que no necesita cambios para la subcarpeta. Solo si el hosting usa alias y todas las rutas dan 404, agrega `RewriteBase /cuidadosis/api/` (está indicado como comentario).
+- La base compartida: todas las tablas de CuidaDosis empiezan con `cd_` y `schema_hosting.sql` solo crea o borra tablas `cd_*`; el script de paquete se niega a armarlo si el esquema toca otra tabla.
+- En la app, la URL del servidor es `https://areproyectos.com.mx/cuidadosis/api/` (con la diagonal final).
+
 ### 3.2 Prueba local del paquete (ejecutada el 21/11/2026)
 Con una base temporal y el servidor embebido de PHP, sin tocar la base principal:
 ```bash
@@ -145,13 +190,20 @@ cd build/hosting && C:/xampp/php/php.exe -S 127.0.0.1:8099 -t public_html public
 ```
 Resultado: 7 tablas con 0 filas; `GET /` respondió `ok` con la hora de México; el registro de un usuario sintético funcionó; `/../.env`, `/.env`, `/../src/Auth.php`, `/../config/config.php` y `/../bd/schema_hosting.sql` dieron 404. El servidor embebido no aplica `.htaccess`; las reglas del `.htaccess` ya están probadas en Apache (sección 1.4). Al terminar se borraron la base temporal (`DROP DATABASE cuidadosis_pkgtest`) y `build/hosting/.env`.
 
+**Prueba con subcarpeta y base compartida (ejecutada el 23/11/2026).** Paquete con `--subdir=cuidadosis`. La base temporal tenía antes dos tablas de "otro proyecto" (`users` y `links`, con una llave foránea llamada `fk_links_patient` y una fila cada una). Se importaron `schema_hosting.sql` y `seed_hosting.sql`, se creó `build/hosting/cuidadosis_app/.env` apuntando a esa base con `APP_BASE_PATH=/cuidadosis/api` y se sirvió con `php -S 127.0.0.1:8099 -t public_html` (el servidor embebido envía las rutas inexistentes al `index.php` de la carpeta más cercana, como el `.htaccess`):
+- Esquema: 7 tablas `cd_*` con 0 filas, sin error por nombres de restricciones; las tablas del otro proyecto siguieron con 1 fila cada una.
+- `GET /cuidadosis/api/` 200 `ok`; registro 201; login con token de 64 caracteres; `GET /cuidadosis/api/me` 200; `GET /cuidadosis/api/intakes/today` 200; `/me` sin token 401; ruta inexistente 404. El usuario quedó en `cd_users`.
+- `/cuidadosis_app/.env`, `/../cuidadosis_app/.env`, `/cuidadosis/api/../../../cuidadosis_app/.env`, `.../src/Auth.php` y `/bd/schema_hosting.sql`: 404.
+- Al terminar se borraron la base temporal y el `.env` temporal, y se rearmó el paquete.
+- No probado: Apache o LiteSpeed reales sirviendo `/cuidadosis/api/` (en XAMPP el mismo `.htaccess` funciona en `/CuidaDosis/api/public/`, que también es una subcarpeta).
+
 ### 3.3 Subir al hosting (pendiente de verificar)
 1. Crea en el panel una base MySQL o MariaDB y un usuario con permisos sobre ella.
-2. En phpMyAdmin del hosting, selecciona esa base e importa `bd/schema_hosting.sql` y luego `bd/seed_hosting.sql` (debe mostrar 0 en todas las columnas).
-3. Sube por el administrador de archivos o SFTP: el contenido de `public_html/` a la raíz web, y `src/`, `config/` y `.env.example` a la carpeta de la cuenta (un nivel arriba).
+2. En phpMyAdmin del hosting, selecciona esa base e importa `bd/schema_hosting.sql` y luego `bd/seed_hosting.sql` (debe mostrar 0 en todas las columnas). Si la base es compartida, solo se crean o reemplazan tablas `cd_*`; las de otros proyectos no se tocan.
+3. Sube por el administrador de archivos o SFTP: el contenido de `public_html/` a la raíz web, y `src/`, `config/` y `.env.example` a la carpeta de la cuenta (un nivel arriba). Con `--subdir=cuidadosis`: `public_html/cuidadosis/api/` a la misma ruta del hosting y `cuidadosis_app/` a la carpeta de la cuenta (ver 3.1.1); el `.env` va dentro de `cuidadosis_app/`.
 4. En el servidor, renombra `.env.example` a `.env` y llena `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASS` con los datos del panel. Deja `APP_DEBUG=false`.
 5. Activa HTTPS (certificado del panel, por ejemplo Let's Encrypt) y la redirección de HTTP a HTTPS.
-6. En la app, compila con `api.baseUrl=https://<dominio>/` en `android/local.properties` o escríbelo en **Servidor**. La versión release solo acepta HTTPS.
+6. En la app, compila con `api.baseUrl=https://<dominio>/` (con subcarpeta: `https://areproyectos.com.mx/cuidadosis/api/`) en `android/local.properties` o escríbelo en **Servidor**. La versión release solo acepta HTTPS.
 
 ### 3.4 Lista de verificación después de subir (pendiente de verificar)
 | Revisión | Cómo | Esperado |
@@ -164,8 +216,10 @@ Resultado: 7 tablas con 0 filas; `GET /` respondió `ok` con la hora de México;
 | `src` no accesible | `https://<dominio>/src/Auth.php`, `https://<dominio>/../src/Auth.php` | `403` o `404` |
 | `bd` no accesible | `https://<dominio>/bd/schema_hosting.sql` | `403` o `404` (no debe estar en el servidor) |
 | Encabezado de token | iniciar sesión desde la app | sin errores 401 (el `.htaccess` pasa `Authorization` a PHP) |
-| Sin cuentas de demo | `SELECT COUNT(*) FROM users` en phpMyAdmin tras subir | `0` |
+| Sin cuentas de demo | `SELECT COUNT(*) FROM cd_users` en phpMyAdmin tras subir | `0` |
 | Debug apagado | `.env` | `APP_DEBUG=false` |
+| Subcarpeta (con `--subdir`) | `https://areproyectos.com.mx/cuidadosis/api/` y `https://areproyectos.com.mx/cuidadosis_app/.env` | `{"status":"ok"...}`; el segundo `403` o `404` |
+| Tablas con prefijo | en phpMyAdmin, la lista de tablas | solo 7 tablas `cd_*` de CuidaDosis; las de otros proyectos sin cambios |
 
 ### 3.5 Actualizar
-Vuelve a correr `deploy/build_hosting_package.php`, compara `MANIFIESTO.txt` con el anterior y sube solo `public_html/`, `src/` y `config/`. No vuelvas a importar `schema_hosting.sql`: borra las tablas.
+Vuelve a correr `deploy/build_hosting_package.php` (con el mismo `--subdir`, si lo usaste), compara `MANIFIESTO.txt` con el anterior y sube solo `public_html/`, `src/` y `config/` (con subcarpeta: `public_html/cuidadosis/api/`, `cuidadosis_app/src/` y `cuidadosis_app/config/`). No vuelvas a importar `schema_hosting.sql`: borra las tablas `cd_*` y sus datos.

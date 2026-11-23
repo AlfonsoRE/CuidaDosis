@@ -20,5 +20,7 @@ return [
         'pass' => $env['DB_PASS'] ?? '',
     ],
     'token_ttl_hours' => $ttl > 0 ? $ttl : 720,
+    // Prefijo de la URL donde vive la API (por ejemplo /cuidadosis/api); vacío = se deduce de index.php
+    'base_path' => trim($env['APP_BASE_PATH'] ?? ''),
     'debug' => strtolower($env['APP_DEBUG'] ?? 'false') === 'true',
 ];

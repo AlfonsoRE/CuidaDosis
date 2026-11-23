@@ -79,7 +79,7 @@ Los canales de la v1.0 (`intake_reminders`, `caregiver_alerts`, configuración a
 
 ## 6. No implementado
 - **RF-17:** notificación push al cuidador desde el servidor. Fuera de alcance; la compensa en parte la alarma local del cuidador a T + 30 (RF-18), que solo funciona si el cuidador abrió la app ese día.
-- **G-07 (pantalla):** no hay pantalla para que el paciente autorice mostrar la dosis al cuidador. La dosis queda oculta por defecto (`links.share_dose = 0`); solo se puede activar en la base de datos.
+- **G-07 (pantalla):** no hay pantalla para que el paciente autorice mostrar la dosis al cuidador. La dosis queda oculta por defecto (`cd_links.share_dose = 0`); solo se puede activar en la base de datos.
 - Más de un cuidador activo por paciente, reportes y recomendaciones de dosis: fuera de alcance.
 
 ## 7. Limitaciones conocidas

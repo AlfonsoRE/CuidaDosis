@@ -7,10 +7,10 @@
 -- quedó vacío y completo; no inserta nada.
 
 SELECT
-    (SELECT COUNT(*) FROM users)         AS usuarios,
-    (SELECT COUNT(*) FROM links)         AS vinculos,
-    (SELECT COUNT(*) FROM medications)   AS medicamentos,
-    (SELECT COUNT(*) FROM schedules)     AS horarios,
-    (SELECT COUNT(*) FROM intake_logs)   AS tomas,
-    (SELECT COUNT(*) FROM api_tokens)    AS sesiones,
-    (SELECT COUNT(*) FROM link_attempts) AS intentos;
+    (SELECT COUNT(*) FROM cd_users)         AS usuarios,
+    (SELECT COUNT(*) FROM cd_links)         AS vinculos,
+    (SELECT COUNT(*) FROM cd_medications)   AS medicamentos,
+    (SELECT COUNT(*) FROM cd_schedules)     AS horarios,
+    (SELECT COUNT(*) FROM cd_intake_logs)   AS tomas,
+    (SELECT COUNT(*) FROM cd_api_tokens)    AS sesiones,
+    (SELECT COUNT(*) FROM cd_link_attempts) AS intentos;
