@@ -25,7 +25,11 @@ Estado al cierre del lunes 23/11/2026 (noche). Detalle en D46 a D50 (`decisiones
 3. **Borrar las cuentas del grupo beta al terminar** la evaluación (solo filas de `cd_users`; el resto cae en cascada). Algunas parecen tener nombres reales; no copiarlos a ningún archivo.
 4. **Redactar los tres manuales** a partir de `docs/manuales/instalacion/`, `docs/manuales/configuracion/` y `docs/manuales/ejecucion/` (`fuente.md` y `capturas/`). Lista de capturas y su vigencia: `docs/capturas/LISTA.md`.
 5. **Entregables:** documento P4, artículo, diapositivas y video.
-6. **Instalación manual sin el script del paquete** (copiar `src/`, `config/` y `public/` a mano y editar `$appRoot` en `index.php`): no está descrita paso a paso en los manuales ni se ha probado de principio a fin. Lo probado es el paquete de `deploy/build_hosting_package.php`, que hace ese cambio solo (`docs/instalacion.md` 3.2). Se puede probar en una carpeta temporal con una base temporal y el servidor embebido de PHP, sin tocar el hosting.
+6. **Instalación manual sin el script del paquete:** probada en local el 23/11/2026, sin tocar el hosting, pero todavía no está descrita paso a paso en los manuales. Si se quiere ofrecer, agregarla a `docs/manuales/instalacion/fuente.md`.
+   - Preparación: `index.php` y `.htaccess` en una carpeta web; `src/`, `config/` y `.env` en una carpeta privada al lado; línea editada `$appRoot = __DIR__ . '/../privada';`; base temporal en XAMPP; servidor embebido de PHP.
+   - Resultados: `GET /` respondió `ok`. `.env`, `src/` y `config/` dieron 404, también con `..`. El registro sintético dio 201, el inicio de sesión devolvió un token de 64 caracteres y `/me` dio 200 con token y 401 sin token o con contraseña incorrecta.
+   - Al terminar se borraron la base y los archivos temporales.
+   - No probado así: Apache o LiteSpeed reales aplicando el `.htaccess`. El servidor embebido no lo usa; la protección viene de que `src/`, `config/` y `.env` quedan fuera de la carpeta web.
 
 ## Pendientes de seguridad
 - Activar "Force HTTPS Redirect" en cPanel: hoy HTTP responde sin redirigir.
