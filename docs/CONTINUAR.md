@@ -19,22 +19,18 @@ Estado al cierre del lunes 23/11/2026 (noche). Detalle en D46 a D50 (`decisiones
   - El APK debug (1.1.1 y anteriores) sigue sirviendo para pruebas locales con XAMPP.
   - El tag `v1.0-evaluada` existe solo en local.
 
-## Qué falta
-1. **Pruebas manuales del equipo** con la 1.1.3 contra el hosting, usando el Complemento manual. El documento lleno va en `docs/evidencias/p4/manual/`.
-   - PR-12: `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md`, sección 1.
-   - Sonido, vibración, modo silencio y No molestar.
-   - Que una persona oiga y atienda la alarma con la pantalla apagada (HyperOS solo enciende la luz de bordes).
-   - Reposo sin cable.
-   - Lista por prioridad en `docs/PENDIENTES_FASE6.md`.
+## Qué falta (pendientes del equipo)
+1. **Prueba sin cable con el Complemento manual (CM-01 a CM-23)** en el teléfono, con la 1.1.3 contra el hosting. El documento lleno va en `docs/evidencias/p4/manual/`. Incluye PR-12, sonido y vibración, modo silencio y No molestar, alarma con la pantalla apagada (HyperOS solo enciende la luz de bordes) y reposo sin cable. Prioridades en `docs/PENDIENTES_FASE6.md`.
 2. **Respuestas del grupo beta:** anonimizar (P01, P02...), consolidar en CSV y calcular SUS en `docs/evidencias/p4/beta/`. Los .docx originales no se suben.
-3. **Redactar los tres manuales** a partir de `docs/manuales/*/fuente.md`. Las capturas ya están; las pocas que no se pueden tomar están en `docs/capturas/LISTA.md`, sección "Pendientes".
-4. **Entregables:** documento P4, artículo, diapositivas y video.
+3. **Borrar las cuentas del grupo beta al terminar** la evaluación (solo filas de `cd_users`; el resto cae en cascada). Algunas parecen tener nombres reales; no copiarlos a ningún archivo.
+4. **Redactar los tres manuales** a partir de `docs/manuales/instalacion/`, `docs/manuales/configuracion/` y `docs/manuales/ejecucion/` (`fuente.md` y `capturas/`). Lista de capturas y su vigencia: `docs/capturas/LISTA.md`.
+5. **Entregables:** documento P4, artículo, diapositivas y video.
+6. **Instalación manual sin el script del paquete** (copiar `src/`, `config/` y `public/` a mano y editar `$appRoot` en `index.php`): no está descrita paso a paso en los manuales ni se ha probado de principio a fin. Lo probado es el paquete de `deploy/build_hosting_package.php`, que hace ese cambio solo (`docs/instalacion.md` 3.2). Se puede probar en una carpeta temporal con una base temporal y el servidor embebido de PHP, sin tocar el hosting.
 
-## Pendientes opcionales de seguridad
-- Cambiar las contraseñas de FTP y de la BD del hosting. La de la BD se expuso en la salida de una sesión el 23/11, así que es la más urgente. Después, actualizar `.secrets/hosting.env` y el `.env` del servidor.
+## Pendientes de seguridad
 - Activar "Force HTTPS Redirect" en cPanel: hoy HTTP responde sin redirigir.
-- Respaldar el keystore (`.secrets/cuidadosis-release.jks` y su `.properties`) fuera de la PC. Sin él no hay actualizaciones encima.
-- Cambiar el PIN del teléfono, que se compartió para las pruebas, y decidir si se borra `.secrets/phone.env`.
+- Respaldar el keystore (`.secrets/cuidadosis-release.jks` y su `.properties`) fuera de la PC. Sin él no hay actualizaciones que se instalen encima.
+- Opcional: cambiar las contraseñas de FTP y de la BD (la de la BD se expuso en la salida de una sesión el 23/11) y actualizar `.secrets/hosting.env` y el `.env` del servidor; cambiar el PIN del teléfono y decidir si se borra `.secrets/phone.env`.
 - Quitar la IP de la PC de "Remote MySQL" en cPanel cuando ya no haga falta.
 
 ## Comandos útiles (Git Bash, desde la raíz del repo)
