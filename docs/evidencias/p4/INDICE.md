@@ -123,12 +123,28 @@ Sin credenciales, tokens, IPs ni capturas.
 
 Ícono de la 1.1.3 (D50): `docs/assets/icono/render_verificacion.png` (render circular, cuadrado y monocromo) y `docs/assets/icono/telefono_cajon_1.1.3.png` (cajón de apps del teléfono).
 
-### Capturas de la 1.1.3 (23/11/2026)
-Teléfono físico: `docs/capturas/27_icono_cajon_v113.png`, `28_info_app_version_v113.png`, `hyperos_bateria_sin_restricciones_v113.png` y `hyperos_pantalla_completa_v113.png`. Vigencia de las capturas anteriores y lista de las pendientes (instalación, login de la release y notificaciones con el ícono nuevo), con el motivo de cada una: `docs/capturas/LISTA.md`, sección "Vigencia con la versión 1.1.3".
+### Capturas de la 1.1.3 y fuentes de los manuales (23/11/2026)
+Teléfono físico con la 1.1.3 instalada desde el navegador y cuentas sintéticas P00 (borradas al terminar):
+- Instalación: `docs/capturas/27` a `33b` (`*_v113.png`).
+- Ajustes de HyperOS: `hyperos_*_v113.png` (batería, Inicio automático, pantalla completa, otros permisos).
+- Avisos y alarma: `34` a `39`. Incluye el aviso previo, la alarma, el corte a 2 minutos, el aviso del cuidador a T + 30, el ícono en la barra de estado y la alarma sobre el bloqueo.
+- Evidencia `39b_alarma_pantalla_apagada_luz_bordes_v113.png`: con la pantalla apagada solo se enciende la luz de bordes.
+
+Vigencia de cada captura, reemplazos y pendientes: `docs/capturas/LISTA.md`. Revisión de privacidad: `docs/capturas/REVISAR_PRIVACIDAD.md`.
+
+Fuentes de los manuales, con pasos numerados y copia de sus capturas: `docs/manuales/instalacion/`, `docs/manuales/configuracion/` y `docs/manuales/ejecucion/`.
+
+Horas observadas en el teléfono el 23/11/2026, como evidencia de los manuales:
+- Aviso del cuidador: toma de las 18:37, alarma programada para las 19:07:00, notificación vista a las 19:07:10.
+- Aviso previo: 19:12:02, para la toma de las 19:17.
+- Alarma: 19:17:01.
+- Corte a 2 minutos: 19:19:02.
+- Pospuesto de 5 minutos: sonó a las 19:24:30.
+- Pantalla apagada: alarma de las 19:50:00, solo luz de bordes.
 
 ## Evaluación con el equipo y el grupo beta (P4, versión 1.1.3)
 | Carpeta | Contenido | Estado al 23/11/2026 |
 |---|---|---|
 | `instrumentos/` | Plantillas sin llenar: `Instrumento_pruebas_GRUPO_BETA_CuidaDosis_v1.1.3.docx` (participantes) y `Complemento_manual_verificacion_CuidaDosis_v1.1.3.docx` (equipo), con `README.md` | Agregada |
-| `manual/` | Complemento manual ya lleno por el equipo, con fecha en el nombre, y fotos de apoyo en `manual/capturas/` | Solo `README.md`; falta el complemento lleno |
-| `beta/` | Datos anonimizados del grupo beta (CSV con códigos P01, P02... y cálculo de SUS). Los .docx de los participantes no se suben | Solo `README.md`; faltan las respuestas |
+| `manual/` | Complemento manual ya lleno por el equipo, con fecha en el nombre, y fotos de apoyo en `manual/capturas/` | Solo `README.md`; pendiente de agregar el complemento lleno |
+| `beta/` | Datos anonimizados del grupo beta (CSV con códigos P01, P02... y cálculo de SUS). Los .docx de los participantes no se suben | Solo `README.md`; pendiente de agregar las respuestas |

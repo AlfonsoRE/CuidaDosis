@@ -18,7 +18,7 @@ Las capturas están en `docs/capturas/` y usan solo datos sintéticos.
 
 [CAPTURA: 02_inicio_sesion]
 
-La primera vez, Android pide permiso para buscar dispositivos de la red local (necesario para conectar con el servidor) y para enviar notificaciones (necesario para los avisos). Acepta ambos.
+Al entrar la primera vez, Android pide permiso para enviar notificaciones (necesario para los avisos): toca **Permitir**. La versión del grupo beta (1.1.3) ya trae el servidor del proyecto y no pide más permisos; solo la versión debug del equipo, conectada a una computadora de la red local, pide además permiso de red local.
 
 ## 2. Paciente
 
@@ -58,9 +58,9 @@ La lista muestra cada medicamento con sus horas ("Horario: ...") y los botones *
 
 [CAPTURA: 20_alarma_pantalla]
 
-[CAPTURA: 20b_alarma_notificacion]
+[CAPTURA: 35_alarma_notificacion_v113]
 
-[CAPTURA: 11_aviso]
+[CAPTURA: 34_aviso_previo_v113]
 
 ### 2.5 Historial
 La pestaña **Historial** muestra las tomas de los últimos 7 días, agrupadas por día (Hoy, Ayer y las fechas anteriores), con su estado y cuántas quedaron sin confirmar. Necesita conexión.
@@ -122,7 +122,7 @@ Puedes **Dejar de seguir a este paciente**; para volver a verlo necesitarás un 
 
 ### 3.4 Aviso a los 30 minutos
 
-[CAPTURA: 21_cuidador_notificacion]
+[CAPTURA: 37_cuidador_notificacion_v113]
 
 Si una toma de tu paciente sigue sin confirmar 30 minutos después de su hora, tu teléfono muestra **Toma sin confirmar**. Antes de avisar, la app consulta el estado; si ya se confirmó, no suena. Si no hay conexión, te avisa que revises e indica la última sincronización conocida. Funciona para las tomas del día en que abriste la app.
 
@@ -143,6 +143,7 @@ Estos teléfonos cierran las apps en segundo plano para ahorrar batería, y ento
 1. Acepta **Permitir** cuando la app pida enviar notificaciones.
 2. Ajustes → Aplicaciones → **CuidaDosis** → Ahorro de batería → **Sin restricciones**.
 3. App **Seguridad** → Autoencendido en segundo plano → activa **CuidaDosis**.
-4. Abre CuidaDosis: en "Hoy" no debe aparecer la tarjeta roja de permisos.
+4. Si desinstalas y vuelves a instalar la app, repite los pasos 2 y 3: HyperOS los restablece.
+5. Abre CuidaDosis: en "Hoy" no debe aparecer la tarjeta roja de permisos.
 
-Si el servidor está en una computadora de tu casa o escuela, pide a quien lo instaló la dirección para **Servidor** (en la pantalla de inicio de sesión).
+La versión del grupo beta usa siempre el servidor del proyecto (`https://areproyectos.com.mx/cuidadosis/api/`) y no permite cambiarlo. Solo la versión debug del equipo tiene el enlace **Servidor** en la pantalla de inicio de sesión.

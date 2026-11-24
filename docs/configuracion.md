@@ -29,9 +29,9 @@ Valores fijos en el código (no se configuran):
 |---|---|
 | Emulador (por defecto) | `http://10.0.2.2/CuidaDosis/api/public/` |
 | Teléfono en la misma red | `http://<IP de la PC>/CuidaDosis/api/public/` |
-| Hosting (subcarpeta) | `https://areproyectos.com.mx/cuidadosis/api/` (pendiente de subir; ver `instalacion.md` 3.1.1) |
+| Hosting (subcarpeta) | `https://areproyectos.com.mx/cuidadosis/api/` (desplegado el 23/11/2026; fijo en la versión release, D49) |
 | Al compilar | `api.baseUrl=<URL>` en `android/local.properties` (no se versiona) |
-| Sin recompilar | Inicio de sesión → **Servidor** → escribir URL → **Probar conexión** → **Guardar** |
+| Sin recompilar (solo debug) | Inicio de sesión → **Servidor** → escribir URL → **Probar conexión** → **Guardar**. La release no tiene esta opción |
 
 HTTP sin cifrar solo se permite en la versión debug (`src/debug`, network security config). La versión release exige HTTPS.
 
@@ -42,7 +42,7 @@ HTTP sin cifrar solo se permite en la versión debug (`src/debug`, network secur
 ### 2.3 Permisos
 | Permiso | Para qué | Cómo se obtiene |
 |---|---|---|
-| Dispositivos cercanos o red local (`ACCESS_LOCAL_NETWORK`) | Llegar a XAMPP en la red local (Android 17) | La app lo pide al abrir |
+| Dispositivos cercanos o red local (`ACCESS_LOCAL_NETWORK`) | Llegar a XAMPP en la red local (Android 17) | La app lo pide al abrir solo si el servidor está en la red local (debug); la release no lo pide |
 | Notificaciones (`POST_NOTIFICATIONS`) | Avisos del paciente y alarma del cuidador | La app lo pide al entrar; si se niega, la tarjeta de permisos lleva a los ajustes |
 | Alarmas exactas (`USE_EXACT_ALARM`) | Avisos puntuales | Se concede al instalar; si el sistema lo quitara, la tarjeta lo indica |
 | Sin restricción de batería | Que el ahorro de energía no retrase avisos | Tarjeta de permisos → **Ajustar batería** |

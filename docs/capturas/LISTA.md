@@ -4,40 +4,61 @@ Todas con datos sintéticos (nombres con "SINTETICO", correos `@ejemplo.test`). 
 
 En la guía de uso se citan como `[CAPTURA: nombre]`.
 
-## Vigencia con la versión 1.1.3 (revisión del 23/11/2026)
-De la 1.1.1 a la 1.1.3 solo cambiaron el login de la release (servidor fijo, sin enlace) y los íconos (D49, D50). Las pantallas internas son iguales.
+## Estado con la versión 1.1.3 (cierre del 23/11/2026)
+De la 1.1.1 a la 1.1.3 solo cambiaron el login de la release (servidor fijo, sin enlace) y los íconos (D49, D50). Las pantallas internas son iguales. Todas las capturas nuevas son del teléfono físico (POCO M6 Pro, HyperOS) con la 1.1.3 release instalada desde el navegador, cuentas "SINTETICO Paciente P00" y "SINTETICO Cuidador P00", y sin la barra de estado (salvo la 38, que es la barra de estado). Cada manual tiene copia de las que usa en `docs/manuales/*/capturas/`. Revisión de privacidad: `REVISAR_PRIVACIDAD.md`.
 
-- **Vigentes (pantallas internas sin cambio):** todas las de Paciente y Cuidador de este archivo salvo las marcadas abajo; `20_alarma_pantalla.png` (la pantalla de alarma no muestra el ícono); en `fisico/`, de la 01 a la 16, 19, 21, 22, 25 y 26; `hyperos_notificaciones_categorias.png`, `hyperos_notificaciones_categorias_2.png` y `hyperos_otros_permisos.png` (no muestran el ícono).
-- **Vigente con nota:** `fisico/23_inicio_sesion_v11.png` está recortada sin la línea del servidor; sirve para el login, pero no muestra el servidor fijo de la release.
-- **Solo para el manual del equipo (debug):** `fisico/24_servidor_url_generica_v11.png`. La pantalla Servidor no existe en la release del grupo beta.
-- **Reemplazadas por una versión 1.1.3 (ya tomada):** `hyperos_bateria_sin_restricciones.png` y `hyperos_pantalla_completa.png` (mostraban el ícono genérico y la 1.1.0).
-- **Hay que volver a tomarlas con la 1.1.3:** `02_inicio_sesion.png` (emulador, enlace "Servidor" de debug con `10.0.2.2`), `hyperos_inicio_automatico.png` (ícono genérico) y todas las notificaciones, porque muestran la campana genérica como ícono pequeño: `11_aviso.png`, `15c_alarma_cuidador.png`, `20b_alarma_notificacion.png`, `20c_alarma_sin_sonido.png`, `21_cuidador_notificacion.png`, `fisico/17_aviso_previo_v11.png`, `fisico/18_alarma_notificacion_v11.png` y `fisico/20_alarma_sin_sonido_v11.png`.
+### Vigentes (se reutilizan sin cambios)
+- Pantallas internas del emulador: 01, 01b, 03, 04, 04b, 05, 06, 07, 08, 08b, 08c, 08d, 08e, 09, 10, 12, 13, 14, 15, 15b, 16, 17, 18, 19, 19b, 20 (pantalla de alarma) y 22.
+- `fisico/`: de la 01 a la 16, 19, 21, 22, 23 (recortada sin la línea del servidor), 25 y 26. `fisico/24_servidor_url_generica_v11.png` solo sirve para el debug del equipo.
+- HyperOS: `hyperos_notificaciones_categorias.png` y `hyperos_notificaciones_categorias_2.png` (no muestran el ícono).
 
-### Capturas 1.1.3 hechas (teléfono físico, 23/11/2026)
-| Archivo | Pantalla | Para |
+### Reemplazadas
+| Obsoleta | Motivo | Reemplazo 1.1.3 |
 |---|---|---|
-| `27_icono_cajon_v113.png` | Búsqueda del cajón de apps de HyperOS con el ícono nuevo (recortada a la app) | Instalación y usuario |
-| `28_info_app_version_v113.png` | Info. de la aplicación: ícono y "Versión: 1.1.3" (sin barra de estado) | Instalación |
-| `hyperos_bateria_sin_restricciones_v113.png` | Detalles de la batería de CuidaDosis con "Sin restricciones" (reemplaza a la anterior) | Instalación |
-| `hyperos_pantalla_completa_v113.png` | Notificaciones de pantalla completa permitidas, CuidaDosis 1.1.3 (reemplaza a la anterior) | Instalación |
+| `02_inicio_sesion.png` | Emulador con el enlace "Servidor" de debug (`10.0.2.2`) | Mismo nombre, ahora login de la release (igual a la 33) |
+| `11_aviso.png`, `fisico/17_aviso_previo_v11.png` | Campana genérica como ícono | `34_aviso_previo_v113.png`, `34b_aviso_previo_compacto_v113.png` |
+| `20b_alarma_notificacion.png`, `fisico/18_alarma_notificacion_v11.png` | Campana genérica | `35_alarma_notificacion_v113.png`, `35b_alarma_flotante_v113.png` |
+| `20c_alarma_sin_sonido.png`, `fisico/20_alarma_sin_sonido_v11.png` | Campana genérica | `36_alarma_sin_sonido_v113.png`, `36b_alarma_sin_sonido_compacta_v113.png` |
+| `15c_alarma_cuidador.png` (v1.0, "Revisa a..."), `21_cuidador_notificacion.png` | Campana genérica | `37_cuidador_notificacion_v113.png`, `37b_cuidador_notificacion_compacta_v113.png` ("Toma sin confirmar"; la variante "Revisa a..." sin conexión no se volvió a capturar) |
+| `hyperos_bateria_sin_restricciones.png` | Ícono genérico, 1.1.0 | `hyperos_bateria_sin_restricciones_v113.png` |
+| `hyperos_inicio_automatico.png` | Ícono genérico | `hyperos_inicio_automatico_v113.png` |
+| `hyperos_pantalla_completa.png` | Ícono genérico, 1.1.0 | `hyperos_pantalla_completa_v113.png` |
+| `hyperos_otros_permisos.png` | Vigente, pero tomada antes de reinstalar | `hyperos_otros_permisos_v113.png` |
 
-Se tomaron solo mirando las pantallas: no se cambió ningún ajuste ni permiso, ni la sesión de la app. Se descartaron sin guardar una captura con una notificación de otra app encima y la de la app abierta (tenía una sesión del equipo que no es sintética).
+Los archivos obsoletos se conservan en el repositorio como historial; los manuales usan los de la 1.1.3.
 
-### Capturas 1.1.3 pendientes
-| Archivo sugerido | Pantalla | Por qué sigue pendiente |
+### Nuevas (1.1.3)
+| Archivo | Pantalla | Manual |
 |---|---|---|
-| `29_instalar_descarga_v113.png` | Navegador del teléfono descargando `CuidaDosis-1.1.3-beta.apk` (aviso de archivo que puede ser dañino) | Requiere instalar desde el navegador; no se reinstaló la app para no perder la sesión ni la batería "Sin restricciones" |
-| `30_instalar_origen_desconocido_v113.png` | "Instalar apps desconocidas" activado para el navegador | Igual que la anterior |
-| `31_instalar_play_protect_v113.png` | Aviso de Google Play Protect al instalar | Igual que la anterior |
-| `32_instalar_confirmar_v113.png` | Pantalla final "Instalar" (y el aviso de seguridad de Xiaomi, si aparece) | Igual que la anterior |
-| `33_inicio_sesion_release_v113.png` | Login de la release con "Servidor: https://areproyectos.com.mx/cuidadosis/api/" como texto fijo | El teléfono tenía abierta una sesión del equipo (cuidador); cerrarla la habría perdido junto con sus alarmas |
-| `34_aviso_previo_v113.png` | Aviso a T − L con el ícono de la cápsula (recortada a la notificación) | Requiere una cuenta sintética con sesión en el teléfono (mismo motivo que la 33) |
-| `35_alarma_notificacion_v113.png` | Alarma a T con Tomado y Posponer (recortada) | Mismo motivo que la 33 |
-| `36_alarma_sin_sonido_v113.png` | Notificación fija "Sigue pendiente" tras 2 min | Mismo motivo que la 33 |
-| `37_cuidador_notificacion_v113.png` | "Toma sin confirmar" del cuidador a T + 30 | Mismo motivo que la 33 |
-| `38_barra_estado_icono_v113.png` | Ícono pequeño de la cápsula en la barra de estado | Mismo motivo que la 33 |
-| `hyperos_inicio_automatico_v113.png` | Inicio automático activado para CuidaDosis | En el teléfono el Inicio automático de CuidaDosis está **desactivado** (las reinstalaciones lo restablecieron); no se cambió por instrucción. Tomarla después de activarlo |
-| `39_alarma_sobre_bloqueo_v113.png` | Pantalla de alarma sobre el bloqueo con la pantalla apagada | En la Fase 10 HyperOS solo encendió la luz de bordes (D45); requiere una persona con el teléfono |
+| `27_icono_cajon_v113.png` | Búsqueda del cajón de apps con el ícono nuevo | Instalación |
+| `28_info_app_version_v113.png` | Info. de la aplicación: "Versión: 1.1.3" | Instalación |
+| `29_instalar_descarga_v113.png` | Chrome: "Es posible que el archivo sea dañino", Descargar de todos modos | Instalación |
+| `29b_instalar_abrir_con_v113.png` | "Abrir con": Instalador de paquetes | Instalación |
+| `30_instalar_origen_desconocido_v113.png` | Instalar apps desconocidas, "Confiar en esta fuente" activado para Chrome (ya estaba concedido: no se vio la solicitud) | Instalación |
+| `31_instalar_play_protect_v113.png` | Play Protect: "Se recomienda analizar la app" | Instalación |
+| `31b_instalar_sin_analizar_v113.png` | Play Protect con "Más detalles": "Instalar sin analizar" | Instalación |
+| `32_instalar_confirmar_v113.png` | "¿Deseas instalar esta app?" | Instalación |
+| `32b_instalar_resultado_xiaomi_v113.png` | Análisis de Xiaomi: "Pasó pruebas de seguridad" | Instalación |
+| `33_inicio_sesion_release_v113.png` | Login de la release con el servidor fijo | Instalación, configuración |
+| `33b_permiso_notificaciones_v113.png` | "¿Quieres permitir que CuidaDosis te envíe notificaciones?" | Todos |
+| `34_aviso_previo_v113.png`, `34b_aviso_previo_compacto_v113.png` | Aviso a T − 5 ("Toma de las 19:17", Posponer 5 y 10 min) | Ejecución |
+| `35_alarma_notificacion_v113.png`, `35b_alarma_flotante_v113.png` | Alarma a T con Tomado y Posponer (panel y flotante) | Ejecución |
+| `35c_alarma_pantalla_v113.png` | Pantalla de alarma en el teléfono | Ejecución |
+| `36_alarma_sin_sonido_v113.png`, `36b_alarma_sin_sonido_compacta_v113.png` | "Sigue pendiente" tras el corte de 2 minutos | Ejecución |
+| `37_cuidador_notificacion_v113.png`, `37b_cuidador_notificacion_compacta_v113.png` | "Toma sin confirmar" del cuidador a T + 30 | Ejecución |
+| `38_barra_estado_icono_v113.png` | Barra de estado con el ícono de la cápsula junto a la hora | Ejecución |
+| `39_alarma_sobre_bloqueo_v113.png` | Pantalla de alarma sobre el bloqueo, pantalla encendida | Ejecución |
+| `39b_alarma_pantalla_apagada_luz_bordes_v113.png` | Evidencia: con la pantalla apagada solo se enciende la luz de bordes (no se abre la pantalla de alarma) | Ejecución |
+| `hyperos_*_v113.png` (4) | Batería, Inicio automático, pantalla completa y otros permisos | Configuración |
+
+### Pendientes
+| Pantalla | Motivo |
+|---|---|
+| Confirmación de identidad de Play Protect ("¿Quieres instalar la app sin analizarla?") | Android protege esa pantalla: la captura sale negra. Se describe con texto en el manual |
+| Solicitud de "Instalar apps desconocidas" al instalar por primera vez | Chrome ya tenía el permiso; solo se capturó el ajuste activado (`30`). Se vería en un teléfono que nunca instaló un APK desde Chrome |
+| Pantalla de alarma con la pantalla apagada | No existe en HyperOS: solo se enciende la luz de bordes (evidencia `39b`) |
+| Aviso del cuidador sin conexión ("Revisa a...") con el ícono nuevo | No se forzó la falta de red durante el aviso; el texto está verificado en el código |
+| Notificación con título "Recordatorio: toma de las HH:MM" tras posponer | La alarma del pospuesto se capturó como pantalla sobre el bloqueo (`39`), no en el panel |
 
 ## Paciente
 | Paso | Archivo | Pantalla |

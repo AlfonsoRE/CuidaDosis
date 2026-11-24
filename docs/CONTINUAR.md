@@ -1,6 +1,6 @@
 # Cómo continuar
 
-Estado al cierre del lunes 23/11/2026. Detalle en D46 a D50 (`decisiones-fase-6.md`), `docs/evidencias/p4/hosting/DESPLIEGUE.md` y `docs/evidencias/p4/INDICE.md`.
+Estado al cierre del lunes 23/11/2026 (noche). Detalle en D46 a D50 (`decisiones-fase-6.md`), `docs/evidencias/p4/hosting/DESPLIEGUE.md` y `docs/evidencias/p4/INDICE.md`.
 
 ## Dónde estamos
 - Fases 0 a 12 hechas. Versión **1.1.3** (`versionCode` 5, ícono propio, D50). Es un release firmado con servidor fijo `https://areproyectos.com.mx/cuidadosis/api/` (D49).
@@ -8,11 +8,11 @@ Estado al cierre del lunes 23/11/2026. Detalle en D46 a D50 (`decisiones-fase-6.
 - **APK publicado:** `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk`. SHA-256 `08c66b382cc6c88b4c56f646fc86b100f4bc8eb97686eaa149e1b68fc8af71b5`. La 1.1.2 se borró del servidor.
 - **BD del hosting:** 7 tablas `cd_*` en la base compartida, sin cuentas de demo. Al cierre tenía 5 cuentas (del grupo beta y del equipo); las cuentas sintéticas P00 de las capturas se borraron.
 - **Teléfono del equipo (POCO M6 Pro):**
-  - 1.1.3 instalada, con una sesión de cuidador abierta.
-  - Batería "Sin restricciones" activa.
-  - **Inicio automático desactivado:** activarlo antes de la prueba sin cable.
+  - 1.1.3 reinstalada desde el navegador, **sin sesión** (en el inicio de sesión, para entrar con las cuentas del equipo).
+  - Batería "Sin restricciones" e Inicio automático activados.
+  - Permisos de notificaciones y de alarmas concedidos; volumen original.
   - Quedó bloqueado y sin `adb`.
-- **Manuales:** fuente actualizada a la 1.1.3 en `docs/MANUALES_FUENTE.md`. Vigencia de capturas y pendientes en `docs/capturas/LISTA.md`.
+- **Manuales:** fuentes verificadas de los tres manuales (instalación, configuración y ejecución) en `docs/manuales/`, con pasos numerados y sus capturas 1.1.3. Resumen en `docs/MANUALES_FUENTE.md`. Vigencia de capturas en `docs/capturas/LISTA.md`.
 - **Instrumentos de P4:** plantillas 1.1.3 en `docs/evidencias/p4/instrumentos/`. `manual/` y `beta/` solo tienen su README.
 - **Llaves y versiones locales:**
   - El keystore de firma está en `.secrets/` (ignorada por git).
@@ -23,11 +23,11 @@ Estado al cierre del lunes 23/11/2026. Detalle en D46 a D50 (`decisiones-fase-6.
 1. **Pruebas manuales del equipo** con la 1.1.3 contra el hosting, usando el Complemento manual. El documento lleno va en `docs/evidencias/p4/manual/`.
    - PR-12: `docs/evidencias/p4/fisico/PENDIENTE_v1.1_fisico.md`, sección 1.
    - Sonido, vibración, modo silencio y No molestar.
-   - Alarma sobre el bloqueo con la pantalla apagada.
+   - Que una persona oiga y atienda la alarma con la pantalla apagada (HyperOS solo enciende la luz de bordes).
    - Reposo sin cable.
    - Lista por prioridad en `docs/PENDIENTES_FASE6.md`.
 2. **Respuestas del grupo beta:** anonimizar (P01, P02...), consolidar en CSV y calcular SUS en `docs/evidencias/p4/beta/`. Los .docx originales no se suben.
-3. **Capturas pendientes para los manuales** (instalación desde el navegador, login de la release y notificaciones con el ícono nuevo; lista y nombres en `docs/capturas/LISTA.md`). Después, redactar el manual de instalación y el de usuario con esas capturas.
+3. **Redactar los tres manuales** a partir de `docs/manuales/*/fuente.md`. Las capturas ya están; las pocas que no se pueden tomar están en `docs/capturas/LISTA.md`, sección "Pendientes".
 4. **Entregables:** documento P4, artículo, diapositivas y video.
 
 ## Pendientes opcionales de seguridad

@@ -2,7 +2,7 @@
 
 Datos verificados para redactar el manual de instalación y el manual de usuario. No es un manual: es la fuente. Procedimientos completos en [instalacion.md](instalacion.md), [configuracion.md](configuracion.md) y [guia-uso.md](guia-uso.md); capturas en [capturas/LISTA.md](capturas/LISTA.md).
 
-Estado al 23/11/2026: versión **1.1.3**, la que usa el grupo beta (D49 y D50 en [decisiones-fase-6.md](decisiones-fase-6.md)).
+Estado al 23/11/2026: versión **1.1.3**, la que usa el grupo beta (D49 y D50 en [decisiones-fase-6.md](decisiones-fase-6.md)). Las fuentes verificadas de los tres manuales, con pasos numerados y sus capturas, están en [manuales/](manuales/): `instalacion/`, `configuracion/` y `ejecucion/`.
 
 > CuidaDosis es un prototipo académico. No recomienda dosis ni sustituye al médico. "Confirmada por el paciente" solo indica que se tocó "Tomado"; no verifica la ingesta. Solo se usan datos sintéticos.
 
@@ -32,15 +32,15 @@ Estado al 23/11/2026: versión **1.1.3**, la que usa el grupo beta (D49 y D50 en
 
 ### Ícono (D50)
 - **Ícono de la app:** cápsula blanca y verde claro inclinada, con una insignia redonda con palomita, sobre fondo verde azulado en degradado. Así aparece en el cajón de apps y en Info. de la aplicación ([CAPTURA: 27_icono_cajon_v113], [CAPTURA: 28_info_app_version_v113]).
-- **Ícono de las notificaciones:** silueta blanca de la cápsula (sin la palomita) en la barra de estado y en el panel. Lo usan el aviso previo, la alarma y la notificación del cuidador. Verificado en el código y en el render; **no hay captura en una notificación real** (ver [capturas/LISTA.md](capturas/LISTA.md)).
+- **Ícono de las notificaciones:** silueta blanca de la cápsula (sin la palomita) en la barra de estado y en el panel. Lo usan el aviso previo, la alarma y la notificación del cuidador. Verificado en notificaciones reales el 23/11/2026 ([CAPTURA: 34_aviso_previo_v113], [CAPTURA: 38_barra_estado_icono_v113]).
 - **Ícono temático (Android 13 o superior):** capa monocroma con la misma silueta. Solo se revisó en el render (`docs/assets/icono/render_verificacion.png`).
 
 ## 2. Instalación en el teléfono (grupo beta)
-Pasos para el manual de instalación. La descarga por HTTPS se comprobó desde la PC (200, tipo `application/vnd.android.package-archive`, SHA-256 igual al local). En el teléfono del equipo la 1.1.3 se instaló por USB con `adb`; **la instalación desde el navegador del teléfono no se ha capturado** (ver [capturas/LISTA.md](capturas/LISTA.md)).
+Pasos para el manual de instalación, **verificados el 23/11/2026** en el teléfono del equipo (desinstalar e instalar desde Chrome). Versión completa con capturas: [manuales/instalacion/fuente.md](manuales/instalacion/fuente.md).
 
-1. En el teléfono, abre el enlace `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk` en el navegador (o recibe el archivo APK) y descárgalo. El navegador puede advertir que el archivo puede ser dañino: elige **Descargar de todas formas**.
-2. Abre el archivo descargado. La primera vez Android pide permitir **Instalar apps desconocidas** para el navegador o el administrador de archivos: actívalo solo para esa app y regresa.
-3. Toca **Instalar**. **Google Play Protect** puede mostrar un aviso porque la app no viene de Play Store: elige instalar de todas formas (en el Xiaomi del equipo, "No enviar" también instala). En Xiaomi puede aparecer además un aviso de seguridad propio con una cuenta regresiva antes de **Instalar**.
+1. En el teléfono, abre el enlace `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk` en Chrome. Chrome advierte "Es posible que el archivo sea dañino": toca **Descargar de todos modos** ([CAPTURA: 29_instalar_descarga_v113]).
+2. Abre el archivo descargado y elige **Instalador de paquetes**. La primera vez Android pide permitir **Instalar apps desconocidas** ("Confiar en esta fuente") para Chrome: actívalo solo para esa app y regresa ([CAPTURA: 30_instalar_origen_desconocido_v113]; en el teléfono del equipo ya estaba concedido).
+3. Toca **Instalar**. **Google Play Protect** muestra "Se recomienda analizar la app" con "Analizar app" y "No instalar app": toca **Más detalles** y luego **Instalar sin analizar** (así no se envía el APK a Google), y confirma con la huella o el PIN del teléfono. En Xiaomi aparece después el análisis propio "Pasó pruebas de seguridad" ([CAPTURA: 31_instalar_play_protect_v113], [CAPTURA: 31b_instalar_sin_analizar_v113], [CAPTURA: 32b_instalar_resultado_xiaomi_v113]). Corrección: la versión anterior de este documento decía "No enviar"; esa opción solo apareció en la instalación por USB.
 4. Si tenías una versión debug de CuidaDosis, desinstálala antes: Android no instala encima por la firma distinta. Si tenías la 1.1.2 release, la 1.1.3 se instala encima y conserva la sesión.
 5. Abre la app, acepta los permisos (sección 4) y haz la configuración de la sección 5.
 6. Para comprobar la versión: Ajustes, Aplicaciones, CuidaDosis: "Versión: 1.1.3" ([CAPTURA: 28_info_app_version_v113]).
@@ -76,9 +76,9 @@ Plantillas: `api/.env.example` (local) y `api/.env.hosting.example` (hosting). E
 ## 4. Permisos que pide la app
 | Permiso | Cuándo | Para qué | Si se niega |
 |---|---|---|---|
-| Notificaciones | Al abrir la app (Android 13 o superior) | Aviso previo, alarma y aviso del cuidador | Tarjeta roja en "Hoy" y en Ajustes; no hay avisos |
+| Notificaciones | Al iniciar sesión, en la pantalla principal (Android 13 o superior) | Aviso previo, alarma y aviso del cuidador | Tarjeta roja en "Hoy" y en Ajustes; no hay avisos |
 | Alarmas y recordatorios (alarmas exactas) | Se concede al instalar (`USE_EXACT_ALARM`) | Que el aviso y la alarma salgan a la hora exacta | Se avisa en la tarjeta de permisos |
-| Pantalla completa (notificaciones a pantalla completa) | Ajuste del sistema | Mostrar la pantalla de alarma sobre el bloqueo | La alarma queda solo como notificación |
+| Pantalla completa (notificaciones a pantalla completa) | Ajuste del sistema; venía permitido tras instalar | Mostrar la pantalla de alarma sobre el bloqueo | La alarma queda solo como notificación |
 | Red local (`ACCESS_LOCAL_NETWORK`, Android 17) | Al abrir la app | Solo para el debug con XAMPP en la red local; la release usa Internet | En la release no afecta |
 
 ## 5. Configuración especial de teléfonos Xiaomi / HyperOS
@@ -89,12 +89,12 @@ Verificada en el POCO M6 Pro. Sin esto, HyperOS puede retrasar o anular los avis
 | Notificaciones permitidas, con sonido, vibración, pantalla de bloqueo y flotantes | Info. de la aplicación, Notificaciones | `hyperos_notificaciones_categorias.png`, `hyperos_notificaciones_categorias_2.png` |
 | Notificaciones a pantalla completa | Info. de la aplicación, Notificaciones | `hyperos_pantalla_completa_v113.png` |
 | Ahorro de batería **Sin restricciones** | Info. de la aplicación, Ahorro de batería | `hyperos_bateria_sin_restricciones_v113.png` |
-| **Inicio automático** (Autoencendido en segundo plano) | App Seguridad o Info. de la aplicación | `hyperos_inicio_automatico.png` (ícono genérico; retomar con la 1.1.3) |
-| Mostrar en pantalla de bloqueo y Abrir ventanas en segundo plano | Info. de la aplicación, Otros permisos | `hyperos_otros_permisos.png` |
+| **Inicio automático** (Autoencendido en segundo plano) | App Seguridad o Info. de la aplicación | `hyperos_inicio_automatico_v113.png` |
+| Mostrar en pantalla de bloqueo y Abrir ventanas en segundo plano | Info. de la aplicación, Otros permisos | `hyperos_otros_permisos_v113.png` |
 | Volumen de alarma por encima de cero | Volumen del sistema | (sin captura) |
 
-Observado el 23/11/2026 en el teléfono del equipo, sin cambiar nada:
-- **Inicio automático de CuidaDosis desactivado.** En la Fase 10 estaba activo; lo más probable es que se haya restablecido al desinstalar la debug para instalar la release. Hay que activarlo de nuevo después de cada reinstalación, igual que "Sin restricciones" (que sí sigue activo).
+Observado el 23/11/2026 en el teléfono del equipo:
+- **Al reinstalar, HyperOS restablece la batería a "Ahorro de batería" y desactiva el Inicio automático** (comprobado al desinstalar e instalar la 1.1.3). Ambos se volvieron a configurar y quedaron activos. Hay que repetirlos después de cada reinstalación.
 - "Pausar la actividad de la aplicación si no se utiliza" está activado (valor por defecto de Android). Si la app no se abre en meses, Android puede quitarle permisos; conviene desactivarlo en Info. de la aplicación. No se cambió en el teléfono.
 
 ## 6. Avisos del paciente y del cuidador (v1.1)
