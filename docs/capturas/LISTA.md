@@ -4,6 +4,41 @@ Todas con datos sintéticos (nombres con "SINTETICO", correos `@ejemplo.test`). 
 
 En la guía de uso se citan como `[CAPTURA: nombre]`.
 
+## Vigencia con la versión 1.1.3 (revisión del 23/11/2026)
+De la 1.1.1 a la 1.1.3 solo cambiaron el login de la release (servidor fijo, sin enlace) y los íconos (D49, D50). Las pantallas internas son iguales.
+
+- **Vigentes (pantallas internas sin cambio):** todas las de Paciente y Cuidador de este archivo salvo las marcadas abajo; `20_alarma_pantalla.png` (la pantalla de alarma no muestra el ícono); en `fisico/`, de la 01 a la 16, 19, 21, 22, 25 y 26; `hyperos_notificaciones_categorias.png`, `hyperos_notificaciones_categorias_2.png` y `hyperos_otros_permisos.png` (no muestran el ícono).
+- **Vigente con nota:** `fisico/23_inicio_sesion_v11.png` está recortada sin la línea del servidor; sirve para el login, pero no muestra el servidor fijo de la release.
+- **Solo para el manual del equipo (debug):** `fisico/24_servidor_url_generica_v11.png`. La pantalla Servidor no existe en la release del grupo beta.
+- **Reemplazadas por una versión 1.1.3 (ya tomada):** `hyperos_bateria_sin_restricciones.png` y `hyperos_pantalla_completa.png` (mostraban el ícono genérico y la 1.1.0).
+- **Hay que volver a tomarlas con la 1.1.3:** `02_inicio_sesion.png` (emulador, enlace "Servidor" de debug con `10.0.2.2`), `hyperos_inicio_automatico.png` (ícono genérico) y todas las notificaciones, porque muestran la campana genérica como ícono pequeño: `11_aviso.png`, `15c_alarma_cuidador.png`, `20b_alarma_notificacion.png`, `20c_alarma_sin_sonido.png`, `21_cuidador_notificacion.png`, `fisico/17_aviso_previo_v11.png`, `fisico/18_alarma_notificacion_v11.png` y `fisico/20_alarma_sin_sonido_v11.png`.
+
+### Capturas 1.1.3 hechas (teléfono físico, 23/11/2026)
+| Archivo | Pantalla | Para |
+|---|---|---|
+| `27_icono_cajon_v113.png` | Búsqueda del cajón de apps de HyperOS con el ícono nuevo (recortada a la app) | Instalación y usuario |
+| `28_info_app_version_v113.png` | Info. de la aplicación: ícono y "Versión: 1.1.3" (sin barra de estado) | Instalación |
+| `hyperos_bateria_sin_restricciones_v113.png` | Detalles de la batería de CuidaDosis con "Sin restricciones" (reemplaza a la anterior) | Instalación |
+| `hyperos_pantalla_completa_v113.png` | Notificaciones de pantalla completa permitidas, CuidaDosis 1.1.3 (reemplaza a la anterior) | Instalación |
+
+Se tomaron solo mirando las pantallas: no se cambió ningún ajuste ni permiso, ni la sesión de la app. Se descartaron sin guardar una captura con una notificación de otra app encima y la de la app abierta (tenía una sesión del equipo que no es sintética).
+
+### Capturas 1.1.3 pendientes
+| Archivo sugerido | Pantalla | Por qué sigue pendiente |
+|---|---|---|
+| `29_instalar_descarga_v113.png` | Navegador del teléfono descargando `CuidaDosis-1.1.3-beta.apk` (aviso de archivo que puede ser dañino) | Requiere instalar desde el navegador; no se reinstaló la app para no perder la sesión ni la batería "Sin restricciones" |
+| `30_instalar_origen_desconocido_v113.png` | "Instalar apps desconocidas" activado para el navegador | Igual que la anterior |
+| `31_instalar_play_protect_v113.png` | Aviso de Google Play Protect al instalar | Igual que la anterior |
+| `32_instalar_confirmar_v113.png` | Pantalla final "Instalar" (y el aviso de seguridad de Xiaomi, si aparece) | Igual que la anterior |
+| `33_inicio_sesion_release_v113.png` | Login de la release con "Servidor: https://areproyectos.com.mx/cuidadosis/api/" como texto fijo | El teléfono tenía abierta una sesión del equipo (cuidador); cerrarla la habría perdido junto con sus alarmas |
+| `34_aviso_previo_v113.png` | Aviso a T − L con el ícono de la cápsula (recortada a la notificación) | Requiere una cuenta sintética con sesión en el teléfono (mismo motivo que la 33) |
+| `35_alarma_notificacion_v113.png` | Alarma a T con Tomado y Posponer (recortada) | Mismo motivo que la 33 |
+| `36_alarma_sin_sonido_v113.png` | Notificación fija "Sigue pendiente" tras 2 min | Mismo motivo que la 33 |
+| `37_cuidador_notificacion_v113.png` | "Toma sin confirmar" del cuidador a T + 30 | Mismo motivo que la 33 |
+| `38_barra_estado_icono_v113.png` | Ícono pequeño de la cápsula en la barra de estado | Mismo motivo que la 33 |
+| `hyperos_inicio_automatico_v113.png` | Inicio automático activado para CuidaDosis | En el teléfono el Inicio automático de CuidaDosis está **desactivado** (las reinstalaciones lo restablecieron); no se cambió por instrucción. Tomarla después de activarlo |
+| `39_alarma_sobre_bloqueo_v113.png` | Pantalla de alarma sobre el bloqueo con la pantalla apagada | En la Fase 10 HyperOS solo encendió la luz de bordes (D45); requiere una persona con el teléfono |
+
 ## Paciente
 | Paso | Archivo | Pantalla |
 |---|---|---|
@@ -75,14 +110,16 @@ En la guía de uso se citan como `[CAPTURA: nombre]`.
 ## Ajustes de HyperOS (teléfono físico, para el manual de instalación)
 | Archivo | Pantalla |
 |---|---|
-| `hyperos_bateria_sin_restricciones.png` | Ahorro de batería de la app: "Sin restricciones" |
-| `hyperos_inicio_automatico.png` | Inicio automático activado (búsqueda filtrada a CuidaDosis) |
+| `hyperos_bateria_sin_restricciones.png` | Ahorro de batería de la app: "Sin restricciones" (1.1.0, ícono genérico; usar la `_v113`) |
+| `hyperos_bateria_sin_restricciones_v113.png` | Lo mismo con la 1.1.3 y el ícono nuevo |
+| `hyperos_inicio_automatico.png` | Inicio automático activado (búsqueda filtrada a CuidaDosis; ícono genérico, pendiente de retomar) |
 | `hyperos_notificaciones_categorias.png` | Notificaciones de la app: flotantes, pantalla de bloqueo, sonido, vibración |
 | `hyperos_notificaciones_categorias_2.png` | Las 4 categorías de la v1.1 (aviso previo, alarma, toma pendiente sin sonido, tomas sin confirmar) |
-| `hyperos_pantalla_completa.png` | "Permitir notificaciones a pantalla completa" activado |
+| `hyperos_pantalla_completa.png` | "Permitir notificaciones a pantalla completa" activado (1.1.0; usar la `_v113`) |
+| `hyperos_pantalla_completa_v113.png` | Lo mismo con la 1.1.3 y el ícono nuevo |
 | `hyperos_otros_permisos.png` | Otros permisos: Mostrar en pantalla de bloqueo y Abrir ventanas en segundo plano |
 
-No se conservan capturas que muestren la IP privada de la PC (pantalla Servidor) ni el diálogo del administrador de contraseñas del teléfono. En las capturas `*_v11.png` y `hyperos_*.png` se taparon los íconos de otras apps de la barra de estado (cierre del 22/11/2026); ninguna muestra el contenido de notificaciones ajenas.
+No se conservan capturas que muestren la IP privada de la PC (pantalla Servidor) ni el diálogo del administrador de contraseñas del teléfono. En las capturas `*_v11.png` y `hyperos_*.png` se taparon los íconos de otras apps de la barra de estado (cierre del 22/11/2026); ninguna muestra el contenido de notificaciones ajenas. Las `*_v113.png` se recortaron sin la barra de estado.
 
 ## Notas
 - La toma de las 08:00 del "Medicamento SINTETICO Demo B" que aparece en 06, 12, 17 y 19 se agregó por error durante las capturas de la Fase 8. El horario ya se quitó (el medicamento queda con 12:40 y 14:00), pero la toma de ese día se conserva porque estaba confirmada: así funciona el historial (las tomas confirmadas no se borran). No cambia lo que muestra cada captura.

@@ -1,4 +1,4 @@
-# Índice de evidencias P4 (Fases 6 a 10)
+# Índice de evidencias P4 (Fases 6 a 12)
 
 Todas las evidencias usan solo datos sintéticos (nombres con "SINTETICO" y correos `@ejemplo.test`). Fecha de ejecución: 21/11/2026, hora de México.
 
@@ -112,11 +112,23 @@ Lista completa con su uso en los manuales: `docs/capturas/LISTA.md`.
 
 Todas con datos sintéticos; sin correos personales, sin la IP de la PC y sin notificaciones de otras apps (en las de la Fase 10 se taparon los íconos de otras apps de la barra de estado).
 
-## Despliegue en el hosting y versión 1.1.2 (Fase 12, 23/11/2026)
+## Despliegue en el hosting y versiones 1.1.2 y 1.1.3 (Fase 12, 23/11/2026)
 | Archivo | Contenido |
 |---|---|
-| `hosting/DESPLIEGUE.md` | Diagnóstico, base de datos, subida, prueba externa con curl, prueba en el teléfono, APK y hallazgos (D49) |
+| `hosting/DESPLIEGUE.md` | Diagnóstico, base de datos, subida, prueba externa con curl, prueba en el teléfono, APK y hallazgos (D49); sección de la 1.1.3 con hash, firma y descarga (D50) |
 | `hosting/seg05_hosting.csv` | SEG-05 en areproyectos.com.mx: 22 de 22 rutas sensibles con 403, 404 o 400 |
 | `hosting/rnf07_hosting.csv` | RNF-07: 5 mediciones de `GET /intakes/today` por HTTPS (0.32 a 0.34 s) |
 
 Sin credenciales, tokens, IPs ni capturas.
+
+Ícono de la 1.1.3 (D50): `docs/assets/icono/render_verificacion.png` (render circular, cuadrado y monocromo) y `docs/assets/icono/telefono_cajon_1.1.3.png` (cajón de apps del teléfono).
+
+### Capturas de la 1.1.3 (23/11/2026)
+Teléfono físico: `docs/capturas/27_icono_cajon_v113.png`, `28_info_app_version_v113.png`, `hyperos_bateria_sin_restricciones_v113.png` y `hyperos_pantalla_completa_v113.png`. Vigencia de las capturas anteriores y lista de las pendientes (instalación, login de la release y notificaciones con el ícono nuevo), con el motivo de cada una: `docs/capturas/LISTA.md`, sección "Vigencia con la versión 1.1.3".
+
+## Evaluación con el equipo y el grupo beta (P4, versión 1.1.3)
+| Carpeta | Contenido | Estado al 23/11/2026 |
+|---|---|---|
+| `instrumentos/` | Plantillas sin llenar: `Instrumento_pruebas_GRUPO_BETA_CuidaDosis_v1.1.3.docx` (participantes) y `Complemento_manual_verificacion_CuidaDosis_v1.1.3.docx` (equipo), con `README.md` | Agregada |
+| `manual/` | Complemento manual ya lleno por el equipo, con fecha en el nombre, y fotos de apoyo en `manual/capturas/` | Solo `README.md`; falta el complemento lleno |
+| `beta/` | Datos anonimizados del grupo beta (CSV con códigos P01, P02... y cálculo de SUS). Los .docx de los participantes no se suben | Solo `README.md`; faltan las respuestas |

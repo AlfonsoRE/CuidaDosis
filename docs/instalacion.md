@@ -150,7 +150,7 @@ sha256sum app/build/outputs/apk/release/app-release.apk
 ```
 - `--rerun` obliga a ejecutar las 79 pruebas aunque Gradle las marque como `UP-TO-DATE`.
 - APK: `android/app/build/outputs/apk/release/app-release.apk`, firmado con el esquema v2. Comprobación: `apksigner verify --print-certs` (huella SHA-256 del certificado `6d03a106a1ec6cf59661b86ff111ff8bd6b1e0824eb2b1883045473eaffb29fb`).
-- La 1.1.3 (ícono propio, D50) usa el mismo keystore que la 1.1.2 y se instala encima sin desinstalar (comprobado en el teléfono). Para pasar de la 1.1.1 debug a una versión release, primero desinstala la anterior, porque las firmas son distintas. Después repite en HyperOS "Batería sin restricciones" (2.3).
+- La 1.1.3 (ícono propio, D50) usa el mismo keystore que la 1.1.2 y se instala encima sin desinstalar (comprobado en el teléfono). Para pasar de la 1.1.1 debug a una versión release, primero desinstala la anterior, porque las firmas son distintas. Después repite en HyperOS "Batería sin restricciones" e "Inicio automático" (2.3); en el teléfono del equipo el Inicio automático quedó desactivado tras ese cambio (revisado el 23/11/2026).
 - Instalar por USB en un Xiaomi: aparecen dos avisos. Play Protect pregunta si enviar la app a revisión ("No enviar" también instala) y después "Instalar vía USB" tiene 10 s para tocar **Instalar**.
 - Descarga pública: `https://areproyectos.com.mx/cuidadosis/descargas/CuidaDosis-1.1.3-beta.apk` (la 1.1.2 se borró del servidor). Al publicar una versión nueva, sube el APK y borra el anterior en la misma conexión FTP; la URL vieja puede seguir un rato en la caché de nginx. En el teléfono hay que permitir "instalar apps desconocidas" para el navegador.
 

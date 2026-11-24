@@ -9,7 +9,7 @@ Estado al 23/11/2026 (versión 1.1.3, desplegada en areproyectos.com.mx; D49 y D
 4. **Pantalla de alarma sobre el bloqueo con la pantalla apagada.** En la Fase 10 HyperOS solo encendió la luz de bordes y dejó la notificación; con la pantalla encendida y bloqueada sí se abrió sola. Confirmar a mano y capturarla si aparece (D45).
 
 ## Prioridad media (puntualidad y arranque)
-5. **Reposo prolongado sin cable (escenario C de RNF-01).** Todas las mediciones fueron con el cable USB conectado. Requiere desconectar el cable, emparejar la depuración inalámbrica (`adb pair`) y la red estable (el teléfono alterna con otra red guardada del mismo rango sin ruta a la PC).
+5. **Reposo prolongado sin cable (escenario C de RNF-01).** Antes de probar, activar el Inicio automático de CuidaDosis en HyperOS: el 23/11/2026 estaba desactivado en el teléfono del equipo. Todas las mediciones fueron con el cable USB conectado. Requiere desconectar el cable, emparejar la depuración inalámbrica (`adb pair`) y la red estable (el teléfono alterna con otra red guardada del mismo rango sin ruta a la PC).
 6. **Arranque directo tras reiniciar sin desbloquear.** Android no entrega `BOOT_COMPLETED` antes del primer desbloqueo y HyperOS lo entregó unos 2.5 min después; mientras tanto no hay avisos, y el vencido sale al reprogramar (+254 s en la Fase 10). Mejora posible, sin implementar ni probar: `LOCKED_BOOT_COMPLETED` con los datos en almacenamiento protegido del dispositivo (D42).
 7. **Retest de la 1.1.1 en el emulador.** No se hizo: el cambio es de una línea (corte de 2 min con `setAlarmClock`), se probó en el teléfono y pasan las 79 pruebas unitarias.
 
