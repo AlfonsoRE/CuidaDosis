@@ -1,0 +1,35 @@
+codigo,formato,incluido,duplicado_exacto_de,marca,android,rol,experiencia,T1_logro,T1_dificultad,T2_logro,T2_dificultad,T3_logro,T3_dificultad,T4_logro,T4_dificultad,T5_logro,T5_dificultad,T6_logro,T6_dificultad,T7_logro,T7_dificultad,T8_logro,T8_dificultad,aviso_previo,alarma_T,sus1,sus2,sus3,sus4,sus5,sus6,sus7,sus8,sus9,sus10,SUS,esp1,esp2,esp3,esp4,esp5,esp6,esp7
+B01,docx,si,,Huawei,14,Paciente,Mucha,Sí,1,Sí,2,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Ninguno,no sono,4,5,5,1,5,1,5,1,5,1,87.5,1,1,1,5,5,5,5
+B02,pdf,si,,Honor,15,,,,,,,,,,,,,,,,,,,,sin dato,,,,,,,,,,,,,,,,,,
+B03,docx,si,,Samsung,16,Paciente,Mucha,Sí,1,Sí,3,Sí,2,Sí,2,Sí,1,No la hice,,No la hice,,Sí,1,"Sí, los dos/Solo vibró",sono,3,2,4,2,3,3,3,2,4,1,67.5,4,5,3,4,2,,3
+B04,docx,si,B30,Xiaomi/POCO/Redmi,16,Los dos,Media,Sí,1,,,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,"Sí, los dos",sono,5,1,5,1,5,1,5,1,5,1,100.0,5,5,5,5,5,5,5
+B05,docx,si,,Samsung,11,Los dos,Poca/Media,Sí,3,Sí,3,No,3,Sí/No,2,Sí,,No,5,No,2,No,5,Ninguno,no sono,1,1,1,1,1,1,1,1,1,1,50.0,5,5,1,1,5,1,1
+B06,docx,si,B09,Samsung,15,Paciente,Poca,Sí,2,Con ayuda,1,Sí,1,Sí,2,Sí,1,,,,,Sí,1,"Sí, los dos",sono,3,1,5,1,2,5,5,4,4,1,67.5,1,1,1,1,2,2,2
+B07,docx,si,,Samsung,17,Paciente,Mucha,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,"Sí, los dos",sono,3,3,5,1,4,3,5,1,5,1,82.5,5,5,5,2,5,5,5
+B08,docx,si,,Xiaomi/POCO/Redmi,15,Paciente,Mucha,Sí,2,Sí,2,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Ninguno,no sono,4,5,5,1,5,1,5,1,5,1,87.5,1,1,1,5,5,5,5
+B09,docx,si,,Samsung,15,Paciente,Mucha,Sí,1,,1,Sí,1,Sí,2,Sí,1,,,,,Sí,1,"Sí, los dos",sono,3,1,5,1,2,5,5,4,4,1,67.5,1,1,1,1,2,2,2
+B10,docx,si,,Motorola,16,Los dos,Mucha,Sí,2,Sí,2,Sí,4,Sí,2,Sí,2,,,,,Sí,2,"Sí, los dos",sono,4,4,4,5,5,4,5,5,5,5,50.0,5,5,5,5,5,3,
+B11,docx,si,,Motorola,12,Paciente,Mucha,Sí,1,Sí,1,Sí,1,Sí/No la hice,,Sí,2,Sí,2,Sí,2,Sí,2,,sin dato,3,2,2,1,3,3,3,3,4,1,62.5,3,3,4,4,4,4,3
+B12,docx,si,,Samsung,15,Los dos,Media,Sí,2,Sí,2,Con ayuda,2,No la hice,,Sí,2,Sí,2,Sí,2,Sí,2,,sin dato,2,1,3,4,4,2,3,2,3,2,60.0,3,4,2,3,3,3,3
+B13,pdf,si,,Samsung,16,Paciente,Media,Sí,1,Sí,1,Sí,2,Sí,,Sí,1,,,Sí,1,Sí,1,"Sí, los dos",sono,4,5,5,1,5,1,5,1,5,1,87.5,5,5,4,5,5,5,5
+B14,docx,no (simulado),,Otra o sin dato,15,Los dos,Media,Sí,2,Sí,2,Sí,3,Sí,3,Sí,2,No la hice,,No la hice,,Sí,1,,sin dato,4,2,4,2,4,2,4,2,4,2,75.0,4,4,4,4,4,4,4
+B15,docx,si,,Honor,15,Paciente,Mucha,Sí,1,Sí,2,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Ninguno,no sono,4,5,5,1,5,1,5,1,5,1,87.5,1,1,1,5,5,5,5
+B16,docx,si,,Oppo,13,Los dos,Mucha,Sí,1,Sí,2,Sí,2,Sí,2,Sí,2,Sí,2,Sí,2,Sí,1,"Sí, los dos",sono,3,2,4,2,4,2,4,2,4,2,72.5,4,4,4,4,4,4,3
+B17,docx,si,,Honor,15,Paciente/Cuidador,Media,Sí,2,Sí,1,Sí,1,Sí,2,Sí,2,Sí,2,Sí,2,Sí,2,"Sí, los dos",sono,,2,4,1,,3,4,4,5,1,,5,5,5,5,5,5,4
+B18,docx,si,,Cubot,13,Los dos,Mucha,Sí,1,Sí,1,Sí,2,Sí,1,Sí,1,No la hice,,Sí,1,Sí,1,"Sí, los dos",sono,4,1,5,1,4,1,5,1,4,1,92.5,5,5,4,5,5,4,4
+B19,pdf,si,,Xiaomi/POCO/Redmi,16,,,,,,,,,,,,,,,,,,,,sin dato,,,,,,,,,,,,,,,,,,
+B20,docx,si,,Motorola,16,Los dos,Mucha,Sí,3,Sí,3,Sí,3,Sí,4,Sí,2,Sí,3,Sí,2,Sí,1,Ninguno/No lo configuré,no sono,2,2,2,3,2,2,4,1,3,1,60.0,1,3,1,5,4,5,4
+B21,pdf,si,,Huawei,16,Paciente,Mucha,Sí,1,Sí,2,Con ayuda,2,Sí,2,Sí,1,Sí,1,Sí,1,Sí,1,"Sí, los dos",sono,5,4,5,5,5,5,5,1,5,1,72.5,5,5,5,5,5,5,5
+B22,docx,si,,Oppo,15,Los dos,Media,Sí,2,Sí,2,Con ayuda,3,No la hice,,Sí,2,Sí,2,Sí,2,Sí,2,,sin dato,3,1,3,4,4,2,3,2,3,2,62.5,3,4,2,3,3,3,3
+B23,pdf,si,B29,Oppo,15,Paciente,Mucha,Sí,1,Sí,2,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Ninguno,no sono,4,5,5,1,5,1,5,1,5,1,87.5,1,1,1,5,5,5,5
+B24,docx,si,,ZTE,15,Paciente/Los dos,Media,Sí/Con ayuda,1,Sí,1,Sí,1,Sí,2,Sí,2,Sí,2,Sí,2,Sí,2,"Sí, los dos",sono,,2,4,1,5,3,3,4,5,1,,5,2,5,3,5,5,4
+B25,docx,si,,Xiaomi/POCO/Redmi,16,Los dos,Mucha,Sí,1,Sí,1,Sí,2,Sí,1,Sí,1,No la hice,,Sí,1,Sí,1,"Sí, los dos",sono,4,1,5,1,4,1,5,1,4,1,92.5,5,5,4,5,5,4,4
+B26,docx,si,,Xiaomi/POCO/Redmi,15,Los dos,Poca,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí/No,1,Sí,1,"Sí, los dos",sono,3,4,2,3,4,1,3,3,4,1,60.0,1,1,1,5,5,5,5
+B27,docx,si,,Motorola,16,Los dos,Media,Sí,3,Sí,2,Sí,1,Sí,1,Sí,2,Sí,5,No,3,Sí,1,No lo configuré,sin dato,3,1,3,5,5,2,3,2,3,2,62.5,3,4,2,3,3,3,3
+B28,pdf,si,,Otra o sin dato,15,,,Sí,1,Sí,1,,,,,,,Sí,1,Sí,1,Sí,1,,sin dato,3,3,5,3,5,3,5,1,5,1,80.0,1,5,1,5,5,5,3
+B29,docx,si,,Oppo,15,Los dos,Mucha,Sí,1,Sí,2,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Ninguno,no sono,4,5,5,1,5,1,5,1,5,1,87.5,1,1,1,5,5,5,5
+B30,docx,si,,Xiaomi/POCO/Redmi,16,Los dos,Mucha,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,"Sí, los dos",sono,5,1,5,1,5,1,5,1,5,1,100.0,5,5,5,5,5,5,5
+B31,docx,si,,Oppo,10,Los dos,Mucha,Sí,3,Sí,2,Sí,4,,1,Sí,3,,,,,Sí,2,"Sí, los dos/Solo sonó",sono,4,1,5,1,3,2,,1,4,2,,4,5,5,5,4,4,4
+B32,docx,si,B29,Oppo,15,Paciente,Mucha,Sí,1,Sí,2,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Sí,1,Ninguno,no sono,4,5,5,1,5,1,5,1,5,1,87.5,1,1,1,5,5,5,5
+B33,docx,si,,Xiaomi/POCO/Redmi,16,Paciente,Mucha,Sí/No,3,Sí,3,Sí,3,Sí,3,Sí,3,,4,No,3,Sí,2,Ninguno,no sono,1,5,5,5,3,3,2,2,1,,,4,4,4,3,3,4,4
+B34,docx,si,,Xiaomi/POCO/Redmi,16,Los dos,Media,Sí,2,Sí,3,Sí,3,No,4,Sí,3,No,3,Sí,3,Sí,2,Ninguno,no sono,4,2,3,1,4,3,3,2,4,2,70.0,2,3,1,4,3,4,
