@@ -1,0 +1,12 @@
+@startuml
+title Estados de actualización de la información del cuidador (ADR-012)
+[*] --> Actualizada : consulta exitosa
+Actualizada --> Desactualizada : 15 min o más sin consulta exitosa
+Actualizada --> SinConexion : falla la consulta
+Desactualizada --> Actualizada : consulta exitosa
+Desactualizada --> SinConexion : falla la consulta
+SinConexion --> Actualizada : consulta exitosa
+state "Sin conexión" as SinConexion
+note right of Desactualizada : Muestra la hora de la última consulta.\n"Sin alerta no significa sin tomas pendientes".
+note right of SinConexion : Muestra la hora de la última consulta\ny la última sincronización del paciente.
+@enduml

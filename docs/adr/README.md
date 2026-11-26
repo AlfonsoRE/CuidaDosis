@@ -12,3 +12,5 @@ Formato: contexto, decisión, alternativas, fundamento, consecuencias (Nygard, 2
 - [ADR-008](ADR-008.md): Zona horaria America/Mexico_City
 - [ADR-009](ADR-009.md): Tokens de sesión con hash SHA-256 y almacenamiento cifrado en el teléfono
 - [ADR-010](ADR-010.md): Autorización del paciente para mostrar la dosis al cuidador (G-07)
+- [ADR-011](ADR-011.md): Almacén local en archivo cifrado (no Room) y garantías de persistencia
+- [ADR-012](ADR-012.md): Estados de actualización de la información del cuidador
