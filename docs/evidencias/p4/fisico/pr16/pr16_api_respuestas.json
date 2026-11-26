@@ -1,0 +1,168 @@
+{
+    "nota": "PR-16, respuestas de https://areproyectos.com.mx/cuidadosis/api/ el 26/11/2026 (hora de México). Cuentas sintéticas ptel1121 (id 85) y ctel1121 (id 86). Sin tokens.",
+    "paso0_paciente_GET_intakes_today_antes": {
+        "date": "2026-11-26",
+        "now": "2026-11-26 13:53:52",
+        "intakes": [
+            {
+                "id": 1053,
+                "schedule_id": 117,
+                "medication_id": 67,
+                "name": "Medicamento SINTETICO PR16",
+                "dose": "1 tableta (dato de prueba)",
+                "time": "14:10",
+                "scheduled_for": "2026-11-26 14:10:00",
+                "status": "pending",
+                "state": "pending",
+                "confirmed_at": null,
+                "received_at": null
+            }
+        ],
+        "summary": {
+            "total": 1,
+            "taken": 0,
+            "pending": 1,
+            "confirmed": 0,
+            "unconfirmed": 0
+        }
+    },
+    "paso5_paciente_GET_intakes_today_al_sincronizar": {
+        "date": "2026-11-26",
+        "now": "2026-11-26 13:55:23",
+        "intakes": [
+            {
+                "id": 1053,
+                "schedule_id": 117,
+                "medication_id": 67,
+                "name": "Medicamento SINTETICO PR16",
+                "dose": "1 tableta (dato de prueba)",
+                "time": "14:10",
+                "scheduled_for": "2026-11-26 14:10:00",
+                "status": "taken",
+                "state": "confirmed",
+                "confirmed_at": "2026-11-26 13:54:43",
+                "received_at": "2026-11-26 13:55:23"
+            }
+        ],
+        "summary": {
+            "total": 1,
+            "taken": 1,
+            "pending": 0,
+            "confirmed": 1,
+            "unconfirmed": 0
+        }
+    },
+    "paso6_paciente_GET_intakes_today": {
+        "date": "2026-11-26",
+        "now": "2026-11-26 13:56:24",
+        "intakes": [
+            {
+                "id": 1053,
+                "schedule_id": 117,
+                "medication_id": 67,
+                "name": "Medicamento SINTETICO PR16",
+                "dose": "1 tableta (dato de prueba)",
+                "time": "14:10",
+                "scheduled_for": "2026-11-26 14:10:00",
+                "status": "taken",
+                "state": "confirmed",
+                "confirmed_at": "2026-11-26 13:54:43",
+                "received_at": "2026-11-26 13:55:23"
+            }
+        ],
+        "summary": {
+            "total": 1,
+            "taken": 1,
+            "pending": 0,
+            "confirmed": 1,
+            "unconfirmed": 0
+        }
+    },
+    "paso6_cuidador_GET_caregiver_patients": {
+        "date": "2026-11-26",
+        "now": "2026-11-26 13:56:23",
+        "patients": [
+            {
+                "id": 85,
+                "full_name": "Paciente SINTETICO Tel 1121",
+                "linked_at": "2026-11-26 13:48:43",
+                "last_sync_at": "2026-11-26 13:55:23",
+                "summary": {
+                    "total": 1,
+                    "taken": 1,
+                    "pending": 0,
+                    "confirmed": 1,
+                    "unconfirmed": 0
+                }
+            }
+        ]
+    },
+    "paso6_cuidador_GET_caregiver_patients_85_intakes_today": {
+        "patient": {
+            "id": 85,
+            "full_name": "Paciente SINTETICO Tel 1121",
+            "share_dose": false,
+            "last_sync_at": "2026-11-26 13:55:23"
+        },
+        "date": "2026-11-26",
+        "now": "2026-11-26 13:56:24",
+        "intakes": [
+            {
+                "id": 1053,
+                "schedule_id": 117,
+                "medication_id": 67,
+                "name": "Medicamento SINTETICO PR16",
+                "time": "14:10",
+                "scheduled_for": "2026-11-26 14:10:00",
+                "status": "taken",
+                "state": "confirmed",
+                "confirmed_at": "2026-11-26 13:54:43",
+                "received_at": "2026-11-26 13:55:23"
+            }
+        ],
+        "summary": {
+            "total": 1,
+            "taken": 1,
+            "pending": 0,
+            "confirmed": 1,
+            "unconfirmed": 0
+        }
+    },
+    "paso6_cuidador_GET_caregiver_patients_85_intakes_history": {
+        "patient": {
+            "id": 85,
+            "full_name": "Paciente SINTETICO Tel 1121",
+            "share_dose": false,
+            "last_sync_at": "2026-11-26 13:55:23"
+        },
+        "from": "2026-11-20",
+        "to": "2026-11-26",
+        "now": "2026-11-26 13:56:24",
+        "days": [
+            {
+                "date": "2026-11-26",
+                "intakes": [
+                    {
+                        "id": 1053,
+                        "schedule_id": 117,
+                        "medication_id": 67,
+                        "name": "Medicamento SINTETICO PR16",
+                        "time": "14:10",
+                        "scheduled_for": "2026-11-26 14:10:00",
+                        "status": "taken",
+                        "state": "confirmed",
+                        "confirmed_at": "2026-11-26 13:54:43",
+                        "received_at": "2026-11-26 13:55:23"
+                    }
+                ],
+                "summary": {
+                    "total": 1,
+                    "taken": 1,
+                    "pending": 0,
+                    "confirmed": 1,
+                    "unconfirmed": 0
+                }
+            }
+        ]
+    }
+}

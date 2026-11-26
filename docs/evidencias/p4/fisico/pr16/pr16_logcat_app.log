@@ -1,0 +1,38 @@
+# PR-16, logcat filtrado (26/11/2026, hora de México). POCO M6 Pro, CuidaDosis 1.1.3.
+# Filtro: proceso de la app (pid 24609 antes del cierre forzado, 26338 después) y líneas del sistema sobre mx.cuidadosis.app
+# (ActivityManager, ActivityTaskManager, AlarmManager), más las órdenes adb y los toques inyectados.
+# Sin red, Android omite la traza de UnknownHostException; por eso 'Error de red' aparece sin detalle.
+# La app no registra el envío exitoso; 'Avisos programados' a las 13:55:22.971 lo produce syncQueue() al recibir la respuesta.
+11-26 13:53:58.959 I/adbd    (23957): adbd service requested 'shell,v2,raw:cmd connectivity airplane-mode enable'
+11-26 13:54:11.771 I/adbd    (23957): adbd service requested 'shell,v2,raw:input tap 830 1319'
+11-26 13:54:11.814 D/InputManager( 1744): injectMotionEvent: 25694-{action=ACTION_DOWN, id[0]=0, x[0]=830.0, y[0]=1319.0, pointerCount=1, eventTime=311439411, deviceId=4}
+11-26 13:54:11.816 D/InputManager( 1744): injectMotionEvent: 25694-{action=ACTION_UP, id[0]=0, x[0]=830.0, y[0]=1319.0, pointerCount=1, eventTime=311439411, deviceId=4}
+11-26 13:54:43.836 I/adbd    (23957): adbd service requested 'shell,v2,raw:input tap 830 1319'
+11-26 13:54:43.895 D/InputManager( 1744): injectMotionEvent: 26007-{action=ACTION_DOWN, id[0]=0, x[0]=830.0, y[0]=1319.0, pointerCount=1, eventTime=311471492, deviceId=4}
+11-26 13:54:43.902 D/InputManager( 1744): injectMotionEvent: 26007-{action=ACTION_UP, id[0]=0, x[0]=830.0, y[0]=1319.0, pointerCount=1, eventTime=311471492, deviceId=4}
+11-26 13:54:43.926 E/AlarmManager( 1744): not align this alarm: Alarm{91c7c1b type 0 origWhen 1795809900000 whenElapsed 487808201 mx.cuidadosis.app}, reason=0
+11-26 13:54:43.933 E/AlarmManager( 1744): not align this alarm: Alarm{534ffcd type 0 origWhen 1795810200000 whenElapsed 488108201 mx.cuidadosis.app}, reason=0
+11-26 13:54:43.934 I/CuidaDosis(24609): Avisos programados: 2; próximo BEFORE: toma de 2026-11-27T14:10 (hora de México), disparo 2026-11-27T20:05:00Z
+11-26 13:54:43.947 W/CuidaDosis(24609): Error de red al llamar a la API
+11-26 13:54:43.961 W/CuidaDosis(24609): Error de red al llamar a la API
+11-26 13:54:54.277 I/adbd    (23957): adbd service requested 'shell,v2,raw:am force-stop mx.cuidadosis.app'
+11-26 13:54:54.327 I/ActivityManager( 1744): Force stopping mx.cuidadosis.app appid=10165 user=0: from process:26120
+11-26 13:54:54.333 I/ActivityManager( 1744): Killing 24609:mx.cuidadosis.app/u0a165 (adj 0): stop mx.cuidadosis.app due to from process:26120
+11-26 13:54:54.340 W/ActivityTaskManager( 1744): Force removing ActivityRecord{251614358 u0 mx.cuidadosis.app/.MainActivity t2563 f}}: app died, no saved state
+11-26 13:55:03.246 I/ActivityTaskManager( 1744): START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=mx.cuidadosis.app/.MainActivity} with LAUNCH_MULTIPLE from uid 2000 from pid 26320 callingPackage com.android.shell (BAL_ALLOW_PERMISSION) result code=0
+11-26 13:55:03.295 I/ActivityManager( 1744): Start proc 26338:mx.cuidadosis.app/u0a165 for next-top-activity {mx.cuidadosis.app/mx.cuidadosis.app.MainActivity} caller=com.android.shell
+11-26 13:55:03.548 E/AlarmManager( 1744): not align this alarm: Alarm{347f474 type 0 origWhen 1795809900000 whenElapsed 487808201 mx.cuidadosis.app}, reason=0
+11-26 13:55:03.553 E/AlarmManager( 1744): not align this alarm: Alarm{7d69d9d type 0 origWhen 1795810200000 whenElapsed 488108201 mx.cuidadosis.app}, reason=0
+11-26 13:55:03.554 I/CuidaDosis(26338): Avisos programados: 2; próximo BEFORE: toma de 2026-11-27T14:10 (hora de México), disparo 2026-11-27T20:05:00Z
+11-26 13:55:03.562 E/AlarmManager( 1744): not align this alarm: Alarm{329e3e0 type 0 origWhen 1795809900000 whenElapsed 487808201 mx.cuidadosis.app}, reason=0
+11-26 13:55:03.569 E/AlarmManager( 1744): not align this alarm: Alarm{b847699 type 0 origWhen 1795810200000 whenElapsed 488108201 mx.cuidadosis.app}, reason=0
+11-26 13:55:03.569 I/CuidaDosis(26338): Avisos programados: 2; próximo BEFORE: toma de 2026-11-27T14:10 (hora de México), disparo 2026-11-27T20:05:00Z
+11-26 13:55:03.859 W/CuidaDosis(26338): Error de red al llamar a la API
+11-26 13:55:03.859 W/CuidaDosis(26338): Error de red al llamar a la API
+11-26 13:55:03.876 W/CuidaDosis(26338): Error de red al llamar a la API
+11-26 13:55:03.877 I/ActivityTaskManager( 1744): Displayed mx.cuidadosis.app/.MainActivity for user 0: +649ms
+11-26 13:55:03.890 W/CuidaDosis(26338): Error de red al llamar a la API
+11-26 13:55:20.525 I/adbd    (23957): adbd service requested 'shell,v2,raw:cmd connectivity airplane-mode disable'
+11-26 13:55:22.965 E/AlarmManager( 1744): not align this alarm: Alarm{89b893e type 0 origWhen 1795809900000 whenElapsed 487808201 mx.cuidadosis.app}, reason=0
+11-26 13:55:22.970 E/AlarmManager( 1744): not align this alarm: Alarm{172acec type 0 origWhen 1795810200000 whenElapsed 488108201 mx.cuidadosis.app}, reason=0
+11-26 13:55:22.971 I/CuidaDosis(26338): Avisos programados: 2; próximo BEFORE: toma de 2026-11-27T14:10 (hora de México), disparo 2026-11-27T20:05:00Z

@@ -88,3 +88,41 @@ Lectura:
 
 ## Observación del emulador (no del teléfono)
 El usuario oyó el sonido de la alarma en las bocinas de la laptop con el emulador (Fase 9). Es una observación del emulador; en el teléfono el sonido no se ha confirmado por una persona.
+
+---
+
+# PR-16: persistencia de la cola de confirmaciones ante cierre forzado
+
+- **Fecha:** 26/11/2026, de 13:48 a 13:57 (hora de México).
+- **Teléfono:** POCO M6 Pro (Xiaomi 2312FPCA6G), HyperOS OS3.0.307.0.WNFMIXM, Android 16 (SDK 36), zona `America/Mexico_City`. USB conectado y cargando. Durante la prueba la pantalla se dejó encendida con "mantener activo mientras carga"; el ajuste se restauró al terminar.
+- **App:** CuidaDosis 1.1.3 (`versionCode` 5), la release instalada el 23/11/2026, sin reinstalar.
+- **Servidor:** hosting `https://areproyectos.com.mx/cuidadosis/api/`.
+- **Cuentas:** `ptel1121@ejemplo.test` (paciente, id 85) y `ctel1121@ejemplo.test` (cuidador, id 86), con la contraseña de prueba del README. Son los mismos correos de la verificación del 21/11, pero aquella se hizo en el XAMPP local: en el hosting no existían (login 401) y se registraron por API para esta prueba, con el vínculo 57. Se conservan para la variante con reinicio. Solo datos sintéticos.
+- **Toma:** "Medicamento SINTETICO PR16" (id 67, horario 117) a las 14:10, creado por API a las 13:52; es la toma 1053 del 26/11.
+- **Evidencia:** carpeta `pr16/`, con `pr16.csv`, las capturas `pr16_00` a `pr16_05b`, `pr16_logcat_app.log` y `pr16_api_respuestas.json`.
+
+## Resultado: OK
+
+| Paso | Hora | Observado | Resultado |
+|---|---|---|---|
+| 1 Modo avión | 13:53:58 | `cmd connectivity airplane-mode enable` funcionó; sin red por defecto, Wi-Fi apagado, ping "Network is unreachable" | OK |
+| 2 "Tomado" sin red | 13:54:43 | "Confirmada por el paciente a las 13:54" y "1 confirmación por enviar"; la app reprogramó los avisos y el envío falló por falta de red | OK, con observación |
+| 3 Cierre forzado | 13:54:54 | `am force-stop`; el sistema mató el proceso 24609 ("no saved state"); `pidof` vacío | OK |
+| 4 Reabrir sin red | 13:55:03 | Proceso nuevo 26338; la toma sigue "Confirmada por el paciente a las 13:54", con "1 confirmación por enviar" | OK |
+| 5 Volver la red | 13:55:20 | Envío exitoso a las 13:55:22.971 (log) y `received_at` 13:55:23: **unos 3 s** | OK, con hallazgo |
+| 6 Servidor | 13:56:24 | Paciente y cuidador ven **una sola fila**: `confirmed_at` 13:54:43, `received_at` 13:55:23 | OK |
+
+- **La confirmación no se perdió:** sobrevivió al cierre forzado en la copia local cifrada y llegó al servidor.
+- **No se duplicó:** hay una sola fila en el día y en el historial de 7 días, tanto para el paciente como para el cuidador. Además, la base lo impide con `UNIQUE (schedule_id, scheduled_for)` y `UNIQUE (client_uuid)`. El `client_uuid` no se consultó en la base porque la API no lo devuelve.
+- **Hora conservada:** `confirmed_at` es la hora del toque en el teléfono (13:54:43), no la del envío.
+- **Tiempo de sincronización:** 2.4 s según el log y unos 3 s según el servidor, contados desde la orden de quitar el modo avión. Los relojes del teléfono y del servidor difirieron 1 s o menos.
+
+## Observaciones
+- **Primer toque sin efecto:** el primer `input tap` (13:54:11) llegó al sistema (`injectMotionEvent` en el log) con las mismas coordenadas y la misma forma que el segundo, pero la app no reaccionó, y no se determinó por qué. Justo antes se había hecho un `uiautomator dump` (hay una transacción de accesibilidad a las 13:54:10); antes del segundo toque no. No se ha probado con un toque humano, así que queda **no verificado** si pasa sin adb.
+- **El aviso "Sin conexión con el servidor" no se quita:** tras sincronizar desapareció "por enviar" y la última sincronización pasó a 13:55, pero el aviso rosa siguió visible al menos 40 s (hasta las 13:56:02). Según el código, ese aviso solo se apaga al tocar "Actualizar" o al recargar la pantalla, y el envío automático al volver la red no lo actualiza. No afecta los datos; es un detalle de interfaz.
+- **Hosting:** un `POST` sin cuerpo (por ejemplo, `/links/invite`) recibe 403 del servidor web; con cuerpo `{}` funciona. En esta prueba no afectó a la app, porque la invitación no se generó desde la app.
+
+## No verificado
+- **Variante con reinicio del teléfono:** no ejecutada; la hará el usuario.
+- **Toques humanos:** todos los toques fueron por adb.
+- **Cierre por el sistema por falta de memoria o desde "Recientes":** solo se probó `am force-stop`.
